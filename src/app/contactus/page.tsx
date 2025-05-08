@@ -103,7 +103,7 @@ const ContactUs = () => {
 
           {submitted && (
             <p className="text-green-600 text-center font-medium mt-4">
-              Thank you for contacting us! We'll get back to you shortly.
+              Thank you for contacting us! We all get back to you shortly.
             </p>
           )}
         </form>
