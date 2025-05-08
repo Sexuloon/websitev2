@@ -1,8 +1,8 @@
 import {
-  useMutation,
-  useQuery,
-  UseMutationOptions,
-  UseQueryOptions,
+    useMutation,
+    UseMutationOptions,
+    useQuery,
+    UseQueryOptions,
 } from "@tanstack/react-query";
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -7568,7 +7568,7 @@ export type Shop = HasMetafields &
     /** The shop’s refund policy. */
     refundPolicy?: Maybe<ShopPolicy>;
     /** The shop’s shipping policy. */
-    shippingPolicy?: Maybe<ShopPolicy>;
+    ShippingPolicy?: Maybe<ShopPolicy>;
     /** Countries that the shop ships to. */
     shipsToCountries: Array<CountryCode>;
     /** The Shop Pay Installments pricing information for the shop. */

@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useCartActions } from "@/lib/atoms/cart";
 import { ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCartActions } from "@/lib/atoms/cart";
-import { Badge } from "@/components/ui/badge";
 
 function Navbar() {
   const router = useRouter();
@@ -59,7 +59,7 @@ function Navbar() {
             Consultation
           </Link>
           <Link
-            href="/"
+            href="/aboutus"
             className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
           >
             About Us
@@ -147,7 +147,7 @@ function Navbar() {
               Consultation
             </Link>
             <Link
-              href="/"
+              href="/aboutus"
               className="font-medium text-gray-800 hover:text-blue-600 py-2"
               onClick={() => setIsMenuOpen(false)}
             >

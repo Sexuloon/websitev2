@@ -1011,7 +1011,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+{/* footer */}
       {/* Footer with newsletter signup */}
       <footer className="bg-gray-900 text-white py-12 sm:py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -1107,7 +1107,7 @@ export default function Home() {
                 </li>
                 <li>
                   <a
-                    href="#"
+                    href="contactus"
                     className="text-gray-400 hover:text-white transition-colors duration-200"
                   >
                     Contact
@@ -1204,19 +1204,31 @@ export default function Home() {
             </p>
             <div className="flex space-x-6">
               <a
-                href="#"
+                href="privacy&policy"
                 className="text-gray-400 text-sm hover:text-white transition-colors duration-200"
               >
                 Privacy Policy
               </a>
               <a
-                href="#"
+                href="terms&conditions"
                 className="text-gray-400 text-sm hover:text-white transition-colors duration-200"
               >
-                Terms of Service
+                Terms & Conditions
               </a>
               <a
-                href="#"
+                href="refundpolicy"
+                className="text-gray-400 text-sm hover:text-white transition-colors duration-200"
+              >
+                Refund Policy
+              </a>
+              <a
+                href="Refund&ReplacementPolicy"
+                className="text-gray-400 text-sm hover:text-white transition-colors duration-200"
+              >
+                Refund & Replacement Policy
+              </a>
+              <a
+                href="ShippingPolicy"
                 className="text-gray-400 text-sm hover:text-white transition-colors duration-200"
               >
                 Shipping Policy
