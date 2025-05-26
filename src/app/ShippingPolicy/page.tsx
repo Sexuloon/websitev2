@@ -1,15 +1,8 @@
-'use client';
 
-import Footer from '@/components/ui/footer';
-import Navbar from '@/components/view/Navbar';
 
 const ShippingPolicy = () => {
   return (
     <div className="bg-white text-gray-800">
-      {/* Navbar */}
-      <div className="w-full fixed top-0 left-0 z-50">
-        <Navbar />
-      </div>
 
       {/* Page Content */}
       <div className="pt-24 pb-16 px-4 sm:px-10 md:px-20 min-h-screen">
@@ -84,9 +77,6 @@ const ShippingPolicy = () => {
           </p>
         </div>
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };

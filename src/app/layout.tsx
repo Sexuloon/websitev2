@@ -4,6 +4,8 @@ import "./globals.css";
 import Providers from "@/providers";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/view/Navbar";
+import InfiniteScrollingText from "@/components/ui/scrollingtext";
+import Footer from "@/components/ui/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,9 +33,11 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased mx-auto max-w-8xl`}
         >
+        <InfiniteScrollingText text="🔥 React is Awesome! 🔥 Learn. Build. Repeat. 🔁" />
           <Navbar />
           <Toaster />
           {children}
+          <Footer/>
         </body>
       </Providers>
     </html>

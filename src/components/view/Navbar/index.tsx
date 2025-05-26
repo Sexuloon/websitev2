@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import CartView from "../Cart/CartView";
@@ -27,13 +26,9 @@ function Navbar() {
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between">
         <div className="flex items-center">
-          <Image
-            src="/logo.png"
-            alt="Sexuloon Logo"
-            width={130}
-            height={40}
-            className="object-contain"
-          />
+          <Link href={"/"}>
+          <h2 className="font-semibold text-xl">Sexuloon</h2>
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
@@ -45,7 +40,7 @@ function Navbar() {
             Home
           </Link>
           <Link
-            href="/products"
+            href="/collections/all-products"
             className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
           >
             Products
@@ -68,19 +63,7 @@ function Navbar() {
         <div className="flex items-center space-x-4">
           <div className="flex items-center gap-x-2">
             <div className="relative">
-              <CartView/>
-              {/* <Button
-                size="icon"
-                variant="ghost"
-                onClick={() => router.push(cart?.checkoutUrl || "/")}
-              >
-                <ShoppingCart />
-              </Button>
-              {cart?.lines.edges.length > 0 && (
-                <Badge variant="default" className="absolute -top-2 right-0">
-                  {cart.lines.edges.length}
-                </Badge>
-              )} */}
+              <CartView />
             </div>
             <Button onClick={() => router.push("/auth")} size="sm">
               Login

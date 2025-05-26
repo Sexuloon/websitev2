@@ -85,7 +85,7 @@ const Login = ({ setShowRegister }: LoginFormProps) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full space-y-4 my-10"
+        className="flex flex-col gap-6"
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();

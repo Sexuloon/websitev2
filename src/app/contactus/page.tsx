@@ -1,20 +1,19 @@
-'use client';
-
-import Footer from '@/components/ui/footer';
-import Navbar from '@/components/view/Navbar';
-import React, { useState } from 'react';
+"use client";
+import React, { useState } from "react";
 
 const ContactUs = () => {
   const [form, setForm] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
 
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -22,28 +21,29 @@ const ContactUs = () => {
     e.preventDefault();
 
     // You can integrate your backend or email API here
-    console.log('Form submitted:', form);
+    console.log("Form submitted:", form);
     setSubmitted(true);
-    setForm({ name: '', email: '', subject: '', message: '' });
+    setForm({ name: "", email: "", subject: "", message: "" });
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#a3b3e8] via-white to-[#9fb4ed] text-gray-800">
-      {/* Navbar */}
-      <div className="w-full fixed top-0 left-0 z-50">
-        <Navbar />
-      </div>
-
       {/* Form Container */}
       <div className="pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold text-center mb-2">Get in Touch</h1>
         <p className="text-center text-gray-600 mb-10">
-          We are here to assist you. Feel free to reach out with any inquiries or feedback.
+          We are here to assist you. Feel free to reach out with any inquiries
+          or feedback.
         </p>
 
-        <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-xl px-6 py-8 space-y-6">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white shadow-md rounded-xl px-6 py-8 space-y-6"
+        >
           <div>
-            <label htmlFor="name" className="block font-medium mb-1">Your Name</label>
+            <label htmlFor="name" className="block font-medium mb-1">
+              Your Name
+            </label>
             <input
               type="text"
               name="name"
@@ -56,7 +56,9 @@ const ContactUs = () => {
           </div>
 
           <div>
-            <label htmlFor="email" className="block font-medium mb-1">Email Address</label>
+            <label htmlFor="email" className="block font-medium mb-1">
+              Email Address
+            </label>
             <input
               type="email"
               name="email"
@@ -69,7 +71,9 @@ const ContactUs = () => {
           </div>
 
           <div>
-            <label htmlFor="subject" className="block font-medium mb-1">Subject</label>
+            <label htmlFor="subject" className="block font-medium mb-1">
+              Subject
+            </label>
             <input
               type="text"
               name="subject"
@@ -82,7 +86,9 @@ const ContactUs = () => {
           </div>
 
           <div>
-            <label htmlFor="message" className="block font-medium mb-1">Message</label>
+            <label htmlFor="message" className="block font-medium mb-1">
+              Message
+            </label>
             <textarea
               name="message"
               id="message"
@@ -108,9 +114,6 @@ const ContactUs = () => {
           )}
         </form>
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };

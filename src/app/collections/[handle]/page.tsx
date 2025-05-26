@@ -34,6 +34,7 @@ const CollectionPage = () => {
       },
     }
   );
+  console.log(data)
 
   const handleNextPage = () => {
     if (currentCursor) {
