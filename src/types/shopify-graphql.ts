@@ -8874,7 +8874,6 @@ export const AddToCartDocument = `
   }
 }
     `;
-
 export const useAddToCartMutation = <
       TError = unknown,
       TContext = unknown
