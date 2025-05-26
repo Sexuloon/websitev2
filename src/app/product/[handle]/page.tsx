@@ -63,7 +63,7 @@ const Product = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 my-10">
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 my-10 p-10">
       <ProductCarousel images={data?.product?.images?.edges as ImageEdge[]} />
       <div className="flex flex-col gap-y-2">
         <h1 className="text-2xl font-bold">{data?.product?.title}</h1>

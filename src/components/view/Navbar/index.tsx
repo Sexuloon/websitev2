@@ -3,11 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
-import { Badge } from "@/components/ui/badge";
+import CartView from "../Cart/CartView";
 import { Button } from "@/components/ui/button";
 import { useCartActions } from "@/lib/atoms/cart";
-import { ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 function Navbar() {
@@ -70,7 +68,8 @@ function Navbar() {
         <div className="flex items-center space-x-4">
           <div className="flex items-center gap-x-2">
             <div className="relative">
-              <Button
+              <CartView/>
+              {/* <Button
                 size="icon"
                 variant="ghost"
                 onClick={() => router.push(cart?.checkoutUrl || "/")}
@@ -81,7 +80,7 @@ function Navbar() {
                 <Badge variant="default" className="absolute -top-2 right-0">
                   {cart.lines.edges.length}
                 </Badge>
-              )}
+              )} */}
             </div>
             <Button onClick={() => router.push("/auth")} size="sm">
               Login

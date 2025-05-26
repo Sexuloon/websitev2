@@ -1,6 +1,6 @@
 'use client';
 
-import Footer from '@/components/footer';
+import Footer from '@/components/ui/footer';
 import Navbar from '@/components/view/Navbar';
 
 const ShippingPolicy = () => {

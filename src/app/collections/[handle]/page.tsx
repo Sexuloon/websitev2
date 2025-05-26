@@ -64,9 +64,9 @@ const CollectionPage = () => {
   }
 
   return (
-    <div className="my-10 flex flex-col gap-y-6">
+    <div className="my-10 flex flex-col gap-y-6 p-10">
       <h1 className="text-2xl font-bold">{data?.collection?.title}</h1>
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-6 ">
         {data?.collection?.products?.edges?.map((product) => (
           <ProductCard
             key={product?.node?.id}
