@@ -53,162 +53,67 @@ export default function EDChatbot() {
 
   // Question components for English and Hindi
   const questions = {
-    languageSelection: {
-      question: "Welcome! Please choose your preferred language:",
-      options: ["English", "हिंदी"]
-    },
     english: {
-      symptoms: {
-        question: "What symptoms are you experiencing? (Select all that apply)",
-        options: [
-          "Low energy",
-          "Reduced muscle mass",
-          "Low sex drive",
-          "Difficulty concentrating",
-          "Mood swings or depression",
-          "Erectile issues"
-        ]
+      age: {
+        question: "How old are you?",
+        options: ["Below 25", "25 - 35", "36 - 45", "46 and above"]
       },
       duration: {
-        question: "How long have you been experiencing these symptoms?",
-        options: [
-          "Less than 1 month",
-          "1–3 months",
-          "3–6 months",
-          "More than 6 months"
-        ]
+        question: "How long have you been facing erectile difficulties?",
+        options: ["Just recently", "A few weeks", "1-3 months", "More than 3 months"]
       },
-      age: {
-        question: "What is your age group?",
-        options: ["Under 25", "25–34", "35–44", "45–54", "55+"]
+      frequency: {
+        question: "How often do you experience erectile dysfunction?",
+        options: ["Occasionally", "Often", "Every time"]
       },
-      medications: {
-        question: "Are you currently taking any supplements or medications?",
-        options: ["Yes", "No"],
-        followUp: "Please mention them below"
+      morningErections: {
+        question: "Do you still get morning erections?",
+        options: ["Yes, regularly", "Sometimes", "Never"]
       },
       lifestyle: {
-        question: "Do you smoke or consume alcohol?",
-        options: ["Yes", "No", "Occasionally"]
+        question: "Do you consume alcohol or smoke regularly?",
+        options: ["Yes, both", "Only alcohol", "Only smoking", "No, none"]
       },
-      exercise: {
-        question: "How often do you exercise?",
-        options: [
-          "Daily",
-          "3–5 times a week",
-          "1–2 times a week",
-          "Rarely or never"
-        ]
+      stress: {
+        question: "How would you rate your stress levels?",
+        options: ["High", "Moderate", "Low"]
       },
-      sleep: {
-        question: "How’s your sleep quality?",
-        options: [
-          "Excellent (7–8 hours)",
-          "Average (5–6 hours)",
-          "Poor (Less than 5 hours)"
-        ]
-      },
-      preference: {
-        question:
-          "Would you like to start with a doctor consultation or try natural supplements?",
-        options: [
-          "Show me natural supplement options",
-          "I want to talk to a doctor first"
-        ]
-      },
-      productSuggestion: {
-        question: "Here’s what we recommend based on your responses:",
-        logic: "If mild symptoms, age < 45, good lifestyle → natural product. If chronic symptoms, age > 45, poor lifestyle → doctor consultation. If unsure → show both.",
-        options: [
-          {
-            label: "Low T Booster Kit",
-            description:
-              "💊 Shilajit, Ashwagandha, Safed Musli, Gokshura\n🌿 Boosts stamina, testosterone, and energy",
-            link: "https://sexuloon.com/products/low-t-booster-pack"
-          },
-          {
-            label: "Doctor Consultation",
-            description:
-              "Want to be sure before trying anything?\n👨‍⚕️ Book a doctor consultation",
-            link: "https://sexuloon.com/consult"
-          }
-        ]
+      healthConditions: {
+        question: "Do you suffer from any of the following?",
+        options: ["Diabetes", "High blood pressure", "Heart issues", "None of these"]
       }
     },
     hindi: {
-      symptoms: {
-        question: "आप किन लक्षणों का अनुभव कर रहे हैं? (एक से अधिक चुन सकते हैं)",
-        options: [
-          "कम ऊर्जा",
-          "मांसपेशियों में कमी",
-          "यौन इच्छा में कमी",
-          "ध्यान केंद्रित करने में कठिनाई",
-          "मूड स्विंग / डिप्रेशन",
-          "इरेक्शन में दिक्कत"
-        ]
-      },
-      duration: {
-        question: "ये लक्षण आपको कब से हैं?",
-        options: ["1 महीने से कम", "1–3 महीने", "3–6 महीने", "6 महीने से अधिक"]
-      },
       age: {
         question: "आपकी उम्र क्या है?",
-        options: ["25 से कम", "25–34", "35–44", "45–54", "55+"]
+        options: ["25 से कम", "25 - 35", "36 - 45", "46 से अधिक"]
       },
-      medications: {
-        question: "क्या आप कोई दवा या सप्लीमेंट ले रहे हैं?",
-        options: ["हाँ", "नहीं"],
-        followUp: "कृपया नीचे बताएं"
+      duration: {
+        question: "आपको यह समस्या कितने समय से है?",
+        options: ["हाल ही में", "कुछ हफ्तों से", "1-3 महीने", "3 महीने से अधिक"]
+      },
+      frequency: {
+        question: "आपको यह समस्या कितनी बार होती है?",
+        options: ["कभी-कभी", "अक्सर", "हर बार"]
+      },
+      morningErections: {
+        question: "क्या आपको सुबह इरेक्शन होते हैं?",
+        options: ["हां, नियमित रूप से", "कभी-कभी", "कभी नहीं"]
       },
       lifestyle: {
-        question: "क्या आप शराब पीते हैं या धूम्रपान करते हैं?",
-        options: ["हाँ", "नहीं", "कभी-कभी"]
+        question: "क्या आप नियमित रूप से शराब या सिगरेट का सेवन करते हैं?",
+        options: ["दोनों", "केवल शराब", "केवल सिगरेट", "नहीं"]
       },
-      exercise: {
-        question: "आप कितनी बार व्यायाम करते हैं?",
-        options: [
-          "रोज़",
-          "सप्ताह में 3–5 बार",
-          "सप्ताह में 1–2 बार",
-          "शायद ही कभी"
-        ]
+      stress: {
+        question: "आपका तनाव स्तर कैसा है?",
+        options: ["अधिक", "मध्यम", "कम"]
       },
-      sleep: {
-        question: "आपकी नींद कैसी रहती है?",
-        options: [
-          "बहुत अच्छी (7–8 घंटे)",
-          "औसत (5–6 घंटे)",
-          "बहुत खराब (5 घंटे से कम)"
-        ]
-      },
-      preference: {
-        question: "आप क्या करना चाहेंगे?",
-        options: [
-          "प्राकृतिक सप्लीमेंट देखना चाहता हूँ",
-          "पहले डॉक्टर से परामर्श करना चाहता हूँ"
-        ]
-      },
-      productSuggestion: {
-        question: "आपके उत्तरों के आधार पर हमारा सुझाव:",
-        logic: "यदि हल्के लक्षण, उम्र < 45, अच्छा लाइफस्टाइल → प्राकृतिक उत्पाद\nयदि पुरानी समस्या, उम्र > 45, खराब लाइफस्टाइल → डॉक्टर परामर्श\nअनिश्चित होने पर → दोनों दिखाएं",
-        options: [
-          {
-            label: "Low T Booster Kit",
-            description:
-              "💊 शिलाजीत, अश्वगंधा, सफेद मूसली, गोक्षुर\n🌿 शक्ति, टेस्टोस्टेरोन और ऊर्जा बढ़ाता है",
-            link: "https://sexuloon.com/products/low-t-booster-pack"
-          },
-          {
-            label: "डॉक्टर से परामर्श",
-            description:
-              "कुछ भी शुरू करने से पहले डॉक्टर से बात करना चाहते हैं?\n👨‍⚕️ डॉक्टर से बात करें",
-            link: "https://sexuloon.com/consult"
-          }
-        ]
+      healthConditions: {
+        question: "क्या आपको इनमें से कोई बीमारी है?",
+        options: ["डायबिटीज", "ब्लड प्रेशर", "हार्ट की बीमारी", "इनमें से कोई नहीं"]
       }
     }
   };
-  
 
   // Animation variants
   const containerVariants = {
@@ -272,7 +177,7 @@ export default function EDChatbot() {
           
           <motion.h2 variants={itemVariants} className="text-2xl font-bold mb-4 text-center text-gray-800">Welcome!</motion.h2>
           <motion.p variants={itemVariants} className="mb-6 text-center text-gray-600">
-            Let's get started with a few quick questions to understand your concern better.
+            Let&aspos;s get started with a few quick questions to understand your concern better.
           </motion.p>
           <motion.p variants={itemVariants} className="font-medium mb-4 text-center text-gray-700">
             Please choose your preferred language:
@@ -364,7 +269,7 @@ export default function EDChatbot() {
                   whileTap="tap"
                   className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-medium shadow-md hover:from-blue-600 hover:to-blue-700 transition flex items-center justify-center"
                 >
-                  <span className="mr-2">👉</span> I'd like to consult a doctor
+                  <span className="mr-2">👉</span> I&apos;d like to consult a doctor
                 </motion.button>
               </div>
             </div>
@@ -479,7 +384,7 @@ export default function EDChatbot() {
     return steps.indexOf(step) + 1;
   };
 
-  const totalSteps = 9; // Including language selection and recommendation
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-gray-100 flex flex-col items-center justify-center p-4">
