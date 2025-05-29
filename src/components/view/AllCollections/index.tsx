@@ -5,7 +5,6 @@ import { GET_COLLECTIONS_QUERY } from "@/graphql/collections";
 import { useStorefrontQuery } from "@/hooks/useStorefront";
 import { GetCollectionsQuery } from "@/types/shopify-graphql";
 import Image from "next/image";
-import React from "react";
 import { useRouter } from "next/navigation";
 
 const AllCollections = () => {
@@ -33,32 +32,50 @@ const AllCollections = () => {
   }
 
   return (
-    <div className="w-full py-6 flex flex-col items-center justify-center">
-      <div className="flex gap-10 overflow-x-hidden px-4">
-        {data?.collections.edges.map((collection) => (
-          <button
-            onClick={() => router.push(`/collections/${collection.node.handle}`)}
-            key={collection.node.id}
-            className="flex-shrink-0 text-center group transition-transform duration-200"
-          >
-            <div className="relative w-16 h-16 mx-auto mb-2">
-              <div className="w-full h-full  overflow-hidden bg-white shadow-lg rounded-full">
-                <Image
-                  src={collection.node.image?.url ?? ""}
-                  alt={collection.node.image?.altText ?? collection.node.title}
-                  fill
-                  className="object-cover rounded-full"
-                />
-              </div>
+  <div className="w-full py-4">
+    <div
+      className="
+        flex
+        gap-4
+        justify-center sm:justify-center
+        overflow-x-auto
+        px-4
+        scrollbar-hide
+      "
+    >
+      {data?.collections.edges.map((collection) => (
+        <button
+          key={collection.node.id}
+          onClick={() => router.push(`/collections/${collection.node.handle}`)}
+          className="
+            flex-shrink-0
+            w-[64px]
+            text-center
+            group
+            transition-transform
+            duration-200
+            hover:scale-105
+          "
+        >
+          <div className="relative w-12 h-12 mx-auto mb-1">
+            <div className="w-full h-full overflow-hidden bg-white shadow-sm rounded-full border border-gray-200">
+              <Image
+                src={collection.node.image?.url ?? ""}
+                alt={collection.node.image?.altText ?? collection.node.title}
+                fill
+                className="object-cover rounded-full"
+              />
             </div>
-            <h3 className="text-black text-sm font-semibold">
-              {collection.node.title}
-            </h3>
-          </button>
-        ))}
-      </div>
+          </div>
+          <h3 className="text-black text-[11px] font-medium leading-tight truncate">
+            {collection.node.title}
+          </h3>
+        </button>
+      ))}
     </div>
-  );
+  </div>
+);
+
 };
 
 export default AllCollections;

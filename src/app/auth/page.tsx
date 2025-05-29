@@ -1,9 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import LoginPage from "@/components/view/Auth/Login/Login";
+import SignUpPage from "@/components/view/Auth/Signup/Signup";
 import { useRouter } from "next/navigation";
 import { parseCookies } from "nookies";
-import SignUpPage from "@/components/view/Auth/Signup/Signup";
-import LoginPage from "@/components/view/Auth/Login/Login";
+import { useEffect, useState } from "react";
 
 const Auth = () => {
   const router = useRouter();
@@ -18,9 +18,9 @@ const Auth = () => {
   }, [customerAccessToken, router]);
 
   return (
-    <div className="">
-      <div className="">
-        {/* <Logo /> */}
+    // <div className="min-h-screen w-full overflow-x-hidden bg-white flex items-center justify-center px-4 sm:px-6 md:px-8 py-10">
+    <div className="min-h-screen w-full overflow-x-hidden overflow-y-auto bg-white flex items-center justify-center px-4 sm:px-6 md:px-8 py-10 hide-scrollbar">
+      <div className="w-full max-w-md sm:max-w-lg md:max-w-xl">
         {showRegister ? (
           <SignUpPage setShowRegister={setShowRegister} />
         ) : (
