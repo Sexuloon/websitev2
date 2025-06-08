@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 
 const PrivacyPolicy = () => {
   return (
@@ -148,7 +147,7 @@ const PrivacyPolicy = () => {
         </div>
       </div>
 
-      <div className="w-full min-w-full max-w-full">
+      {/* <div className="w-full min-w-full max-w-full">
         <footer className="bg-gray-900 text-white w-full py-12 sm:py-16">
           <div className="container mx-auto px-4 w-full sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 w-full lg:grid-cols-4 gap-8">
@@ -369,7 +368,7 @@ const PrivacyPolicy = () => {
             </div>
           </div>
         </footer>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import CartView from "../Cart/CartView";
 import { Button } from "@/components/ui/button";
 import { useCartActions } from "@/lib/atoms/cart";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import CartView from "../Cart/CartView";
 
 function Navbar() {
   const router = useRouter();
@@ -43,13 +43,31 @@ function Navbar() {
             href="/collections/all-products"
             className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
           >
-            Products
+          All Products
           </Link>
           <Link
             href="/"
             className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
           >
             Consultation
+          </Link>
+          <Link
+            href="/"
+            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+          >
+            Dropper Box
+          </Link>
+          <Link
+            href="/"
+            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+          >
+            Contact us
+          </Link>
+          <Link
+            href="/"
+            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+          >
+            FAQ
           </Link>
           <Link
             href="/aboutus"
@@ -108,33 +126,47 @@ function Navbar() {
         <div className="md:hidden bg-white py-4 px-4 shadow-lg">
           <div className="flex flex-col space-y-4">
             <Link
-              href="/"
-              className="font-medium text-gray-800 hover:text-blue-600 py-2 border-b border-gray-100"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              href="/products"
-              className="font-medium text-gray-800 hover:text-blue-600 py-2 border-b border-gray-100"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Products
-            </Link>
-            <Link
-              href="/"
-              className="font-medium text-gray-800 hover:text-blue-600 py-2 border-b border-gray-100"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Consultation
-            </Link>
-            <Link
-              href="/aboutus"
-              className="font-medium text-gray-800 hover:text-blue-600 py-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About Us
-            </Link>
+            href="/"
+            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+          >
+            Home
+          </Link>
+          <Link
+            href="/collections/all-products"
+            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+          >
+          All Products
+          </Link>
+          <Link
+            href="/"
+            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+          >
+            Consultation
+          </Link>
+          <Link
+            href="/"
+            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+          >
+            Dropper Box
+          </Link>
+          <Link
+            href="/"
+            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+          >
+            Contact us
+          </Link>
+          <Link
+            href="/"
+            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+          >
+            FAQ
+          </Link>
+          <Link
+            href="/aboutus"
+            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+          >
+            About Us
+          </Link>
           </div>
         </div>
       )}

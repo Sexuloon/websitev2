@@ -70,10 +70,31 @@ const Footer = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Support</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white">FAQs</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white">Privacy Policy</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white">Terms & Conditions</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white">Return Policy</a></li>
+                <li>
+                  <a href="/privacy&policy" className="text-gray-400 text-sm hover:text-white transition-colors duration-200">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="/terms&conditions" className="text-gray-400 text-sm hover:text-white transition-colors duration-200">
+                    Terms & Conditions
+                  </a>
+                </li>
+                <li>
+                  <a href="/refundpolicy" className="text-gray-400 text-sm hover:text-white transition-colors duration-200">
+                    Refund Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="/Refund&ReplacementPolicy" className="text-gray-400 text-sm hover:text-white transition-colors duration-200">
+                    Refund & Replacement Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="/ShippingPolicy" className="text-gray-400 text-sm hover:text-white transition-colors duration-200">
+                    Shipping Policy
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
@@ -84,7 +105,7 @@ const Footer = () => {
           </div>
 
           {/* Legal Links Section */}
-          <div className="border-t border-gray-800 mt-12 pt-8 px-4 sm:px-6 lg:px-8">
+          {/* <div className="border-t border-gray-800 mt-12 pt-8 px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row md:justify-between md:items-center text-center md:text-left">
               <p className="text-gray-400 text-sm mb-4 md:mb-0">
                 © 2025 Sexuloon. All rights reserved.
@@ -122,7 +143,7 @@ const Footer = () => {
                 </a>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </footer>
     </div>
