@@ -1,24 +1,24 @@
 'use client'
 
-import React,{ useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-export default function EDChatbot() {
+export default function LTChatbot() {
   const [step, setStep] = useState('language');
   const [language, setLanguage] = useState('');
   const [answers, setAnswers] = useState({
     age: '',
+    symptoms: [],
     duration: '',
-    frequency: '',
-    morningErections: '',
+    medications: '',
     lifestyle: '',
-    stress: '',
-    healthConditions: ''
+    exercise: '',
+    sleep: ''
   });
 
   const handleLanguageSelect = (lang) => {
     setLanguage(lang);
-    setStep('age');
+    setStep('symptoms');
   };
 
   const handleAnswer = (question, answer) => {
@@ -26,13 +26,14 @@ export default function EDChatbot() {
     
     // Move to next step
     switch(question) {
-      case 'age': setStep('duration'); break;
-      case 'duration': setStep('frequency'); break;
-      case 'frequency': setStep('morningErections'); break;
-      case 'morningErections': setStep('lifestyle'); break;
-      case 'lifestyle': setStep('stress'); break;
-      case 'stress': setStep('healthConditions'); break;
-      case 'healthConditions': setStep('recommendation'); break;
+      case 'symptoms': setStep('duration'); break;
+      case 'duration': setStep('age'); break;
+      case 'age': setStep('medications'); break;
+      case 'medications': setStep('lifestyle'); break;
+      case 'lifestyle': setStep('exercise'); break;
+      case 'exercise': setStep('sleep'); break;
+      case 'sleep': setStep('preference'); break;
+      case 'preference': setStep('recommendation'); break;
       default: break;
     }
   };
@@ -42,79 +43,130 @@ export default function EDChatbot() {
     setLanguage('');
     setAnswers({
       age: '',
+      symptoms: [],
       duration: '',
-      frequency: '',
-      morningErections: '',
+      medications: '',
       lifestyle: '',
-      stress: '',
-      healthConditions: ''
+      exercise: '',
+      sleep: ''
     });
   };
 
   // Question components for English and Hindi
   const questions = {
     english: {
-      age: {
-        question: "How old are you?",
-        options: ["Below 25", "25 - 35", "36 - 45", "46 and above"]
+      symptoms: {
+        question: "What symptoms are you experiencing? (Select one that applies most)",
+        options: [
+          "Low energy",
+          "Reduced muscle mass",
+          "Low sex drive",
+          "Difficulty concentrating",
+          "Mood swings or depression",
+          "Erectile issues"
+        ]
       },
       duration: {
-        question: "How long have you been facing erectile difficulties?",
-        options: ["Just recently", "A few weeks", "1-3 months", "More than 3 months"]
+        question: "How long have you been experiencing these symptoms?",
+        options: [
+          "Less than 1 month",
+          "1–3 months",
+          "3–6 months",
+          "More than 6 months"
+        ]
       },
-      frequency: {
-        question: "How often do you experience erectile dysfunction?",
-        options: ["Occasionally", "Often", "Every time"]
+      age: {
+        question: "What is your age group?",
+        options: ["Under 25", "25–34", "35–44", "45–54", "55+"]
       },
-      morningErections: {
-        question: "Do you still get morning erections?",
-        options: ["Yes, regularly", "Sometimes", "Never"]
+      medications: {
+        question: "Are you currently taking any supplements or medications?",
+        options: ["Yes", "No"]
       },
       lifestyle: {
-        question: "Do you consume alcohol or smoke regularly?",
-        options: ["Yes, both", "Only alcohol", "Only smoking", "No, none"]
+        question: "Do you smoke or consume alcohol?",
+        options: ["Yes", "No", "Occasionally"]
       },
-      stress: {
-        question: "How would you rate your stress levels?",
-        options: ["High", "Moderate", "Low"]
+      exercise: {
+        question: "How often do you exercise?",
+        options: [
+          "Daily",
+          "3–5 times a week",
+          "1–2 times a week",
+          "Rarely or never"
+        ]
       },
-      healthConditions: {
-        question: "Do you suffer from any of the following?",
-        options: ["Diabetes", "High blood pressure", "Heart issues", "None of these"]
+      sleep: {
+        question: "How's your sleep quality?",
+        options: [
+          "Excellent (7–8 hours)",
+          "Average (5–6 hours)",
+          "Poor (Less than 5 hours)"
+        ]
+      },
+      preference: {
+        question: "Would you like to start with a doctor consultation or try natural supplements?",
+        options: [
+          "Show me natural supplement options",
+          "I want to talk to a doctor first"
+        ]
       }
     },
     hindi: {
-      age: {
-        question: "आपकी उम्र क्या है?",
-        options: ["25 से कम", "25 - 35", "36 - 45", "46 से अधिक"]
+      symptoms: {
+        question: "आप किन लक्षणों का अनुभव कर रहे हैं? (सबसे उपयुक्त एक चुनें)",
+        options: [
+          "कम ऊर्जा",
+          "मांसपेशियों में कमी",
+          "यौन इच्छा में कमी",
+          "ध्यान केंद्रित करने में कठिनाई",
+          "मूड स्विंग / डिप्रेशन",
+          "इरेक्शन में दिक्कत"
+        ]
       },
       duration: {
-        question: "आपको यह समस्या कितने समय से है?",
-        options: ["हाल ही में", "कुछ हफ्तों से", "1-3 महीने", "3 महीने से अधिक"]
+        question: "ये लक्षण आपको कब से हैं?",
+        options: ["1 महीने से कम", "1–3 महीने", "3–6 महीने", "6 महीने से अधिक"]
       },
-      frequency: {
-        question: "आपको यह समस्या कितनी बार होती है?",
-        options: ["कभी-कभी", "अक्सर", "हर बार"]
+      age: {
+        question: "आपकी उम्र क्या है?",
+        options: ["25 से कम", "25–34", "35–44", "45–54", "55+"]
       },
-      morningErections: {
-        question: "क्या आपको सुबह इरेक्शन होते हैं?",
-        options: ["हां, नियमित रूप से", "कभी-कभी", "कभी नहीं"]
+      medications: {
+        question: "क्या आप कोई दवा या सप्लीमेंट ले रहे हैं?",
+        options: ["हाँ", "नहीं"]
       },
       lifestyle: {
-        question: "क्या आप नियमित रूप से शराब या सिगरेट का सेवन करते हैं?",
-        options: ["दोनों", "केवल शराब", "केवल सिगरेट", "नहीं"]
+        question: "क्या आप शराब पीते हैं या धूम्रपान करते हैं?",
+        options: ["हाँ", "नहीं", "कभी-कभी"]
       },
-      stress: {
-        question: "आपका तनाव स्तर कैसा है?",
-        options: ["अधिक", "मध्यम", "कम"]
+      exercise: {
+        question: "आप कितनी बार व्यायाम करते हैं?",
+        options: [
+          "रोज़",
+          "सप्ताह में 3–5 बार",
+          "सप्ताह में 1–2 बार",
+          "शायद ही कभी"
+        ]
       },
-      healthConditions: {
-        question: "क्या आपको इनमें से कोई बीमारी है?",
-        options: ["डायबिटीज", "ब्लड प्रेशर", "हार्ट की बीमारी", "इनमें से कोई नहीं"]
+      sleep: {
+        question: "आपकी नींद कैसी रहती है?",
+        options: [
+          "बहुत अच्छी (7–8 घंटे)",
+          "औसत (5–6 घंटे)",
+          "बहुत खराब (5 घंटे से कम)"
+        ]
+      },
+      preference: {
+        question: "आप क्या करना चाहेंगे?",
+        options: [
+          "प्राकृतिक सप्लीमेंट देखना चाहता हूँ",
+          "पहले डॉक्टर से परामर्श करना चाहता हूँ"
+        ]
       }
     }
   };
-
+  
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -153,9 +205,24 @@ export default function EDChatbot() {
 
   // Progress indicator based on step
   const getProgressPercentage = () => {
-    const steps = ['language', 'age', 'duration', 'frequency', 'morningErections', 'lifestyle', 'stress', 'healthConditions', 'recommendation'];
+    const steps = ['language', 'symptoms', 'duration', 'age', 'medications', 'lifestyle', 'exercise', 'sleep', 'preference', 'recommendation'];
     const currentIndex = steps.indexOf(step);
     return (currentIndex / (steps.length - 1)) * 100;
+  };
+
+  // Generate recommendation based on answers
+  const generateRecommendation = () => {
+    const age = parseInt(answers.age?.split('–')[0] || '25');
+    const hasChronicSymptoms = answers.duration?.includes('6 months') || answers.duration?.includes('6 महीने');
+    const poorLifestyle = answers.lifestyle === 'Yes' || answers.lifestyle === 'हाँ' || 
+                         answers.exercise?.includes('Rarely') || answers.exercise?.includes('शायद') ||
+                         answers.sleep?.includes('Poor') || answers.sleep?.includes('खराब');
+
+    if (age > 45 || hasChronicSymptoms || poorLifestyle) {
+      return 'doctor';
+    } else {
+      return 'supplement';
+    }
   };
 
   // Render the current question
@@ -177,7 +244,7 @@ export default function EDChatbot() {
           
           <motion.h2 variants={itemVariants} className="text-2xl font-bold mb-4 text-center text-gray-800">Welcome!</motion.h2>
           <motion.p variants={itemVariants} className="mb-6 text-center text-gray-600">
-            Let's get started with a few quick questions to understand your concern better.
+            Let&apos;s get started with a few quick questions to understand your concern better.
           </motion.p>
           <motion.p variants={itemVariants} className="font-medium mb-4 text-center text-gray-700">
             Please choose your preferred language:
@@ -209,6 +276,8 @@ export default function EDChatbot() {
         </motion.div>
       );
     } else if (step === 'recommendation') {
+      const recommendation = generateRecommendation();
+      
       return (
         <motion.div 
           className="p-8 rounded-2xl shadow-lg bg-white border border-gray-100"
@@ -237,18 +306,33 @@ export default function EDChatbot() {
                 variants={itemVariants}
                 className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl mb-6 border border-green-100"
               >
-                <p className="font-bold text-green-800 flex items-center">
-                  <span className="text-xl mr-2">🟢</span> Natural Ayurvedic Supplement for ED
-                </p>
-                <ul className="list-disc pl-8 mt-3 space-y-1 text-gray-700">
-                  <li>Improves blood flow and stamina</li>
-                  <li>Doctor recommended</li>
-                  <li>100% natural ingredients</li>
-                </ul>
+                {recommendation === 'supplement' ? (
+                  <>
+                    <p className="font-bold text-green-800 flex items-center">
+                      <span className="text-xl mr-2">🟢</span> Natural Low T Booster Kit
+                    </p>
+                    <ul className="list-disc pl-8 mt-3 space-y-1 text-gray-700">
+                      <li>Shilajit, Ashwagandha, Safed Musli, Gokshura</li>
+                      <li>Boosts stamina, testosterone, and energy</li>
+                      <li>100% natural ingredients</li>
+                    </ul>
+                  </>
+                ) : (
+                  <>
+                    <p className="font-bold text-blue-800 flex items-center">
+                      <span className="text-xl mr-2">👨‍⚕️</span> Doctor Consultation Recommended
+                    </p>
+                    <ul className="list-disc pl-8 mt-3 space-y-1 text-gray-700">
+                      <li>Professional medical assessment</li>
+                      <li>Personalized treatment plan</li>
+                      <li>Address underlying health concerns</li>
+                    </ul>
+                  </>
+                )}
               </motion.div>
               
               <motion.p variants={itemVariants} className="font-medium mb-4 text-center text-gray-700">
-                Would you like to order now or consult with a doctor?
+                Would you like to proceed or explore other options?
               </motion.p>
               
               <div className="space-y-3">
@@ -257,9 +341,10 @@ export default function EDChatbot() {
                   initial="idle"
                   whileHover="hover"
                   whileTap="tap"
+                  onClick={() => window.open('https://sexuloon.com/products/low-t-booster-pack', '_blank')}
                   className="w-full py-3 px-6 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl font-medium shadow-md hover:from-green-600 hover:to-green-700 transition flex items-center justify-center"
                 >
-                  <span className="mr-2">👉</span> Yes, show me the product
+                  <span className="mr-2">🛒</span> {recommendation === 'supplement' ? 'View Product' : 'Alternative: Natural Supplements'}
                 </motion.button>
                 
                 <motion.button 
@@ -267,34 +352,50 @@ export default function EDChatbot() {
                   initial="idle"
                   whileHover="hover"
                   whileTap="tap"
+                  onClick={() => window.open('https://sexuloon.com/consult', '_blank')}
                   className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-medium shadow-md hover:from-blue-600 hover:to-blue-700 transition flex items-center justify-center"
                 >
-                  <span className="mr-2">👉</span> I'd like to consult a doctor
+                  <span className="mr-2">👨‍⚕️</span> {recommendation === 'doctor' ? 'Book Consultation' : 'Consult Doctor Instead'}
                 </motion.button>
               </div>
             </div>
           ) : (
             <div>
               <motion.p variants={itemVariants} className="mb-4 text-gray-600 text-center">
-                आपकी जानकारी के आधार पर, हम आपको यह उत्पाद सुझाव देते हैं:
+                आपकी जानकारी के आधार पर, हम आपको यह सुझाव देते हैं:
               </motion.p>
               
               <motion.div 
                 variants={itemVariants}
                 className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl mb-6 border border-green-100"
               >
-                <p className="font-bold text-green-800 flex items-center">
-                  <span className="text-xl mr-2">🟢</span> प्राकृतिक आयुर्वेदिक सप्लीमेंट (ED के लिए)
-                </p>
-                <ul className="list-disc pl-8 mt-3 space-y-1 text-gray-700">
-                  <li>रक्त प्रवाह और स्टैमिना को बेहतर बनाता है</li>
-                  <li>डॉक्टर द्वारा अनुशंसित</li>
-                  <li>100% प्राकृतिक सामग्री</li>
-                </ul>
+                {recommendation === 'supplement' ? (
+                  <>
+                    <p className="font-bold text-green-800 flex items-center">
+                      <span className="text-xl mr-2">🟢</span> प्राकृतिक Low T Booster Kit
+                    </p>
+                    <ul className="list-disc pl-8 mt-3 space-y-1 text-gray-700">
+                      <li>शिलाजीत, अश्वगंधा, सफेद मूसली, गोक्षुर</li>
+                      <li>शक्ति, टेस्टोस्टेरोन और ऊर्जा बढ़ाता है</li>
+                      <li>100% प्राकृतिक सामग्री</li>
+                    </ul>
+                  </>
+                ) : (
+                  <>
+                    <p className="font-bold text-blue-800 flex items-center">
+                      <span className="text-xl mr-2">👨‍⚕️</span> डॉक्टर से परामर्श अनुशंसित
+                    </p>
+                    <ul className="list-disc pl-8 mt-3 space-y-1 text-gray-700">
+                      <li>पेशेवर चिकित्सा मूल्यांकन</li>
+                      <li>व्यक्तिगत उपचार योजना</li>
+                      <li>मूल स्वास्थ्य चिंताओं का समाधान</li>
+                    </ul>
+                  </>
+                )}
               </motion.div>
               
               <motion.p variants={itemVariants} className="font-medium mb-4 text-center text-gray-700">
-                क्या आप इसे अभी ऑर्डर करना चाहेंगे या डॉक्टर से परामर्श लेना चाहेंगे?
+                क्या आप आगे बढ़ना चाहते हैं या अन्य विकल्प देखना चाहते हैं?
               </motion.p>
               
               <div className="space-y-3">
@@ -303,9 +404,10 @@ export default function EDChatbot() {
                   initial="idle"
                   whileHover="hover"
                   whileTap="tap"
+                  onClick={() => window.open('https://sexuloon.com/products/low-t-booster-pack', '_blank')}
                   className="w-full py-3 px-6 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl font-medium shadow-md hover:from-green-600 hover:to-green-700 transition flex items-center justify-center"
                 >
-                  <span className="mr-2">👉</span> हां, उत्पाद दिखाएं
+                  <span className="mr-2">🛒</span> {recommendation === 'supplement' ? 'उत्पाद देखें' : 'विकल्प: प्राकृतिक सप्लीमेंट'}
                 </motion.button>
                 
                 <motion.button 
@@ -313,9 +415,10 @@ export default function EDChatbot() {
                   initial="idle"
                   whileHover="hover"
                   whileTap="tap"
+                  onClick={() => window.open('https://sexuloon.com/consult', '_blank')}
                   className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-medium shadow-md hover:from-blue-600 hover:to-blue-700 transition flex items-center justify-center"
                 >
-                  <span className="mr-2">👉</span> डॉक्टर से बात करना चाहता हूँ
+                  <span className="mr-2">👨‍⚕️</span> {recommendation === 'doctor' ? 'परामर्श बुक करें' : 'डॉक्टर से बात करें'}
                 </motion.button>
               </div>
             </div>
@@ -334,6 +437,17 @@ export default function EDChatbot() {
     } else {
       const currentLang = language === 'english' ? 'english' : 'hindi';
       const currentQuestion = questions[currentLang][step];
+      
+      if (!currentQuestion) {
+        return (
+          <div className="p-8 text-center">
+            <p>Question not found for step: {step}</p>
+            <button onClick={resetChat} className="mt-4 text-blue-500 underline">
+              Start Over
+            </button>
+          </div>
+        );
+      }
       
       return (
         <motion.div 
@@ -380,11 +494,10 @@ export default function EDChatbot() {
 
   // Calculate which step number we're on
   const getCurrentStepNumber = () => {
-    const steps = ['language', 'age', 'duration', 'frequency', 'morningErections', 'lifestyle', 'stress', 'healthConditions', 'recommendation'];
+    const steps = ['language', 'symptoms', 'duration', 'age', 'medications', 'lifestyle', 'exercise', 'sleep', 'preference', 'recommendation'];
     return steps.indexOf(step) + 1;
   };
 
-  const totalSteps = 9; // Including language selection and recommendation
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-gray-100 flex flex-col items-center justify-center p-4">
@@ -412,7 +525,7 @@ export default function EDChatbot() {
             className="mb-6"
           >
             <div className="flex justify-between text-xs text-gray-500 mb-1">
-              <span>Step {getCurrentStepNumber() - 1}/8</span>
+              <span>Step {Math.max(1, getCurrentStepNumber() - 1)}/9</span>
               <span>{Math.round(getProgressPercentage())}% Complete</span>
             </div>
             <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
