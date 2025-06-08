@@ -19,7 +19,7 @@ const AllCollections = () => {
   if (isLoading) {
     return (
       <div className="w-full py-6">
-        <div className="flex gap-4 items-center justify-center overflow-x-auto px-4 scrollbar-hide">
+        <div className="flex gap-4 items-center justify-center px-4">
           {Array.from({ length: 9 }).map((_, index) => (
             <div key={index} className="flex-shrink-0 text-center">
               <Skeleton className="w-16 h-16 rounded-full mb-2 mx-auto" />
@@ -32,50 +32,32 @@ const AllCollections = () => {
   }
 
   return (
-  <div className="w-full py-4">
-    <div
-      className="
-        flex
-        gap-4
-        justify-center sm:justify-center
-        overflow-x-auto
-        px-4
-        scrollbar-hide
-      "
-    >
-      {data?.collections.edges.map((collection) => (
-        <button
-          key={collection.node.id}
-          onClick={() => router.push(`/collections/${collection.node.handle}`)}
-          className="
-            flex-shrink-0
-            w-[64px]
-            text-center
-            group
-            transition-transform
-            duration-200
-            hover:scale-105
-          "
-        >
-          <div className="relative w-12 h-12 mx-auto mb-1">
-            <div className="w-full h-full overflow-hidden bg-white shadow-sm rounded-full border border-gray-200">
-              <Image
-                src={collection.node.image?.url ?? ""}
-                alt={collection.node.image?.altText ?? collection.node.title}
-                fill
-                className="object-cover rounded-full"
-              />
+    <div className="w-full py-4">
+      <div className="flex gap-4 justify-center px-4">
+        {data?.collections.edges.map((collection) => (
+          <button
+            key={collection.node.id}
+            onClick={() => router.push(`/collections/${collection.node.handle}`)}
+            className="flex-shrink-0 w-[64px] text-center group"
+          >
+            <div className="relative w-12 h-12 mx-auto mb-1">
+              <div className="w-full h-full overflow-hidden bg-white shadow-sm rounded-full border border-gray-200">
+                <Image
+                  src={collection.node.image?.url ?? ""}
+                  alt={collection.node.image?.altText ?? collection.node.title}
+                  fill
+                  className="object-cover rounded-full"
+                />
+              </div>
             </div>
-          </div>
-          <h3 className="text-black text-[11px] font-medium leading-tight truncate">
-            {collection.node.title}
-          </h3>
-        </button>
-      ))}
+            <h3 className="text-black text-[11px] font-medium leading-tight truncate">
+              {collection.node.title}
+            </h3>
+          </button>
+        ))}
+      </div>
     </div>
-  </div>
-);
-
+  );
 };
 
 export default AllCollections;

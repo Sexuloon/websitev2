@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
+import tailwindcssAnimate from "tailwindcss-animate";
 
-export default {
+const config: Config = {
   darkMode: ["class"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -18,17 +19,21 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-	  keyframes: {
+      keyframes: {
         marquee: {
-          '0%': { transform: 'translateX(300%)' },
-          '100%': { transform: 'translateX(-100%)' },
+          "0%": { transform: "translateX(300%)" },
+          "100%": { transform: "translateX(-100%)" },
         },
       },
       animation: {
-        marquee: 'marquee 15s linear infinite',
-      }
+        marquee: "marquee 15s linear infinite",
+      },
+      screens: {
+        custom: "1030px", // Custom breakpoint
+      },
     },
   },
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+  plugins: [tailwindcssAnimate],
+};
+
+export default config;

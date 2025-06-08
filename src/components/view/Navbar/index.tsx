@@ -9,7 +9,6 @@ import CartView from "../Cart/CartView";
 
 function Navbar() {
   const router = useRouter();
-
   const { cart, initializeCart } = useCartActions();
 
   useEffect(() => {
@@ -17,22 +16,21 @@ function Navbar() {
       initializeCart();
     }
   }, [cart, initializeCart]);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // Toggle mobile menu
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between">
         <div className="flex items-center">
           <Link href={"/"}>
-          <h2 className="font-semibold text-xl">Sexuloon</h2>
+            <h2 className="font-semibold text-xl">Sexuloon</h2>
           </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden custom:flex items-center space-x-8">
           <Link
             href="/"
             className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
@@ -43,7 +41,7 @@ function Navbar() {
             href="/collections/all-products"
             className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
           >
-          All Products
+            All Products
           </Link>
           <Link
             href="/"
@@ -90,7 +88,7 @@ function Navbar() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden p-2 text-gray-600 focus:outline-none"
+            className="custom:hidden p-2 text-gray-600 focus:outline-none"
             onClick={toggleMenu}
             aria-label="Toggle menu"
           >
@@ -123,50 +121,50 @@ function Navbar() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white py-4 px-4 shadow-lg">
+        <div className="custom:hidden bg-white py-4 px-4 shadow-lg">
           <div className="flex flex-col space-y-4">
             <Link
-            href="/"
-            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
-          >
-            Home
-          </Link>
-          <Link
-            href="/collections/all-products"
-            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
-          >
-          All Products
-          </Link>
-          <Link
-            href="/"
-            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
-          >
-            Consultation
-          </Link>
-          <Link
-            href="/"
-            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
-          >
-            Dropper Box
-          </Link>
-          <Link
-            href="/"
-            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
-          >
-            Contact us
-          </Link>
-          <Link
-            href="/"
-            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
-          >
-            FAQ
-          </Link>
-          <Link
-            href="/aboutus"
-            className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
-          >
-            About Us
-          </Link>
+              href="/"
+              className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+            >
+              Home
+            </Link>
+            <Link
+              href="/collections/all-products"
+              className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+            >
+              All Products
+            </Link>
+            <Link
+              href="/"
+              className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+            >
+              Consultation
+            </Link>
+            <Link
+              href="/"
+              className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+            >
+              Dropper Box
+            </Link>
+            <Link
+              href="/"
+              className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+            >
+              Contact us
+            </Link>
+            <Link
+              href="/"
+              className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+            >
+              FAQ
+            </Link>
+            <Link
+              href="/aboutus"
+              className="font-medium text-gray-800 hover:text-blue-600 transition-colors duration-200"
+            >
+              About Us
+            </Link>
           </div>
         </div>
       )}
