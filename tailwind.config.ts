@@ -31,6 +31,11 @@ const config: Config = {
       screens: {
         custom: "1030px", // Custom breakpoint
       },
+      fontFamily: {
+        inter: ["var(--font-inter)", "sans-serif"],
+        geist: ["var(--font-geist-sans)", "sans-serif"],
+        mono: ["var(--font-geist-mono)", "monospace"],
+      },
     },
   },
   plugins: [tailwindcssAnimate],

@@ -31,11 +31,11 @@ function SlideShow() {
             <div
               className="
                 w-full
-                h-[250px]
-                sm:h-[300px]
-                md:h-[400px]
-                lg:h-[500px]
-                xl:h-[600px]
+                h-[450px]
+                sm:h-[400px]
+                md:h-[410px]
+                lg:h-[420px]
+                xl:h-[420px]
                 bg-cover bg-center bg-no-repeat
               "
               style={{ backgroundImage: `url(${slideImage.url})` }}
