@@ -1,14 +1,13 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+
 import { useCartActions } from "@/lib/atoms/cart";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import CartView from "../Cart/CartView";
+import SignIn from "@/components/ui/signin";
 
 function Navbar() {
-  const router = useRouter();
   const { cart, initializeCart } = useCartActions();
 
   useEffect(() => {
@@ -78,9 +77,7 @@ function Navbar() {
         <div className="flex items-center space-x-4">
           <div className="flex items-center gap-x-2">
             <CartView />
-            <Button onClick={() => router.push("/auth")} size="sm">
-              Login
-            </Button>
+            <SignIn/>
           </div>
 
           {/* Hamburger */}

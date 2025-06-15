@@ -1,54 +1,80 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useParams } from "next/navigation";
 
 export default function LTChatbot() {
-  const [step, setStep] = useState('language');
-  const [language, setLanguage] = useState('');
+  const { slug } = useParams();
+  const [step, setStep] = useState("language");
+  const [language, setLanguage] = useState("");
   const [answers, setAnswers] = useState({
-    age: '',
+    age: "",
     symptoms: [],
-    duration: '',
-    medications: '',
-    lifestyle: '',
-    exercise: '',
-    sleep: ''
+    duration: "",
+    medications: "",
+    lifestyle: "",
+    exercise: "",
+    sleep: "",
   });
 
-  const handleLanguageSelect = (lang) => {
-    setLanguage(lang);
-    setStep('symptoms');
-  };
+  useEffect(() => {
+    if (slug) {
+      const selectedLanguage = Array.isArray(slug) ? slug[0] : slug;
+      setLanguage(selectedLanguage);
+      if (selectedLanguage && step === "language") {
+        setStep("symptoms");
+      }
+    }
+  }, [slug, step]);
+
+ 
 
   const handleAnswer = (question, answer) => {
     setAnswers({ ...answers, [question]: answer });
-    
+
     // Move to next step
-    switch(question) {
-      case 'symptoms': setStep('duration'); break;
-      case 'duration': setStep('age'); break;
-      case 'age': setStep('medications'); break;
-      case 'medications': setStep('lifestyle'); break;
-      case 'lifestyle': setStep('exercise'); break;
-      case 'exercise': setStep('sleep'); break;
-      case 'sleep': setStep('preference'); break;
-      case 'preference': setStep('recommendation'); break;
-      default: break;
+    switch (question) {
+      case "symptoms":
+        setStep("duration");
+        break;
+      case "duration":
+        setStep("age");
+        break;
+      case "age":
+        setStep("medications");
+        break;
+      case "medications":
+        setStep("lifestyle");
+        break;
+      case "lifestyle":
+        setStep("exercise");
+        break;
+      case "exercise":
+        setStep("sleep");
+        break;
+      case "sleep":
+        setStep("preference");
+        break;
+      case "preference":
+        setStep("recommendation");
+        break;
+      default:
+        break;
     }
   };
 
   const resetChat = () => {
-    setStep('language');
-    setLanguage('');
+    setStep("language");
+    setLanguage("");
     setAnswers({
-      age: '',
+      age: "",
       symptoms: [],
-      duration: '',
-      medications: '',
-      lifestyle: '',
-      exercise: '',
-      sleep: ''
+      duration: "",
+      medications: "",
+      lifestyle: "",
+      exercise: "",
+      sleep: "",
     });
   };
 
@@ -56,15 +82,16 @@ export default function LTChatbot() {
   const questions = {
     english: {
       symptoms: {
-        question: "What symptoms are you experiencing? (Select one that applies most)",
+        question:
+          "What symptoms are you experiencing? (Select one that applies most)",
         options: [
           "Low energy",
           "Reduced muscle mass",
           "Low sex drive",
           "Difficulty concentrating",
           "Mood swings or depression",
-          "Erectile issues"
-        ]
+          "Erectile issues",
+        ],
       },
       duration: {
         question: "How long have you been experiencing these symptoms?",
@@ -72,20 +99,20 @@ export default function LTChatbot() {
           "Less than 1 month",
           "1–3 months",
           "3–6 months",
-          "More than 6 months"
-        ]
+          "More than 6 months",
+        ],
       },
       age: {
         question: "What is your age group?",
-        options: ["Under 25", "25–34", "35–44", "45–54", "55+"]
+        options: ["Under 25", "25–34", "35–44", "45–54", "55+"],
       },
       medications: {
         question: "Are you currently taking any supplements or medications?",
-        options: ["Yes", "No"]
+        options: ["Yes", "No"],
       },
       lifestyle: {
         question: "Do you smoke or consume alcohol?",
-        options: ["Yes", "No", "Occasionally"]
+        options: ["Yes", "No", "Occasionally"],
       },
       exercise: {
         question: "How often do you exercise?",
@@ -93,24 +120,25 @@ export default function LTChatbot() {
           "Daily",
           "3–5 times a week",
           "1–2 times a week",
-          "Rarely or never"
-        ]
+          "Rarely or never",
+        ],
       },
       sleep: {
         question: "How's your sleep quality?",
         options: [
           "Excellent (7–8 hours)",
           "Average (5–6 hours)",
-          "Poor (Less than 5 hours)"
-        ]
+          "Poor (Less than 5 hours)",
+        ],
       },
       preference: {
-        question: "Would you like to start with a doctor consultation or try natural supplements?",
+        question:
+          "Would you like to start with a doctor consultation or try natural supplements?",
         options: [
           "Show me natural supplement options",
-          "I want to talk to a doctor first"
-        ]
-      }
+          "I want to talk to a doctor first",
+        ],
+      },
     },
     hindi: {
       symptoms: {
@@ -121,24 +149,24 @@ export default function LTChatbot() {
           "यौन इच्छा में कमी",
           "ध्यान केंद्रित करने में कठिनाई",
           "मूड स्विंग / डिप्रेशन",
-          "इरेक्शन में दिक्कत"
-        ]
+          "इरेक्शन में दिक्कत",
+        ],
       },
       duration: {
         question: "ये लक्षण आपको कब से हैं?",
-        options: ["1 महीने से कम", "1–3 महीने", "3–6 महीने", "6 महीने से अधिक"]
+        options: ["1 महीने से कम", "1–3 महीने", "3–6 महीने", "6 महीने से अधिक"],
       },
       age: {
         question: "आपकी उम्र क्या है?",
-        options: ["25 से कम", "25–34", "35–44", "45–54", "55+"]
+        options: ["25 से कम", "25–34", "35–44", "45–54", "55+"],
       },
       medications: {
         question: "क्या आप कोई दवा या सप्लीमेंट ले रहे हैं?",
-        options: ["हाँ", "नहीं"]
+        options: ["हाँ", "नहीं"],
       },
       lifestyle: {
         question: "क्या आप शराब पीते हैं या धूम्रपान करते हैं?",
-        options: ["हाँ", "नहीं", "कभी-कभी"]
+        options: ["हाँ", "नहीं", "कभी-कभी"],
       },
       exercise: {
         question: "आप कितनी बार व्यायाम करते हैं?",
@@ -146,42 +174,42 @@ export default function LTChatbot() {
           "रोज़",
           "सप्ताह में 3–5 बार",
           "सप्ताह में 1–2 बार",
-          "शायद ही कभी"
-        ]
+          "शायद ही कभी",
+        ],
       },
       sleep: {
         question: "आपकी नींद कैसी रहती है?",
         options: [
           "बहुत अच्छी (7–8 घंटे)",
           "औसत (5–6 घंटे)",
-          "बहुत खराब (5 घंटे से कम)"
-        ]
+          "बहुत खराब (5 घंटे से कम)",
+        ],
       },
       preference: {
         question: "आप क्या करना चाहेंगे?",
         options: [
           "प्राकृतिक सप्लीमेंट देखना चाहता हूँ",
-          "पहले डॉक्टर से परामर्श करना चाहता हूँ"
-        ]
-      }
-    }
+          "पहले डॉक्टर से परामर्श करना चाहता हूँ",
+        ],
+      },
+    },
   };
-  
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { 
+    visible: {
       opacity: 1,
-      transition: { 
+      transition: {
         duration: 0.5,
         when: "beforeChildren",
-        staggerChildren: 0.1
-      }
+        staggerChildren: 0.1,
+      },
     },
-    exit: { 
+    exit: {
       opacity: 0,
-      transition: { duration: 0.3 }
-    }
+      transition: { duration: 0.3 },
+    },
   };
 
   const itemVariants = {
@@ -189,127 +217,106 @@ export default function LTChatbot() {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { duration: 0.5 }
-    }
+      transition: { duration: 0.5 },
+    },
   };
 
   const buttonVariants = {
     idle: { scale: 1 },
-    hover: { 
+    hover: {
       scale: 1.03,
       boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.1)",
-      transition: { duration: 0.2 }
+      transition: { duration: 0.2 },
     },
-    tap: { scale: 0.95 }
+    tap: { scale: 0.95 },
   };
 
   // Progress indicator based on step
   const getProgressPercentage = () => {
-    const steps = ['language', 'symptoms', 'duration', 'age', 'medications', 'lifestyle', 'exercise', 'sleep', 'preference', 'recommendation'];
+    const steps = [
+      "symptoms",
+      "duration",
+      "age",
+      "medications",
+      "lifestyle",
+      "exercise",
+      "sleep",
+      "preference",
+      "recommendation",
+    ];
     const currentIndex = steps.indexOf(step);
     return (currentIndex / (steps.length - 1)) * 100;
   };
 
   // Generate recommendation based on answers
   const generateRecommendation = () => {
-    const age = parseInt(answers.age?.split('–')[0] || '25');
-    const hasChronicSymptoms = answers.duration?.includes('6 months') || answers.duration?.includes('6 महीने');
-    const poorLifestyle = answers.lifestyle === 'Yes' || answers.lifestyle === 'हाँ' || 
-                         answers.exercise?.includes('Rarely') || answers.exercise?.includes('शायद') ||
-                         answers.sleep?.includes('Poor') || answers.sleep?.includes('खराब');
+    const age = parseInt(answers.age?.split("–")[0] || "25");
+    const hasChronicSymptoms =
+      answers.duration?.includes("6 months") ||
+      answers.duration?.includes("6 महीने");
+    const poorLifestyle =
+      answers.lifestyle === "Yes" ||
+      answers.lifestyle === "हाँ" ||
+      answers.exercise?.includes("Rarely") ||
+      answers.exercise?.includes("शायद") ||
+      answers.sleep?.includes("Poor") ||
+      answers.sleep?.includes("खराब");
 
     if (age > 45 || hasChronicSymptoms || poorLifestyle) {
-      return 'doctor';
+      return "doctor";
     } else {
-      return 'supplement';
+      return "supplement";
     }
   };
 
   // Render the current question
   const renderQuestion = () => {
-    if (step === 'language') {
-      return (
-        <motion.div 
-          className="p-8 rounded-2xl shadow-lg bg-white border border-gray-100"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          exit="exit"
-        >
-          <motion.div variants={itemVariants} className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-              <span className="text-2xl">👋</span>
-            </div>
-          </motion.div>
-          
-          <motion.h2 variants={itemVariants} className="text-2xl font-bold mb-4 text-center text-gray-800">Welcome!</motion.h2>
-          <motion.p variants={itemVariants} className="mb-6 text-center text-gray-600">
-            Let&apos;s get started with a few quick questions to understand your concern better.
-          </motion.p>
-          <motion.p variants={itemVariants} className="font-medium mb-4 text-center text-gray-700">
-            Please choose your preferred language:
-          </motion.p>
-          
-          <div className="space-y-3">
-            <motion.button 
-              variants={buttonVariants}
-              initial="idle"
-              whileHover="hover"
-              whileTap="tap"
-              onClick={() => handleLanguageSelect('english')} 
-              className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-medium shadow-md hover:from-blue-600 hover:to-blue-700 transition flex items-center justify-center"
-            >
-              <span className="mr-2">👉</span> English
-            </motion.button>
-            
-            <motion.button 
-              variants={buttonVariants}
-              initial="idle"
-              whileHover="hover"
-              whileTap="tap"
-              onClick={() => handleLanguageSelect('hindi')} 
-              className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-medium shadow-md hover:from-blue-600 hover:to-blue-700 transition flex items-center justify-center"
-            >
-              <span className="mr-2">👉</span> हिन्दी
-            </motion.button>
-          </div>
-        </motion.div>
-      );
-    } else if (step === 'recommendation') {
+    if (step === "recommendation") {
       const recommendation = generateRecommendation();
-      
+
       return (
-        <motion.div 
+        <motion.div
           className="p-8 rounded-2xl shadow-lg bg-white border border-gray-100"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
         >
-          <motion.div variants={itemVariants} className="flex justify-center mb-6">
+          <motion.div
+            variants={itemVariants}
+            className="flex justify-center mb-6"
+          >
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
               <span className="text-2xl">✅</span>
             </div>
           </motion.div>
-          
-          <motion.h2 variants={itemVariants} className="text-2xl font-bold mb-4 text-center text-gray-800">
-            {language === 'english' ? 'Your Recommendation' : 'आपका सुझाव'}
+
+          <motion.h2
+            variants={itemVariants}
+            className="text-2xl font-bold mb-4 text-center text-gray-800"
+          >
+            {language === "english" ? "Your Recommendation" : "आपका सुझाव"}
           </motion.h2>
-          
-          {language === 'english' ? (
+
+          {language === "english" ? (
             <div>
-              <motion.p variants={itemVariants} className="mb-4 text-gray-600 text-center">
-                Thanks for sharing that with us! Based on your responses, we recommend:
+              <motion.p
+                variants={itemVariants}
+                className="mb-4 text-gray-600 text-center"
+              >
+                Thanks for sharing that with us! Based on your responses, we
+                recommend:
               </motion.p>
-              
-              <motion.div 
+
+              <motion.div
                 variants={itemVariants}
                 className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl mb-6 border border-green-100"
               >
-                {recommendation === 'supplement' ? (
+                {recommendation === "supplement" ? (
                   <>
                     <p className="font-bold text-green-800 flex items-center">
-                      <span className="text-xl mr-2">🟢</span> Natural Low T Booster Kit
+                      <span className="text-xl mr-2">🟢</span> Natural Low T
+                      Booster Kit
                     </p>
                     <ul className="list-disc pl-8 mt-3 space-y-1 text-gray-700">
                       <li>Shilajit, Ashwagandha, Safed Musli, Gokshura</li>
@@ -320,7 +327,8 @@ export default function LTChatbot() {
                 ) : (
                   <>
                     <p className="font-bold text-blue-800 flex items-center">
-                      <span className="text-xl mr-2">👨‍⚕️</span> Doctor Consultation Recommended
+                      <span className="text-xl mr-2">👨‍⚕️</span> Doctor
+                      Consultation Recommended
                     </p>
                     <ul className="list-disc pl-8 mt-3 space-y-1 text-gray-700">
                       <li>Professional medical assessment</li>
@@ -330,49 +338,69 @@ export default function LTChatbot() {
                   </>
                 )}
               </motion.div>
-              
-              <motion.p variants={itemVariants} className="font-medium mb-4 text-center text-gray-700">
+
+              <motion.p
+                variants={itemVariants}
+                className="font-medium mb-4 text-center text-gray-700"
+              >
                 Would you like to proceed or explore other options?
               </motion.p>
-              
+
               <div className="space-y-3">
-                <motion.button 
+                <motion.button
                   variants={buttonVariants}
                   initial="idle"
                   whileHover="hover"
                   whileTap="tap"
-                  onClick={() => window.open('https://sexuloon.com/products/low-t-booster-pack', '_blank')}
+                  onClick={() =>
+                    window.open(
+                      "https://sexuloon.com/products/low-t-booster-pack",
+                      "_blank"
+                    )
+                  }
                   className="w-full py-3 px-6 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl font-medium shadow-md hover:from-green-600 hover:to-green-700 transition flex items-center justify-center"
                 >
-                  <span className="mr-2">🛒</span> {recommendation === 'supplement' ? 'View Product' : 'Alternative: Natural Supplements'}
+                  <span className="mr-2">🛒</span>{" "}
+                  {recommendation === "supplement"
+                    ? "View Product"
+                    : "Alternative: Natural Supplements"}
                 </motion.button>
-                
-                <motion.button 
+
+                <motion.button
                   variants={buttonVariants}
                   initial="idle"
                   whileHover="hover"
                   whileTap="tap"
-                  onClick={() => window.open('https://sexuloon.com/consult', '_blank')}
+                  onClick={() =>
+                    window.open("https://sexuloon.com/consult", "_blank")
+                  }
                   className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-medium shadow-md hover:from-blue-600 hover:to-blue-700 transition flex items-center justify-center"
                 >
-                  <span className="mr-2">👨‍⚕️</span> {recommendation === 'doctor' ? 'Book Consultation' : 'Consult Doctor Instead'}
+                  <span className="mr-2">👨‍⚕️</span>{" "}
+                  {recommendation === "doctor"
+                    ? "Book Consultation"
+                    : "Consult Doctor Instead"}
                 </motion.button>
               </div>
             </div>
           ) : (
             <div>
-              <motion.p variants={itemVariants} className="mb-4 text-gray-600 text-center">
+              <motion.p
+                variants={itemVariants}
+                className="mb-4 text-gray-600 text-center"
+              >
                 आपकी जानकारी के आधार पर, हम आपको यह सुझाव देते हैं:
               </motion.p>
-              
-              <motion.div 
+
+              <motion.div
                 variants={itemVariants}
                 className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-xl mb-6 border border-green-100"
               >
-                {recommendation === 'supplement' ? (
+                {recommendation === "supplement" ? (
                   <>
                     <p className="font-bold text-green-800 flex items-center">
-                      <span className="text-xl mr-2">🟢</span> प्राकृतिक Low T Booster Kit
+                      <span className="text-xl mr-2">🟢</span> प्राकृतिक Low T
+                      Booster Kit
                     </p>
                     <ul className="list-disc pl-8 mt-3 space-y-1 text-gray-700">
                       <li>शिलाजीत, अश्वगंधा, सफेद मूसली, गोक्षुर</li>
@@ -383,7 +411,8 @@ export default function LTChatbot() {
                 ) : (
                   <>
                     <p className="font-bold text-blue-800 flex items-center">
-                      <span className="text-xl mr-2">👨‍⚕️</span> डॉक्टर से परामर्श अनुशंसित
+                      <span className="text-xl mr-2">👨‍⚕️</span> डॉक्टर से परामर्श
+                      अनुशंसित
                     </p>
                     <ul className="list-disc pl-8 mt-3 space-y-1 text-gray-700">
                       <li>पेशेवर चिकित्सा मूल्यांकन</li>
@@ -393,64 +422,83 @@ export default function LTChatbot() {
                   </>
                 )}
               </motion.div>
-              
-              <motion.p variants={itemVariants} className="font-medium mb-4 text-center text-gray-700">
+
+              <motion.p
+                variants={itemVariants}
+                className="font-medium mb-4 text-center text-gray-700"
+              >
                 क्या आप आगे बढ़ना चाहते हैं या अन्य विकल्प देखना चाहते हैं?
               </motion.p>
-              
+
               <div className="space-y-3">
-                <motion.button 
+                <motion.button
                   variants={buttonVariants}
                   initial="idle"
                   whileHover="hover"
                   whileTap="tap"
-                  onClick={() => window.open('https://sexuloon.com/products/low-t-booster-pack', '_blank')}
+                  onClick={() =>
+                    window.open(
+                      "https://sexuloon.com/products/low-t-booster-pack",
+                      "_blank"
+                    )
+                  }
                   className="w-full py-3 px-6 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl font-medium shadow-md hover:from-green-600 hover:to-green-700 transition flex items-center justify-center"
                 >
-                  <span className="mr-2">🛒</span> {recommendation === 'supplement' ? 'उत्पाद देखें' : 'विकल्प: प्राकृतिक सप्लीमेंट'}
+                  <span className="mr-2">🛒</span>{" "}
+                  {recommendation === "supplement"
+                    ? "उत्पाद देखें"
+                    : "विकल्प: प्राकृतिक सप्लीमेंट"}
                 </motion.button>
-                
-                <motion.button 
+
+                <motion.button
                   variants={buttonVariants}
                   initial="idle"
                   whileHover="hover"
                   whileTap="tap"
-                  onClick={() => window.open('https://sexuloon.com/consult', '_blank')}
+                  onClick={() =>
+                    window.open("https://sexuloon.com/consult", "_blank")
+                  }
                   className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-medium shadow-md hover:from-blue-600 hover:to-blue-700 transition flex items-center justify-center"
                 >
-                  <span className="mr-2">👨‍⚕️</span> {recommendation === 'doctor' ? 'परामर्श बुक करें' : 'डॉक्टर से बात करें'}
+                  <span className="mr-2">👨‍⚕️</span>{" "}
+                  {recommendation === "doctor"
+                    ? "परामर्श बुक करें"
+                    : "डॉक्टर से बात करें"}
                 </motion.button>
               </div>
             </div>
           )}
-          
+
           <motion.div variants={itemVariants} className="mt-8 text-center">
-            <button 
-              onClick={resetChat} 
+            <button
+              onClick={resetChat}
               className="text-sm text-gray-500 hover:text-gray-700 underline transition"
             >
-              {language === 'english' ? 'Start Over' : 'फिर से शुरू करें'}
+              {language === "english" ? "Start Over" : "फिर से शुरू करें"}
             </button>
           </motion.div>
         </motion.div>
       );
     } else {
-      const currentLang = language === 'english' ? 'english' : 'hindi';
+      const currentLang = language === "english" ? "english" : "hindi";
       const currentQuestion = questions[currentLang][step];
-      
+
       if (!currentQuestion) {
         return (
           <div className="p-8 text-center">
             <p>Question not found for step: {step}</p>
-            <button onClick={resetChat} className="mt-4 text-blue-500 underline">
+            <button
+              onClick={resetChat}
+              className="mt-4 text-blue-500 underline"
+            >
               Start Over
             </button>
           </div>
         );
       }
-      
+
       return (
-        <motion.div 
+        <motion.div
           className="p-8 rounded-2xl shadow-lg bg-white border border-gray-100"
           variants={containerVariants}
           initial="hidden"
@@ -461,16 +509,16 @@ export default function LTChatbot() {
             <motion.h2 className="text-xl font-bold mb-6 text-center text-gray-800">
               {currentQuestion.question}
             </motion.h2>
-            
+
             <div className="space-y-3">
               {currentQuestion.options.map((option, index) => (
-                <motion.button 
+                <motion.button
                   key={index}
                   variants={buttonVariants}
                   initial="idle"
                   whileHover="hover"
                   whileTap="tap"
-                  onClick={() => handleAnswer(step, option)} 
+                  onClick={() => handleAnswer(step, option)}
                   className="w-full py-3 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-medium shadow-md hover:from-blue-600 hover:to-blue-700 transition flex items-center"
                 >
                   <span className="text-xl mr-3">🔹</span> {option}
@@ -478,13 +526,13 @@ export default function LTChatbot() {
               ))}
             </div>
           </motion.div>
-          
+
           <motion.div variants={itemVariants} className="mt-6 text-center">
-            <button 
-              onClick={resetChat} 
+            <button
+              onClick={resetChat}
               className="text-sm text-gray-500 hover:text-gray-700 underline transition"
             >
-              {language === 'english' ? 'Start Over' : 'फिर से शुरू करें'}
+              {language === "english" ? "Start Over" : "फिर से शुरू करें"}
             </button>
           </motion.div>
         </motion.div>
@@ -494,31 +542,43 @@ export default function LTChatbot() {
 
   // Calculate which step number we're on
   const getCurrentStepNumber = () => {
-    const steps = ['language', 'symptoms', 'duration', 'age', 'medications', 'lifestyle', 'exercise', 'sleep', 'preference', 'recommendation'];
+    const steps = [
+      "language",
+      "symptoms",
+      "duration",
+      "age",
+      "medications",
+      "lifestyle",
+      "exercise",
+      "sleep",
+      "preference",
+      "recommendation",
+    ];
     return steps.indexOf(step) + 1;
   };
-
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-gray-100 flex flex-col items-center justify-center p-4">
       <div className="w-full max-w-md">
-        <motion.div 
+        <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
           className="mb-8 text-center"
         >
           <h1 className="text-3xl font-bold text-gray-800 mb-2">
-            {language === 'hindi' ? 'स्वास्थ्य परामर्श' : 'Health Consultation'}
+            {language === "hindi" ? "स्वास्थ्य परामर्श" : "Health Consultation"}
           </h1>
           <p className="text-gray-600">
-            {language === 'hindi' ? 'आपकी गोपनीयता हमारी प्राथमिकता है' : 'Your privacy is our priority'}
+            {language === "hindi"
+              ? "आपकी गोपनीयता हमारी प्राथमिकता है"
+              : "Your privacy is our priority"}
           </p>
         </motion.div>
-        
+
         {/* Progress bar */}
-        {step !== 'language' && (
-          <motion.div 
+        {step !== "language" && (
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
@@ -529,7 +589,7 @@ export default function LTChatbot() {
               <span>{Math.round(getProgressPercentage())}% Complete</span>
             </div>
             <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-              <motion.div 
+              <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${getProgressPercentage()}%` }}
                 transition={{ duration: 0.5 }}
@@ -538,7 +598,7 @@ export default function LTChatbot() {
             </div>
           </motion.div>
         )}
-        
+
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
@@ -550,7 +610,7 @@ export default function LTChatbot() {
             {renderQuestion()}
           </motion.div>
         </AnimatePresence>
-        
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -558,12 +618,21 @@ export default function LTChatbot() {
           className="mt-6 text-center text-sm text-gray-500 bg-white p-3 rounded-xl shadow-sm border border-gray-100"
         >
           <div className="flex items-center justify-center">
-            <svg className="w-4 h-4 mr-2 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 116 0z" clipRule="evenodd"></path>
+            <svg
+              className="w-4 h-4 mr-2 text-gray-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 116 0z"
+                clipRule="evenodd"
+              ></path>
             </svg>
-            {language === 'hindi' ? 
-              'आपका डेटा सुरक्षित है और गोपनीय रखा जाएगा' : 
-              'Your data is secure and will be kept confidential'}
+            {language === "hindi"
+              ? "आपका डेटा सुरक्षित है और गोपनीय रखा जाएगा"
+              : "Your data is secure and will be kept confidential"}
           </div>
         </motion.div>
       </div>

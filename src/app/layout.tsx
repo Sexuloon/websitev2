@@ -31,7 +31,7 @@ const InfiniteScrollingText = () => {
   const texts = [
     "trusted by over 1 lakh men",
     "free, fast & discreet delivery",
-    "india’s most trusted sexual wellness brand",
+    "india's most trusted sexual wellness brand",
     "up to 95% success rate",
     "cash on delivery available",
   ];

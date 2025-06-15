@@ -28,19 +28,19 @@ function Page() {
 
   const handleSubmit = () => {
     if (language && condition) {
-      router.push(`/bot/${condition}`);
+      router.push(`/bot/${condition}/${language}`);
       return;
     }
     if (condition == "शीघ्रपतन") {
-      router.push(`/bot/premature-ejaculation`);
+      router.push(`/bot/premature-ejaculation/${language}`);
       return;
     }
     if (condition == "नपुंसकता") {
-      router.push(`/bot/erectile-disfunction`);
+      router.push(`/bot/erectile-disfunction/${language}`);
       return;
     }
     if (condition == "कम टेस्टोस्टेरोन") {
-      router.push(`/bot/low-testosterone`);
+      router.push(`/bot/low-testosterone/${language}`);
       return;
     }
   };
