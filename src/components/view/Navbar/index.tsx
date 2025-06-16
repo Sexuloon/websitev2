@@ -1,11 +1,11 @@
 "use client";
 
 
+import SignIn from "@/components/ui/signin";
 import { useCartActions } from "@/lib/atoms/cart";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import CartView from "../Cart/CartView";
-import SignIn from "@/components/ui/signin";
 
 function Navbar() {
   const { cart, initializeCart } = useCartActions();
@@ -153,7 +153,7 @@ function Navbar() {
             {isMoreOpen && (
               <div className="pl-4 flex flex-col space-y-2 w-full">
                 <Link
-                  href="/contact"
+                  href="/contactus"
                   className="text-[16px] text-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition-all w-full text-left"
                 >
                   Contact Us
