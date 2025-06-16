@@ -57,7 +57,7 @@ function Navbar() {
             </button>
             <div className="absolute hidden group-hover:block bg-white border border-gray-200 shadow-lg rounded-lg w-48 z-50">
               {[
-                { href: "/contact", label: "Contact Us" },
+                { href: "/contactus", label: "Contact Us" },
                 { href: "/faq", label: "FAQ" },
                 { href: "/aboutus", label: "About Us" },
               ].map(({ href, label }) => (
