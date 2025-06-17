@@ -4,7 +4,7 @@ import { GET_COLLECTION_BY_HANDLE_WITH_PAGINATION_QUERY } from "@/graphql/collec
 import { useStorefrontQuery } from "@/hooks/useStorefront";
 import { GetCollectionByHandleQuery, Product } from "@/types/shopify-graphql";
 
-const CollectionPage = () => {
+const BestPerformingPage = () => {
   const { data, isLoading } = useStorefrontQuery<GetCollectionByHandleQuery>(
     ["collections", null],
     {
@@ -32,7 +32,7 @@ const CollectionPage = () => {
 
   return (
     <div className="my-10 flex flex-col gap-y-6 p-10">
-      <div className="grid grid-cols-1  lg:grid-cols-3 gap-6 ">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 ">          
         {data?.collection?.products?.edges?.map((product) => (
           <ProductCard
             key={product?.node?.id}
@@ -44,4 +44,4 @@ const CollectionPage = () => {
   );
 };
 
-export default CollectionPage;
+export default BestPerformingPage;

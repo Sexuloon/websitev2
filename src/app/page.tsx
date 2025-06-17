@@ -6,9 +6,6 @@ import Bot from "@/components/view/bot/bot";
 export default function Home() {
   return (
     <main className="relative">
-      <div className="">
-      </div>
-
       <section>
         <AllCollections />
       </section>
