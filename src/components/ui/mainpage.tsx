@@ -25,7 +25,7 @@ export default function Home() {
               {/* Card 1 */}
               <div className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 w-full">
                 <div className="bg-blue-500 relative h-40">
-                  <img
+                  <Image
                     src="https://images.pexels.com/photos/360622/pexels-photo-360622.jpeg?auto=compress&cs=tinysrgb&w=600"
                     width={600} // âœ… example size
                     height={400} // âœ… example size
@@ -119,6 +119,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Collections */}
       <section>
         <Collections />
       </section>
@@ -343,9 +344,11 @@ export default function Home() {
                   {item.step}
                 </div>
                 <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-blue-100 shadow-md mb-6">
-                  <img
+                  <Image
                     src={item.img}
                     alt={item.title}
+                    width={1000}
+                    height={1000}
                     className="object-cover w-full h-full"
                   />
                 </div>
@@ -379,7 +382,9 @@ export default function Home() {
             <div className="lg:w-1/2">
               <div className="rounded-2xl overflow-hidden shadow-xl relative">
                 <div className="relative h-80 sm:h-[450px] w-full">
-                  <img
+                  <Image
+                  width={1000}
+                  height={1000}
                     src="https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                     alt="Doctor consulting with patient"
                     className="object-cover"
@@ -573,7 +578,9 @@ export default function Home() {
             <div className="lg:w-1/2">
               <div className="rounded-2xl overflow-hidden shadow-xl relative">
                 <div className="relative h-80 sm:h-[450px] w-full">
-                  <img
+                  <Image
+                  width={1000}
+                  height={1000}
                     src="https://images.pexels.com/photos/2280551/pexels-photo-2280551.jpeg?auto=compress&cs=tinysrgb&w=600"
                     alt="Medical Expert"
                     className="object-cover"

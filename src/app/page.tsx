@@ -2,6 +2,8 @@ import AllCollections from "@/components/view/AllCollections";
 import SideShow from "@/components/ui/sidebar";
 import MainPage from "@/components/ui/mainpage";
 import Bot from "@/components/view/bot/bot";
+import ActionToast from "@/components/view/ActionToaster";
+
 
 export default function Home() {
   return (
@@ -17,6 +19,9 @@ export default function Home() {
       </section>
       <section>
         <Bot />
+      </section>
+      <section>
+        <ActionToast/>
       </section>
     </main>
   );

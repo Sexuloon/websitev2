@@ -15,7 +15,7 @@ export default function SignIn() {
           onClick={() => setIsOpen(true)}
           className="p-3 rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors shadow-lg"
         >
-          <User size={24} />
+          <User size={14} />
         </button>
       </div>
     );

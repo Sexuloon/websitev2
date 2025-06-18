@@ -67,7 +67,7 @@ const AllCollections = () => {
               }
               className="flex flex-col items-center group flex-shrink-0"
             >
-              <div className="relative w-16 h-16 mb-2">
+              <div className="relative w-10 h-10 mb-2">
                 <div className="w-full h-full overflow-hidden bg-white shadow-sm rounded-full border border-gray-200 group-hover:shadow-md transition-shadow duration-200">
                   <Image
                     src={collection.node.image?.url ?? "/placeholder.png"}

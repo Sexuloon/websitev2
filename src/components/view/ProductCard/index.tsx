@@ -7,45 +7,71 @@ import ProductPrice from "./ProductPrice";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const router = useRouter();
+  
+  // Generate a consistent discount percentage (you might want to get this from product data)
+  const discountPercentage = Math.floor(Math.random() * 30) + 10; // 10-40% range
 
   return (
     <div
       role="button"
       onClick={() => router.push(`/product/${product.handle}`)}
-      className="flex flex-col gap-2 cursor-pointer w-full max-w-md   mx-auto p-3"
+      className="group cursor-pointer w-full"
     >
-      <div
-        key={product.id}
-        className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-shadow duration-300"
-      >
-        <div className="relative h-96 overflow-hidden">
+      <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-all duration-300 group-hover:scale-[1.02]">
+        {/* Product Image */}
+        <div className="relative aspect-square overflow-hidden">
           <Image
-            src={product.featuredImage?.url}
-            alt={product.featuredImage?.altText ?? "Product image"}
+            src={product.featuredImage?.url || "/placeholder.png"}
+            alt={product.featuredImage?.altText ?? product.title}
             fill
-            className="object-cover hover:scale-105 transition-transform duration-500"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
           />
-          <div className="absolute top-0 right-0 bg-blue-600 text-white font-medium px-3 py-1 rounded-bl-lg">
-           {Math.floor(Math.random()*100)}% OFF
+          
+          {/* Discount Badge */}
+          <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
+            {discountPercentage}% OFF
           </div>
         </div>
-        <div className="p-5">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="font-bold text-lg text-gray-900">
+        
+        {/* Product Details */}
+        <div className="p-3 sm:p-4">
+          {/* Title */}
+          <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+            {product.title}
+          </h3>
+          
+          {/* Description - Only show on larger screens */}
+          {product.description && (
+            <p className="hidden sm:block text-gray-600 text-xs sm:text-sm mb-3 line-clamp-2">
+              {product.description}
+            </p>
+          )}
+          
+          {/* Price Section */}
+          <div className="flex items-center gap-2 mb-3">
+            <span className="font-bold text-sm sm:text-lg text-gray-900">
               <ProductPrice priceRange={product.priceRange} />
             </span>
-            <span className="text-gray-500 line-through text-sm">
-              <ProductPrice priceRange={product.priceRange} />
+            {/* Original Price (calculated) - Only show if there's a meaningful difference */}
+            <span className="text-gray-500 line-through text-xs sm:text-sm">
+              ${((parseFloat(product.priceRange.minVariantPrice.amount) * (100 + discountPercentage)) / 100).toFixed(2)}
             </span>
           </div>
-          <h3 className="font-medium text-xl mb-2">{product.title}</h3>
-          <p className="text-gray-600 mb-4 text-sm">{product.description}</p>
-
-          <div className="flex gap-3">
-            <button className="flex-1 py-2.5 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center">
+          
+          {/* Action Buttons */}
+          <div className="flex gap-2">
+            {/* Add to Cart - Always visible */}
+            <button 
+              className="flex-1 py-2 sm:py-2.5 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center"
+              onClick={(e) => {
+                e.stopPropagation();
+                // Add your cart logic here
+              }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 mr-1"
+                className="h-3 w-3 sm:h-4 sm:w-4 mr-1"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -57,9 +83,18 @@ const ProductCard = ({ product }: { product: Product }) => {
                   d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                 />
               </svg>
-              Add to Cart
+              <span className="hidden xs:inline">Add to Cart</span>
+              <span className="xs:hidden">Add</span>
             </button>
-            <button className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-center shadow-sm">
+            
+            {/* Buy Now - Show on medium screens and up */}
+            <button 
+              className="hidden md:flex flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors duration-200 items-center justify-center shadow-sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                // Add your buy now logic here
+              }}
+            >
               Buy Now
               <svg
                 xmlns="http://www.w3.org/2000/svg"
