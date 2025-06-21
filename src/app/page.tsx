@@ -11,7 +11,7 @@ export default function Home() {
       <section>
         <AllCollections />
       </section>
-      <section>
+      <section className="">
         <SideShow />
       </section>
       <section>

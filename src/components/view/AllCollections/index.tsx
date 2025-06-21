@@ -55,7 +55,7 @@ const AllCollections = () => {
   }
 
   return (
-    <div className="w-full py-4">
+    <div className="w-full py-4 scroll-smooth ">
       {/* Mobile: Horizontal scrollable */}
       <div className="sm:hidden overflow-x-auto">
         <div className="flex items-center justify-center gap-7 px-4 pb-2" style={{ minWidth: 'max-content' }}>

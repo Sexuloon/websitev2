@@ -1,7 +1,7 @@
-'use client';
-
+"use client";
 import Image from "next/image";
 import { Slide } from "react-slideshow-image";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 import "react-slideshow-image/dist/styles.css";
 
 const slideImages = [
@@ -18,41 +18,29 @@ const slideImages = [
 
 function SlideShow() {
   return (
-    <div className="w-full">
-      <Slide
-        duration={3000}
-        autoplay
-        transitionDuration={500}
-        infinite
-        indicators={false}
-        arrows={false}
-      >
-        {slideImages.map((slideImage, index) => (
-          <div key={index}>
-            <div
-              className="
-                w-full
-                h-[250px]
-                sm:h-[350px]
-                md:h-[400px]
-                lg:h-[460px]
-                xl:h-[480px]
-                relative
-                bg-black
-              "
-            >
+    <div className="w-full relative">
+      <AspectRatio ratio={5 / 3} className="sm:ratio-[16/9] md:ratio-[21/9] lg:ratio-[5/2]">
+        <Slide
+          duration={3000}
+          autoplay
+          transitionDuration={500}
+          infinite
+          indicators={false}
+          arrows={false}
+        >
+          {slideImages.map((slideImage, index) => (
+            <div key={index}>
               <Image
+                width={1000}
+                height={1000}
                 src={slideImage.url}
                 alt={`Slide ${index}`}
-                fill
-                priority
-                sizes="100vm"
-                className="w-full h-full"
+                className="rounded-md object-cover w-full h-full"
               />
             </div>
-          </div>
-        ))}
-      </Slide>
+          ))}
+        </Slide>
+      </AspectRatio>
     </div>
   );
 }
