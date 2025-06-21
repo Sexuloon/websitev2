@@ -3,6 +3,7 @@
 
 import SignIn from "@/components/ui/signin";
 import { useCartActions } from "@/lib/atoms/cart";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import CartView from "../Cart/CartView";
@@ -29,10 +30,16 @@ function Navbar() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="/">
-          <h2 className="font-semibold text-2xl sm:text-2xl md:text-2xl lg:text-2xl xl:text-3xl text-blue-600">
-            Sexuloon
-          </h2>
-        </Link>
+  <div className="relative w-[120px] sm:w-[140px] md:w-[160px] lg:w-[180px] xl:w-[200px] h-[50px] sm:h-[60px] md:h-[70px] lg:h-[80px] xl:h-[90px]">
+    <Image
+      src="https://res.cloudinary.com/drw4abclv/image/upload/v1750498548/Sexuloon_o4inzi.png"
+      alt="Sexuloon Logo"
+      fill
+      className="object-contain"
+      priority
+    />
+  </div>
+</Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden min-[1030px]:flex items-center space-x-6">
