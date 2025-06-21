@@ -1,12 +1,23 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { X, Star, User } from "lucide-react";
+import { useSession } from "@/hooks/useSession";
 
 export default function SignIn() {
   const [isOpen, setIsOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [notifyOffers, setNotifyOffers] = useState(false);
+  const { info } = useSession();
+
+  useEffect(() => {
+    console.log(info);
+    if (info === null) {
+      setIsOpen(true);
+    } else {
+      return;
+    }
+  }, [info]);
 
   if (!isOpen) {
     return (
@@ -27,12 +38,12 @@ export default function SignIn() {
         <div className="flex flex-col lg:flex-row min-h-[500px] sm:min-h-[600px]">
           {/* Left Section - Brand & Offers */}
           <div className="bg-gradient-to-br from-blue-400 to-blue-500 text-white p-4 sm:p-6 lg:p-8 flex-1 relative overflow-y-auto hidden lg:block">
-           
-
             {/* Brand Header */}
             <div className="mb-6 sm:mb-8">
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">Sexuloon</h1>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
+                  Sexuloon
+                </h1>
                 <div className="bg-white text-blue-500 px-2 py-1 rounded text-xs sm:text-sm font-semibold w-fit"></div>
               </div>
               <p className="text-sm sm:text-base lg:text-lg opacity-90 leading-relaxed">
@@ -50,7 +61,9 @@ export default function SignIn() {
                 <div className="flex justify-center mb-2 sm:mb-3">
                   <Star className="text-yellow-300 fill-yellow-300" size={20} />
                 </div>
-                <h3 className="font-bold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2">Free Shipping</h3>
+                <h3 className="font-bold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2">
+                  Free Shipping
+                </h3>
                 <p className="text-xs sm:text-sm opacity-90 leading-relaxed">
                   Enjoy zero shipping on
                   <br className="hidden sm:block" />
@@ -64,7 +77,9 @@ export default function SignIn() {
                 <div className="flex justify-center mb-2 sm:mb-3">
                   <Star className="text-yellow-300 fill-yellow-300" size={20} />
                 </div>
-                <h3 className="font-bold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2">Flat 10% Off</h3>
+                <h3 className="font-bold text-sm sm:text-base lg:text-lg mb-1 sm:mb-2">
+                  Flat 10% Off
+                </h3>
                 <p className="text-xs sm:text-sm opacity-90 leading-relaxed">
                   Enjoy an exclusive 10%
                   <br className="hidden sm:block" />
@@ -98,20 +113,20 @@ export default function SignIn() {
           </div>
 
           {/* Right Section - Form */}
-          <div className="bg-white p-4 sm:p-6 lg:p-8 w-full lg:w-80 xl:w-96 flex flex-col justify-center">
+          <div className="bg-white p-4 sm:p-6 lg:p-8 w-full lg:w-80 xl:w-96 flex flex-col justify-center relative">
+            {/* Close Icon inside card */}
+            <button
+              onClick={() => setIsOpen(false)}
+              className="absolute top-4 right-4 text-gray-500 hover:text-red-600 transition-colors z-10"
+            >
+              <X size={24} />
+            </button>
+
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6 sm:mb-8 text-center leading-tight">
               Take Charge of Your
               <br />
               Health Today
             </h2>
-
-             <button
-              onClick={() => setIsOpen(false)}
-              className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white hover:text-gray-200 transition-colors z-10"
-            >
-              <X size={20} className="sm:hidden" />
-              <X size={24} className="hidden sm:block" />
-            </button>
 
             {/* Phone Input */}
             <div className="mb-4 sm:mb-6">
