@@ -25,7 +25,7 @@ const BestPerformingPage = () => {
           <Skeleton className="h-8 sm:h-10 lg:h-12 w-3/4 mx-auto" />
           <Skeleton className="h-4 sm:h-5 w-1/2 mx-auto" />
         </div>
-        
+
         {/* Products Grid Skeleton */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {Array.from({ length: 12 }).map((_, index) => (
@@ -38,16 +38,6 @@ const BestPerformingPage = () => {
 
   return (
     <div className="my-10 flex flex-col gap-y-6 px-4 sm:px-6 lg:px-10">
-      {/* Page Header */}
-      <div className="text-center space-y-2">
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
-          Best Performing Products
-        </h1>
-        <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto">
-          Discover our top-rated and most popular products loved by customers
-        </p>
-      </div>
-
       {/* Products Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
         {data?.collection?.products?.edges?.map((product) => (
@@ -84,8 +74,6 @@ const BestPerformingPage = () => {
           </p>
         </div>
       )}
-
-      
     </div>
   );
 };

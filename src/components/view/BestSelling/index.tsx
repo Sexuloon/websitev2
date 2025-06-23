@@ -32,20 +32,6 @@ const CollectionPage = () => {
 
   return (
     <div className="my-10 flex flex-col gap-y-6 px-4 sm:px-6 lg:px-10">
-      {/* Collection Title */}
-      {data?.collection?.title && (
-        <div className="text-center">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-            {data.collection.title}
-          </h1>
-          {data.collection.description && (
-            <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto">
-              {data.collection.description}
-            </p>
-          )}
-        </div>
-      )}
-
       {/* Products Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
         {data?.collection?.products?.edges?.map((product) => (

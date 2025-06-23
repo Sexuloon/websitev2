@@ -26,7 +26,7 @@ function Navbar() {
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50 font-geist">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between">
         {/* Logo */}
         <Link href="/">
           <div className="relative w-[120px] sm:w-[140px] md:w-[160px] lg:w-[180px] xl:w-[200px] h-[50px] sm:h-[60px] md:h-[70px] lg:h-[80px] xl:h-[90px]">
