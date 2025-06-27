@@ -26,7 +26,7 @@ function SlideShow() {
           transitionDuration={500}
           infinite
           indicators={false}
-          arrows={false}
+          arrows={true}
         >
           {slideImages.map((slideImage, index) => (
             <div key={index}>

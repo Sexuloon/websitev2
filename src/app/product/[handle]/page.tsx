@@ -50,9 +50,23 @@ const Product = () => {
 
   if (isLoading)
     return (
-      <div className="my-10 grid grid-cols-2 md:grid-cols-3 gap-4">
-        <Skeleton className="h-[300px] col-span-2 w-full" />
-        <Skeleton className="h-[300px] w-full" />
+      <div className="container mx-auto px-4 py-6 sm:py-8 lg:py-10">
+        {/* Mobile: Stack vertically, Tablet+: Side by side */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          {/* Image skeleton */}
+          <div className="w-full">
+            <Skeleton className="h-[300px] sm:h-[400px] lg:h-[500px] w-full rounded-lg" />
+          </div>
+          
+          {/* Content skeleton */}
+          <div className="space-y-4">
+            <Skeleton className="h-8 w-3/4" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-2/3" />
+            <Skeleton className="h-10 w-full" />
+            <Skeleton className="h-12 w-full" />
+          </div>
+        </div>
       </div>
     );
 
@@ -63,22 +77,76 @@ const Product = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 my-10 p-10">
-      <ProductCarousel images={data?.product?.images?.edges as ImageEdge[]} />
-      <div className="flex flex-col gap-y-2">
-        <h1 className="text-2xl font-bold">{data?.product?.title}</h1>
-        <p className="text-sm text-gray-500">{data?.product?.description}</p>
-        <ProductOptions
-          selectedOptions={selectedOptions}
-          setSelectedOptions={handleSelectOptions}
-          options={data?.product?.options as ProductOption[]}
-        />
-        <ProductPrice
-          priceRange={data?.product?.priceRange as ProductPriceRange}
-        />
-        <Button disabled={!selectedVariant} onClick={handleAddtoCart}>
-          Add to Cart
-        </Button>
+    <div className="container mx-auto px-4 py-6 sm:py-8 lg:py-10">
+      {/* Responsive grid: Stack on mobile, side-by-side on larger screens */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-12">
+        
+        {/* Product Images */}
+        <div className="order-1 lg:order-1">
+          <div className="sticky top-4">
+            <ProductCarousel images={data?.product?.images?.edges as ImageEdge[]} />
+          </div>
+        </div>
+
+        {/* Product Details */}
+        <div className="order-2 lg:order-2">
+          <div className="space-y-4 sm:space-y-6">
+            
+            {/* Title */}
+            <div>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+                {data?.product?.title}
+              </h1>
+            </div>
+
+            {/* Price */}
+            <div>
+              <ProductPrice
+                priceRange={data?.product?.priceRange as ProductPriceRange}
+              />
+            </div>
+
+            {/* Description */}
+            {data?.product?.description && (
+              <div>
+                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                  {data?.product?.description}
+                </p>
+              </div>
+            )}
+
+            {/* Product Options */}
+            <div>
+              <ProductOptions
+                selectedOptions={selectedOptions}
+                setSelectedOptions={handleSelectOptions}
+                options={data?.product?.options as ProductOption[]}
+              />
+            </div>
+
+            {/* Add to Cart Button */}
+            <div className="pt-4">
+              <Button 
+                disabled={!selectedVariant} 
+                onClick={handleAddtoCart}
+                className="w-full sm:w-auto sm:min-w-[200px] h-12 text-base font-medium"
+                size="lg"
+              >
+                Add to Cart
+              </Button>
+            </div>
+
+            {/* Additional product info could go here */}
+            <div className="pt-6 border-t border-gray-200">
+              <div className="text-xs sm:text-sm text-gray-500 space-y-1">
+                <p>✓ Free shipping on orders over $50</p>
+                <p>✓ 30-day return policy</p>
+                <p>✓ Secure checkout</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
   );
