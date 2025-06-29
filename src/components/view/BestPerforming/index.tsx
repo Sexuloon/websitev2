@@ -39,7 +39,7 @@ const BestPerformingPage = () => {
   return (
     <div className="my-10 flex flex-col gap-y-6 px-4 sm:px-6 lg:px-10">
       {/* Products Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
         {data?.collection?.products?.edges?.map((product) => (
           <ProductCard
             key={product?.node?.id}
