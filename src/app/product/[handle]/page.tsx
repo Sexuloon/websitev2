@@ -48,6 +48,8 @@ const Product = () => {
     }
   );
 
+  console.log(data)
+
 
   if (isLoading)
     return (
@@ -108,9 +110,9 @@ const Product = () => {
             </div>
 
             {/* Description */}
-            {data?.product?.description && (
+            {data?.product?.descriptionHtml && (
               <div>
-                <p dangerouslySetInnerHTML={{ __html: data?.product?.description }}>
+                <p dangerouslySetInnerHTML={{ __html: data?.product?.descriptionHtml }}>
                 </p>
               </div>
             )}
