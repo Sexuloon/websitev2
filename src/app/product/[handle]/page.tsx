@@ -48,6 +48,7 @@ const Product = () => {
     }
   );
 
+
   if (isLoading)
     return (
       <div className="container mx-auto px-4 py-6 sm:py-8 lg:py-10">
@@ -109,8 +110,7 @@ const Product = () => {
             {/* Description */}
             {data?.product?.description && (
               <div>
-                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                  {data?.product?.description}
+                <p dangerouslySetInnerHTML={{ __html: data?.product?.description }}>
                 </p>
               </div>
             )}

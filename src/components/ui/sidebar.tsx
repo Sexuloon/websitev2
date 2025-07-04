@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { Slide } from "react-slideshow-image";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import "react-slideshow-image/dist/styles.css";
 
 const slideImages = [
@@ -19,7 +18,7 @@ const slideImages = [
 function SlideShow() {
   return (
     <div className="w-full relative">
-      <AspectRatio ratio={5 / 3} className="sm:ratio-[16/9] md:ratio-[21/9] lg:ratio-[5/2]">
+      <div className="w-full aspect-[16/9] sm:aspect-[16/9] md:aspect-[21/9] lg:aspect-[5/2] overflow-hidden rounded-md">
         <Slide
           duration={3000}
           autoplay
@@ -29,18 +28,22 @@ function SlideShow() {
           arrows={true}
         >
           {slideImages.map((slideImage, index) => (
-            <div key={index}>
-              <Image
-                width={1000}
-                height={1000}
-                src={slideImage.url}
-                alt={`Slide ${index}`}
-                className="rounded-md object-cover w-full h-full"
-              />
+            <div key={index} className="w-full h-full">
+              <div className="relative w-full h-[100rem]">
+                <Image
+                  suppressHydrationWarning
+                  width={10000}
+                  height={10000}
+                  src={slideImage.url}
+                  alt={`Slide ${index + 1}`}
+                  className="object-cover"
+                  priority={index === 0}
+                />
+              </div>
             </div>
           ))}
         </Slide>
-      </AspectRatio>
+      </div>
     </div>
   );
 }
