@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import BestPerformingPage from "../view/BestPerforming";
 import BestSelling from "../view/BestSelling";
 import Collections from "../view/Collections";
-import BestPerformingPage from "../view/BestPerforming";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("Erectile Dysfunction");
@@ -24,39 +24,39 @@ export default function Home() {
             <div className="grid grid-cols-3 gap-4 min-w-[768px]">
               {/* Card 1 */}
               <div className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 w-full">
-                <div className="bg-blue-500 relative h-40">
+                <div className="bg-blue-500 relative h-50">
                   <Image
-                    src="https://images.pexels.com/photos/360622/pexels-photo-360622.jpeg?auto=compress&cs=tinysrgb&w=600"
+                    src="https://res.cloudinary.com/drw4abclv/image/upload/v1751507104/1_mmc3zw.jpg"
                     width={600} // âœ… example size
                     height={400} // âœ… example size
                     alt="Card image"
-                    className="object-cover w-full h-full"
+                    className="object-fit w-full h-full"
                   />
                 </div>
               </div>
 
               {/* Card 2 */}
               <div className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 w-full">
-                <div className="bg-blue-500 relative h-40">
+                <div className="bg-blue-500 relative h-50">
                   <Image
-                    src="https://images.pexels.com/photos/360622/pexels-photo-360622.jpeg?auto=compress&cs=tinysrgb&w=600"
+                    src="https://res.cloudinary.com/drw4abclv/image/upload/v1751507269/2_nkai9e.jpg"
                     width={600} // âœ… example size
                     height={400} // âœ… example size
                     alt="Card image"
-                    className="object-cover w-full h-full"
+                    className="object-fit w-full h-full"
                   />
                 </div>
               </div>
 
               {/* Card 3 */}
               <div className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 w-full">
-                <div className="bg-blue-500 relative h-40">
+                <div className="bg-blue-500 relative h-50">
                   <Image
-                    src="https://images.pexels.com/photos/360622/pexels-photo-360622.jpeg?auto=compress&cs=tinysrgb&w=600"
+                    src="https://res.cloudinary.com/drw4abclv/image/upload/v1751507334/3_ncmmjk.jpg"
                     width={600} // âœ… example size
                     height={400} // âœ… example size
                     alt="Card image"
-                    className="object-cover w-full h-full"
+                    className="object-fit w-full h-full"
                   />
                 </div>
               </div>
