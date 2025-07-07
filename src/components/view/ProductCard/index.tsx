@@ -7,13 +7,12 @@ import ProductPrice from "./ProductPrice";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const router = useRouter();
-  
+
   // Generate a consistent discount percentage (you might want to get this from product data)
   const discountPercentage = Math.floor(Math.random() * 30) + 10; // 10-40% range
 
   return (
     <div
-      role="button"
       onClick={() => router.push(`/product/${product.handle}`)}
       className="group cursor-pointer w-full"
     >
@@ -27,27 +26,27 @@ const ProductCard = ({ product }: { product: Product }) => {
             className="object-cover group-hover:scale-105 transition-transform duration-500"
             sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
           />
-          
+
           {/* Discount Badge */}
           <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
             {discountPercentage}% OFF
           </div>
         </div>
-        
+
         {/* Product Details */}
         <div className="p-3 sm:p-4">
           {/* Title */}
           <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
             {product.title}
           </h3>
-          
+
           {/* Description - Only show on larger screens */}
           {product.description && (
             <p className="hidden sm:block text-gray-600 text-xs sm:text-sm mb-3 line-clamp-2">
               {product.description}
             </p>
           )}
-          
+
           {/* Price Section */}
           <div className="flex items-center gap-2 mb-3">
             <span className="font-bold text-sm sm:text-lg text-gray-900">
@@ -55,19 +54,21 @@ const ProductCard = ({ product }: { product: Product }) => {
             </span>
             {/* Original Price (calculated) - Only show if there's a meaningful difference */}
             <span className="text-gray-500 line-through text-xs sm:text-sm">
-              ${((parseFloat(product.priceRange.minVariantPrice.amount) * (100 + discountPercentage)) / 100).toFixed(2)}
+              $
+              {(
+                (parseFloat(product.priceRange.minVariantPrice.amount) *
+                  (100 + discountPercentage)) /
+                100
+              ).toFixed(2)}
             </span>
           </div>
-          
+
           {/* Action Buttons */}
           <div className="flex gap-2">
-            {/* Add to Cart - Always visible */}
-            <button 
+        
+            <button
               className="flex-1 py-2 sm:py-2.5 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center"
-              onClick={(e) => {
-                e.stopPropagation();
-                // Add your cart logic here
-              }}
+              
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -84,30 +85,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                 />
               </svg>
               <span className="hidden xs:inline">Add to Cart</span>
-              <span className="xs:hidden">Add</span>
-            </button>
-            
-            {/* Buy Now - Show on medium screens and up */}
-            <button 
-              className="hidden md:flex flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors duration-200 items-center justify-center shadow-sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                // Add your buy now logic here
-              }}
-            >
-              Buy Now
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 ml-1"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <span className="xs:hidden">Add to Cart</span>
             </button>
           </div>
         </div>

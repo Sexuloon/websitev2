@@ -48,7 +48,7 @@ const Product = () => {
     }
   );
 
-  console.log(data)
+ 
 
 
   if (isLoading)
