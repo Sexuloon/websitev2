@@ -120,6 +120,7 @@ const Product = () => {
             {/* Product Options */}
             <div>
               <ProductOptions
+              Variants={data.product.variants.edges}
                 selectedOptions={selectedOptions}
                 setSelectedOptions={handleSelectOptions}
                 options={data?.product?.options as ProductOption[]}

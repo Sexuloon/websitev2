@@ -42,6 +42,11 @@ export const GET_PRODUCT_BY_HANDLE_QUERY = gql`
         edges {
           node {
             id
+            title
+            image{
+              url
+              altText
+            }
             availableForSale
             compareAtPrice {
               amount

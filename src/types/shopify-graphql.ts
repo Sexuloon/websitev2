@@ -8676,7 +8676,7 @@ export type GetProductByHandleQueryVariables = Exact<{
 }>;
 
 
-export type GetProductByHandleQuery = { __typename?: 'QueryRoot', product?: { __typename?: 'Product', id: string, title: string, descriptionHtml: any, productType: string, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, maxVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } }, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', url: any, altText?: string | null, width?: number | null, height?: number | null } }> }, options: Array<{ __typename?: 'ProductOption', name: string, optionValues: Array<{ __typename?: 'ProductOptionValue', id: string, name: string, swatch?: { __typename?: 'ProductOptionValueSwatch', color?: any | null } | null }> }>, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', id: string, availableForSale: boolean, compareAtPrice?: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null, price: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }> } }> }, seo: { __typename?: 'SEO', title?: string | null, description?: string | null } } | null };
+export type GetProductByHandleQuery = { __typename?: 'QueryRoot', product?: { __typename?: 'Product', id: string, title: string, descriptionHtml: any, productType: string, priceRange: { __typename?: 'ProductPriceRange', minVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, maxVariantPrice: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } }, images: { __typename?: 'ImageConnection', edges: Array<{ __typename?: 'ImageEdge', node: { __typename?: 'Image', url: any, altText?: string | null, width?: number | null, height?: number | null } }> }, options: Array<{ __typename?: 'ProductOption', name: string, optionValues: Array<{ __typename?: 'ProductOptionValue', id: string, name: string, swatch?: { __typename?: 'ProductOptionValueSwatch', color?: any | null } | null }> }>, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename?: 'ProductVariant', id: string, title: string, availableForSale: boolean, image?: { __typename?: 'Image', url: any, altText?: string | null } | null, compareAtPrice?: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null, price: { __typename?: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, selectedOptions: Array<{ __typename?: 'SelectedOption', name: string, value: string }> } }> }, seo: { __typename?: 'SEO', title?: string | null, description?: string | null } } | null };
 
 export type CustomerUpdateMutationVariables = Exact<{
   customerAccessToken: Scalars['String']['input'];
@@ -9179,6 +9179,11 @@ export const GetProductByHandleDocument = `
       edges {
         node {
           id
+          title
+          image {
+            url
+            altText
+          }
           availableForSale
           compareAtPrice {
             amount

@@ -204,7 +204,7 @@ export const useCartActions = () => {
   const [cart, setCart] = useAtom(cartAtom);
 
   const addItem = async (merchandiseId: string, quantity: number) => {
-    const existingLineItem = cart.lines.edges.findIndex(
+    const existingLineItem =  cart.lines.edges.findIndex(
       (edge) => edge.node.merchandise.id === merchandiseId
     );
 
