@@ -8,12 +8,10 @@ import {
   GetProductByHandleQuery,
   ImageEdge,
   ProductOption,
-  ProductPriceRange,
   ProductVariant,
 } from "@/types/shopify-graphql";
 import ProductCarousel from "@/components/view/ProductCarousel";
 import { Skeleton } from "@/components/ui/skeleton";
-import ProductPrice from "@/components/view/ProductCard/ProductPrice";
 import { Button } from "@/components/ui/button";
 import ProductOptions from "@/components/view/ProductOptions";
 import { useCartActions } from "@/lib/atoms/cart";
@@ -100,13 +98,6 @@ const Product = () => {
               </h1>
             </div>
 
-            {/* Price */}
-            <div>
-              <ProductPrice
-                priceRange={data?.product?.priceRange as ProductPriceRange}
-              />
-            </div>
-
             {/* Description */}
             {data?.product?.descriptionHtml && (
               <div>
@@ -133,7 +124,7 @@ const Product = () => {
               <Button
                 disabled={!selectedVariant}
                 onClick={handleAddtoCart}
-                className="w-full sm:w-auto sm:min-w-[200px] h-12 text-base font-medium"
+                className="w-full  h-12 text-base font-medium"
                 size="lg"
               >
                 Add to Cart
@@ -143,15 +134,6 @@ const Product = () => {
             {/* Offer details */}
             <div>
               <OffersAndSatisfaction />
-            </div>
-
-            {/* Additional product info could go here */}
-            <div className="pt-6 border-t border-gray-200">
-              <div className="text-xs sm:text-sm text-gray-500 space-y-1">
-                <p>✓ Free shipping on orders over $50</p>
-                <p>✓ 30-day return policy</p>
-                <p>✓ Secure checkout</p>
-              </div>
             </div>
           </div>
         </div>

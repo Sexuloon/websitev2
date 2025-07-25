@@ -196,13 +196,13 @@ export default function SignIn() {
     return (
       <div className="flex items-center justify-center bg-gray-100">
         <div className="relative group">
-          <button className="flex items-center gap-2 p-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg">
+          <button onClick={()=>setIsOpen(!isOpen)} className="flex items-center gap-2 p-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg">
             <User size={16} />
             <span className="hidden sm:inline text-sm font-medium">
               {isLogin ? (
                 <button onClick={handleLogout}>Logout</button>
               ) : (
-                <button disabled={isLogin} onClick={() => setIsOpen(true)}>
+                <button  onClick={() => setIsOpen(!isOpen)}>
                   Login
                 </button>
               )}
@@ -223,7 +223,7 @@ export default function SignIn() {
     return (
       <div className="flex items-center justify-center bg-gray-100">
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={() => setIsOpen(!isOpen)}
           className="flex items-center gap-2 p-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg"
         >
           <User size={16} />
