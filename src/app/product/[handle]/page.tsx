@@ -17,6 +17,7 @@ import ProductPrice from "@/components/view/ProductCard/ProductPrice";
 import { Button } from "@/components/ui/button";
 import ProductOptions from "@/components/view/ProductOptions";
 import { useCartActions } from "@/lib/atoms/cart";
+import OffersAndSatisfaction from "@/components/ui/offer";
 
 const Product = () => {
   const params = useParams();
@@ -48,9 +49,6 @@ const Product = () => {
     }
   );
 
- 
-
-
   if (isLoading)
     return (
       <div className="container mx-auto px-4 py-6 sm:py-8 lg:py-10">
@@ -60,7 +58,7 @@ const Product = () => {
           <div className="w-full">
             <Skeleton className="h-[300px] sm:h-[400px] lg:h-[500px] w-full rounded-lg" />
           </div>
-          
+
           {/* Content skeleton */}
           <div className="space-y-4">
             <Skeleton className="h-8 w-3/4" />
@@ -83,18 +81,18 @@ const Product = () => {
     <div className="container mx-auto px-4 py-6 sm:py-8 lg:py-10">
       {/* Responsive grid: Stack on mobile, side-by-side on larger screens */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-12">
-        
         {/* Product Images */}
         <div className="order-1 lg:order-1">
           <div className="sticky top-4">
-            <ProductCarousel images={data?.product?.images?.edges as ImageEdge[]} />
+            <ProductCarousel
+              images={data?.product?.images?.edges as ImageEdge[]}
+            />
           </div>
         </div>
 
         {/* Product Details */}
         <div className="order-2 lg:order-2">
           <div className="space-y-4 sm:space-y-6">
-            
             {/* Title */}
             <div>
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
@@ -112,15 +110,18 @@ const Product = () => {
             {/* Description */}
             {data?.product?.descriptionHtml && (
               <div>
-                <p dangerouslySetInnerHTML={{ __html: data?.product?.descriptionHtml }}>
-                </p>
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: data?.product?.descriptionHtml,
+                  }}
+                ></p>
               </div>
             )}
 
             {/* Product Options */}
             <div>
               <ProductOptions
-              Variants={data.product.variants.edges}
+                Variants={data.product.variants.edges}
                 selectedOptions={selectedOptions}
                 setSelectedOptions={handleSelectOptions}
                 options={data?.product?.options as ProductOption[]}
@@ -129,14 +130,19 @@ const Product = () => {
 
             {/* Add to Cart Button */}
             <div className="pt-4">
-              <Button 
-                disabled={!selectedVariant} 
+              <Button
+                disabled={!selectedVariant}
                 onClick={handleAddtoCart}
                 className="w-full sm:w-auto sm:min-w-[200px] h-12 text-base font-medium"
                 size="lg"
               >
                 Add to Cart
               </Button>
+            </div>
+
+            {/* Offer details */}
+            <div>
+              <OffersAndSatisfaction />
             </div>
 
             {/* Additional product info could go here */}
@@ -147,7 +153,6 @@ const Product = () => {
                 <p>✓ Secure checkout</p>
               </div>
             </div>
-
           </div>
         </div>
       </div>

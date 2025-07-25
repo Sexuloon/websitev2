@@ -1,0 +1,136 @@
+'use client'
+import React, { useState } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+
+const OffersAndSatisfaction = () => {
+  const [isOffersExpanded, setIsOffersExpanded] = useState(true);
+
+  const offers = [
+    {
+      code: 'SAVE5',
+      description: 'Get 5% off + 10% prepaid discount'
+    },
+    {
+      code: 'SAVE10',
+      description: 'Get 10% off on orders above Rs.999 + FREE Gift + 10% prepaid discount'
+    }
+  ];
+
+  const satisfactionData = [
+    {
+      percentage: 92,
+      title: 'Men reported lasting 5-7 longer in bed'
+    },
+    {
+      percentage: 94,
+      title: 'Users saw results from their 1st time'
+    }
+  ];
+
+  // Function to create circular progress
+  const CircularProgress = ({ percentage, size = 120, strokeWidth = 8 }) => {
+    const radius = (size - strokeWidth) / 2;
+    const circumference = radius * 2 * Math.PI;
+    const strokeDasharray = circumference;
+    const strokeDashoffset = circumference - (percentage / 100) * circumference;
+
+    return (
+      <div className="relative" style={{ width: size, height: size }}>
+        <svg
+          className="transform -rotate-90"
+          width={size}
+          height={size}
+        >
+          {/* Background circle */}
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            stroke="#f3f4f6"
+            strokeWidth={strokeWidth}
+            fill="none"
+          />
+          {/* Progress circle */}
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={radius}
+            stroke="#dc6554"
+            strokeWidth={strokeWidth}
+            fill="none"
+            strokeDasharray={strokeDasharray}
+            strokeDashoffset={strokeDashoffset}
+            strokeLinecap="round"
+            className="transition-all duration-1000 ease-in-out"
+          />
+        </svg>
+        {/* Percentage text */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-3xl font-bold text-gray-800">{percentage}%</span>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="w-full max-w-2xl mx-auto p-4 space-y-8">
+      {/* Available Offers Section */}
+      <div className="bg-red-400 rounded-lg p-6">
+        <button
+          onClick={() => setIsOffersExpanded(!isOffersExpanded)}
+          className="flex items-center justify-between w-full text-white"
+        >
+          <h2 className="text-xl font-semibold">Available Offers</h2>
+          {isOffersExpanded ? (
+            <ChevronUp className="w-6 h-6" />
+          ) : (
+            <ChevronDown className="w-6 h-6" />
+          )}
+        </button>
+        
+        {isOffersExpanded && (
+          <div className="mt-4 space-y-3">
+            {offers.map((offer, index) => (
+              <div key={index} className="bg-white rounded-lg p-4">
+                <div className="font-bold text-gray-800 mb-1">
+                  {offer.code}
+                </div>
+                <div className="text-gray-700 text-sm">
+                  {offer.description}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Satisfied Customers Section */}
+      <div className="text-center">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-8">
+          Satisfied Customers
+        </h2>
+        
+        <div className="flex flex-col md:flex-row items-center justify-center gap-12">
+          {satisfactionData.map((item, index) => (
+            <div key={index} className="flex flex-col items-center text-center">
+              <CircularProgress percentage={item.percentage} />
+              <div className="mt-4 max-w-48">
+                <p className="text-gray-700 font-medium leading-relaxed">
+                  {item.title}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <div className="mt-8">
+          <p className="text-gray-500 text-sm italic">
+            *Based on at least 6 weeks of consumer usage
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default OffersAndSatisfaction;

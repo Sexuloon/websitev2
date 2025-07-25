@@ -3,13 +3,16 @@
 import { Product } from "@/types/shopify-graphql";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import ProductPrice from "./ProductPrice";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const router = useRouter();
 
-  // Generate a consistent discount percentage (you might want to get this from product data)
-  const discountPercentage = Math.floor(Math.random() * 30) + 10; // 10-40% range
+  const discountPercentage = Math.floor(Math.random() * 30) + 10;
+
+  const discountPercent = (min:number, original:number) => {
+    const amount = Math.floor((min - original) / 100);
+    return amount;
+  };
 
   return (
     <div
@@ -17,7 +20,6 @@ const ProductCard = ({ product }: { product: Product }) => {
       className="group cursor-pointer w-full"
     >
       <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-all duration-300 group-hover:scale-[1.02]">
-        {/* Product Image */}
         <div className="relative aspect-square overflow-hidden">
           <Image
             src={product.featuredImage?.url || "/placeholder.png"}
@@ -29,7 +31,11 @@ const ProductCard = ({ product }: { product: Product }) => {
 
           {/* Discount Badge */}
           <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
-            {discountPercentage}% OFF
+            {discountPercent(
+              product.priceRange.maxVariantPrice.amount,
+              product.priceRange.minVariantPrice.amount
+            )}
+            % OFF
           </div>
         </div>
 
@@ -50,11 +56,11 @@ const ProductCard = ({ product }: { product: Product }) => {
           {/* Price Section */}
           <div className="flex items-center gap-2 mb-3">
             <span className="font-bold text-sm sm:text-lg text-gray-900">
-              <ProductPrice priceRange={product.priceRange} />
+              ₹ {product.priceRange.minVariantPrice.amount}
             </span>
             {/* Original Price (calculated) - Only show if there's a meaningful difference */}
             <span className="text-gray-500 line-through text-xs sm:text-sm">
-              $
+              ₹
               {(
                 (parseFloat(product.priceRange.minVariantPrice.amount) *
                   (100 + discountPercentage)) /
@@ -65,11 +71,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
           {/* Action Buttons */}
           <div className="flex gap-2">
-        
-            <button
-              className="flex-1 py-2 sm:py-2.5 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center"
-              
-            >
+            <button className="flex-1 py-2 sm:py-2.5 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-3 w-3 sm:h-4 sm:w-4 mr-1"
