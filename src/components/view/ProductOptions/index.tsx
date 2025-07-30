@@ -1,6 +1,5 @@
 import { GetProductByHandleQuery } from "@/types/shopify-graphql";
 import React from "react";
-// import { Button } from "../../ui/button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
@@ -28,90 +27,6 @@ ProductOptionsProps) => {
     };
     setSelectedOptions?.(updatedOptions);
   };
-
-  // const renderOptionUI = (
-  //   option: NonNullable<GetProductByHandleQuery["product"]>["options"][0],
-  //   isGlass: boolean
-  // ) => {
-  //   switch (option.name.toLowerCase()) {
-  //     case "color":
-  //       return (
-  //         <div className="flex items-center gap-2">
-  //           {option.optionValues.map((value) => (
-  //             <Button
-  //               key={value.id}
-  //               className={cn(
-  //                 "p-0 transition-all duration-300 ease-in-out hover:scale-[1.05]",
-  //                 {
-  //                   "ring-1 ring-black":
-  //                     selectedOptions[option.name] === value.name,
-  //                 }
-  //               )}
-  //               onClick={() => handleOptionChange(option.name, value.name)}
-  //               style={{
-  //                 backgroundColor: value.name,
-  //                 width: "24px",
-  //                 height: "24px",
-  //                 borderRadius: "100%",
-  //               }}
-  //             />
-  //           ))}
-  //         </div>
-  //       );
-
-  //     case "size":
-  //       return (
-  //         <div className="flex flex-wrap gap-2">
-  //           {option.optionValues.map((value) => (
-  //             <Button
-  //               key={value.id}
-  //               size="sm"
-  //               variant={
-  //                 selectedOptions[option.name] === value.name
-  //                   ? "default"
-  //                   : "outline"
-  //               }
-  //               className={cn(
-  //                 "transition-all duration-300 ease-in-out hover:scale-[1.05]",
-  //                 {
-  //                   "ring-1 ring-black":
-  //                     selectedOptions[option.name] === value.name,
-  //                 }
-  //               )}
-  //               onClick={() => handleOptionChange(option.name, value.name)}
-  //             >
-  //               {value.name}
-  //             </Button>
-  //           ))}
-  //         </div>
-  //       );
-
-  //     default:
-  //       return (
-  //         <div className="flex flex-wrap gap-2">
-  //           {option.optionValues.map((value) => (
-  //             <Button
-  //               key={value.id}
-  //               variant={
-  //                 selectedOptions[option.name] === value.name
-  //                   ? "default"
-  //                   : isGlass
-  //                   ? "ghost"
-  //                   : "outline"
-  //               }
-  //               className={cn("transition-all duration-300 ease-in-out", {
-  //                 "ring-1 ring-black":
-  //                   selectedOptions[option.name] === value.name,
-  //               })}
-  //               onClick={() => handleOptionChange(option.name, value.name)}
-  //             >
-  //               {value.name}
-  //             </Button>
-  //           ))}
-  //         </div>
-  //       );
-  //   }
-  // };
 
   const calculateSavings = (price, comparePrice) => {
     if (!comparePrice) return 0;
@@ -173,7 +88,7 @@ ProductOptionsProps) => {
             >
               {/* Discount Badge */}
               {savings > 0 && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <div className="absolute -top-3 ">
                   <span className="bg-black text-white px-3 py-1 rounded-full text-sm font-medium">
                     Save {savings}%
                   </span>
@@ -202,16 +117,21 @@ ProductOptionsProps) => {
                   {variant?.node?.title}
                 </span>
 
-                <div className="flex gap-2 items-baseline mb-2">
+                <div className="flex flex-col gap-2 items-baseline mb-2">
                   <span className="text-black font-bold text-2xl">
                     ₹{parseFloat(variant?.node?.price?.amount).toFixed(0)}
                   </span>
                   {variant?.node?.compareAtPrice?.amount && (
-                    <span className="line-through text-gray-500 text-sm">
-                      MRP: ₹
-                      {parseFloat(variant.node.compareAtPrice.amount).toFixed(
-                        0
-                      )}
+                    <span className="flex flex-row gap-1">
+                      <span>
+                      MRP:
+                      </span>
+                      <span className="line-through text-gray-500 text-sm">
+                        ₹
+                        {parseFloat(variant.node.compareAtPrice.amount).toFixed(
+                          0
+                        )}
+                      </span>
                     </span>
                   )}
                 </div>

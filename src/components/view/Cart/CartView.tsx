@@ -254,18 +254,7 @@ function CartView() {
                 >
                   Proceed to Checkout
                 </Button>
-
-                <Button variant="outline" className="w-full h-10">
-                  Continue Shopping
-                </Button>
               </div>
-
-              {/* Cart ID for debugging (remove in production) */}
-              {process.env.NODE_ENV === "development" && cart?.id && (
-                <p className="text-xs text-gray-400 text-center">
-                  Cart ID: {cart.id.split("/").pop()}
-                </p>
-              )}
             </div>
           )}
         </SheetContent>

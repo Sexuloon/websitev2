@@ -26,6 +26,7 @@ const Product = () => {
     Record<string, string>
   >({});
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>();
+  const [isAdded, setIsAdded] = useState(false);
 
   const handleSelectOptions = (options: Record<string, string>) => {
     const variant = data?.product?.variants?.edges.find((variant) => {
@@ -72,7 +73,16 @@ const Product = () => {
   const handleAddtoCart = () => {
     if (selectedVariant) {
       addItem(selectedVariant.id, 1);
+      setIsAdded(true);
     }
+    if (!selectedVariant) {
+      window.location.reload();
+      return;
+    }
+    const id = setTimeout(() => {
+      setIsAdded(false);
+    }, 1000);
+    return () => clearTimeout(id);
   };
 
   return (
@@ -127,7 +137,7 @@ const Product = () => {
                 className="w-full  h-12 text-base font-medium"
                 size="lg"
               >
-                Add to Cart
+                {isAdded ? "Added in the Cart...." : "Add to Cart"}
               </Button>
             </div>
 
