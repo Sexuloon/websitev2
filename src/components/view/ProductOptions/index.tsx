@@ -50,13 +50,13 @@ ProductOptionsProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-6 w-full p-6">
+    <div className="flex flex-col gap-6 w-full lg:p-6">
       <div>
         <h3 className="font-semibold text-xl">Value Added Packs Offers</h3>
       </div>
 
       {/* Variant Display Section */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         {Variants.map((variant, index) => {
           const isSelected =
             selectedOptions[options[0].name] ===
@@ -79,7 +79,7 @@ ProductOptionsProps) => {
               }
               key={variant.node.id}
               className={cn(
-                "relative flex flex-col items-center gap-4 border rounded-lg p-6 transition hover:shadow cursor-pointer",
+                "relative flex flex-col items-center gap-4 border rounded-lg lg:p-6 transition hover:shadow cursor-pointer",
                 {
                   "opacity-50": !variant?.node?.availableForSale,
                   "bg-red-100 text-black ring-2 ring-red-500": isSelected,
@@ -89,7 +89,7 @@ ProductOptionsProps) => {
               {/* Discount Badge */}
               {savings > 0 && (
                 <div className="absolute -top-3 ">
-                  <span className="bg-black text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-black text-white px-1 lg:px-3 lg:py-1 rounded-full  text-xs lg:text-sm font-medium">
                     Save {savings}%
                   </span>
                 </div>
@@ -113,20 +113,18 @@ ProductOptionsProps) => {
 
               {/* Product Details */}
               <div className="flex flex-col items-center text-center">
-                <span className="font-semibold text-lg mb-2">
+                <span className="font-semibold text-center lg:text-lg mb-2">
                   {variant?.node?.title}
                 </span>
 
-                <div className="flex flex-col gap-2 items-baseline mb-2">
-                  <span className="text-black font-bold text-2xl">
+                <div className="flex flex-col gap-2 justify-center lg:items-baseline mb-2">
+                  <span className="text-black text-center font-bold lg:text-2xl">
                     ₹{parseFloat(variant?.node?.price?.amount).toFixed(0)}
                   </span>
                   {variant?.node?.compareAtPrice?.amount && (
                     <span className="flex flex-row gap-1">
-                      <span>
-                      MRP:
-                      </span>
-                      <span className="line-through text-gray-500 text-sm">
+                      <span>MRP:</span>
+                      <span className="line-through text-gray-500 lg:text-sm">
                         ₹
                         {parseFloat(variant.node.compareAtPrice.amount).toFixed(
                           0
