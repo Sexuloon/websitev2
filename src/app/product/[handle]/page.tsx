@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import OffersAndSatisfaction from "@/components/ui/offer";
 import { Skeleton } from "@/components/ui/skeleton";
-// import TestimonialCarousel from '@/components/ui/testimonials';
 import TestimonialCarousel from '@/components/ui/testimonials';
 import ProductCarousel from "@/components/view/ProductCarousel";
 import ProductOptions from "@/components/view/ProductOptions";
