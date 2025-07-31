@@ -70,8 +70,50 @@ const TestimonialCarousel: React.FC = () => {
   }, [isPaused])
 
   const scrollByAmount = (amount: number) => {
-    if (!scrollRef.current) return
-    scrollRef.current.scrollBy({ left: amount, behavior: 'smooth' })
+    scrollRef.current?.scrollBy({ left: amount, behavior: 'smooth' })
+  }
+
+  // Drag helpers
+  const isDragging = useRef(false)
+  const startX = useRef(0)
+  const scrollStart = useRef(0)
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    isDragging.current = true
+    startX.current = e.touches[0].pageX
+    scrollStart.current = scrollRef.current?.scrollLeft ?? 0
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging.current || !scrollRef.current) return
+    const currentX = e.touches[0].pageX
+    const deltaX = currentX - startX.current
+    scrollRef.current.scrollLeft = scrollStart.current - deltaX
+  }
+
+  const handleTouchEnd = () => {
+    isDragging.current = false
+  }
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isDragging.current = true
+    startX.current = e.pageX
+    scrollStart.current = scrollRef.current?.scrollLeft ?? 0
+
+    const handleMouseMove = (ev: MouseEvent) => {
+      if (!isDragging.current || !scrollRef.current) return
+      const delta = ev.pageX - startX.current
+      scrollRef.current.scrollLeft = scrollStart.current - delta
+    }
+
+    const handleMouseUp = () => {
+      isDragging.current = false
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('mouseup', handleMouseUp)
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mouseup', handleMouseUp)
   }
 
   return (
@@ -102,44 +144,12 @@ const TestimonialCarousel: React.FC = () => {
           ref={scrollRef}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
           className="flex w-full space-x-6 px-4 py-6 overflow-hidden cursor-grab active:cursor-grabbing"
           style={{ scrollBehavior: 'smooth' }}
-          onMouseDown={(e) => {
-            const startX = e.pageX
-            const scrollStart = scrollRef.current?.scrollLeft ?? 0
-
-            const mouseMoveHandler = (ev: MouseEvent) => {
-              if (scrollRef.current) {
-                scrollRef.current.scrollLeft = scrollStart + (startX - ev.pageX)
-              }
-            }
-
-            const mouseUpHandler = () => {
-              window.removeEventListener('mousemove', mouseMoveHandler)
-              window.removeEventListener('mouseup', mouseUpHandler)
-            }
-
-            window.addEventListener('mousemove', mouseMoveHandler)
-            window.addEventListener('mouseup', mouseUpHandler)
-          }}
-          onTouchStart={(e) => {
-            const touchStartX = e.touches[0].pageX
-            const scrollStart = scrollRef.current?.scrollLeft ?? 0
-
-            const touchMoveHandler = (ev: TouchEvent) => {
-              if (scrollRef.current) {
-                scrollRef.current.scrollLeft = scrollStart + (touchStartX - ev.touches[0].pageX)
-              }
-            }
-
-            const touchEndHandler = () => {
-              window.removeEventListener('touchmove', touchMoveHandler)
-              window.removeEventListener('touchend', touchEndHandler)
-            }
-
-            window.addEventListener('touchmove', touchMoveHandler)
-            window.addEventListener('touchend', touchEndHandler)
-          }}
         >
           {fullList.map((t, i) => (
             <div
