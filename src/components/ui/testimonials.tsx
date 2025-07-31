@@ -12,11 +12,10 @@ type Testimonial = {
 }
 
 const testimonials: Testimonial[] = [
-  // Your testimonials array (same as before)
   {
     name: 'Aditi Sharma',
     role: 'Design Lead, StudentHustle',
-    image: '/images/aditi.png',
+    image: 'https://image.lexica.art/full_jpg/8f87cbeb-233e-42b7-9822-241444d591b1',
     testimonial: 'The SkillBattles challenges kept my creativity alive every single day. A total game-changer.',
   },
   {
@@ -55,7 +54,6 @@ const TestimonialCarousel: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [isPaused, setIsPaused] = useState(false)
 
-  // Duplicate testimonials to create loop
   const fullList = [...testimonials, ...testimonials]
 
   useEffect(() => {
@@ -66,6 +64,7 @@ const TestimonialCarousel: React.FC = () => {
         scrollRef.current.scrollLeft = 0
       }
     }
+
     const interval = setInterval(scroll, 20)
     return () => clearInterval(interval)
   }, [isPaused])
@@ -80,56 +79,93 @@ const TestimonialCarousel: React.FC = () => {
       <h1 className="text-3xl md:text-4xl font-extrabold text-center text-gray-900 mb-8 mt-12">
         Our Community’s Success Stories!
       </h1>
-    <div className="relative w-full overflow-hidden">
-      {/* Left Arrow */}
-      <button
-        onClick={() => scrollByAmount(-300)}
-        className="absolute left-2 top-1/2 z-10 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow"
-      >
-        <ChevronLeft size={24} />
-      </button>
 
-      {/* Right Arrow */}
-      <button
-        onClick={() => scrollByAmount(300)}
-        className="absolute right-2 top-1/2 z-10 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow"
-      >
-        <ChevronRight size={24} />
-      </button>
+      <div className="relative w-full overflow-hidden">
+        {/* Left Arrow */}
+        <button
+          onClick={() => scrollByAmount(-300)}
+          className="absolute left-2 top-1/2 z-10 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow"
+        >
+          <ChevronLeft size={24} />
+        </button>
 
-      {/* Carousel */}
-      <div
-        ref={scrollRef}
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-        className="flex w-full space-x-6 px-4 py-6 overflow-hidden"
-        style={{ scrollBehavior: 'smooth' }}
-      >
-        {fullList.map((t, i) => (
-          <div
-            key={i}
-            className="flex-shrink-0 w-80 p-[1px] rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"
-          >
-            <div className="h-full w-full bg-white text-black rounded-2xl p-5 shadow-lg">
-              <div className="flex items-center space-x-4 mb-4">
-                <Image
-                  src={t.image}
-                  alt={t.name}
-                  width={72}
-                  height={72}
-                  className="rounded-full object-cover border-2 border-black"
-                />
-                <div>
-                  <h4 className="text-lg font-bold">{t.name}</h4>
-                  <p className="text-sm text-gray-700">{t.role}</p>
+        {/* Right Arrow */}
+        <button
+          onClick={() => scrollByAmount(300)}
+          className="absolute right-2 top-1/2 z-10 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow"
+        >
+          <ChevronRight size={24} />
+        </button>
+
+        {/* Carousel */}
+        <div
+          ref={scrollRef}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="flex w-full space-x-6 px-4 py-6 overflow-hidden cursor-grab active:cursor-grabbing"
+          style={{ scrollBehavior: 'smooth' }}
+          onMouseDown={(e) => {
+            const startX = e.pageX
+            const scrollStart = scrollRef.current?.scrollLeft ?? 0
+
+            const mouseMoveHandler = (ev: MouseEvent) => {
+              if (scrollRef.current) {
+                scrollRef.current.scrollLeft = scrollStart + (startX - ev.pageX)
+              }
+            }
+
+            const mouseUpHandler = () => {
+              window.removeEventListener('mousemove', mouseMoveHandler)
+              window.removeEventListener('mouseup', mouseUpHandler)
+            }
+
+            window.addEventListener('mousemove', mouseMoveHandler)
+            window.addEventListener('mouseup', mouseUpHandler)
+          }}
+          onTouchStart={(e) => {
+            const touchStartX = e.touches[0].pageX
+            const scrollStart = scrollRef.current?.scrollLeft ?? 0
+
+            const touchMoveHandler = (ev: TouchEvent) => {
+              if (scrollRef.current) {
+                scrollRef.current.scrollLeft = scrollStart + (touchStartX - ev.touches[0].pageX)
+              }
+            }
+
+            const touchEndHandler = () => {
+              window.removeEventListener('touchmove', touchMoveHandler)
+              window.removeEventListener('touchend', touchEndHandler)
+            }
+
+            window.addEventListener('touchmove', touchMoveHandler)
+            window.addEventListener('touchend', touchEndHandler)
+          }}
+        >
+          {fullList.map((t, i) => (
+            <div
+              key={i}
+              className="flex-shrink-0 w-80 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 p-[0.5px]"
+            >
+              <div className="h-full w-full bg-white text-black rounded-2xl p-5 shadow-lg">
+                <div className="flex items-center space-x-4 mb-4">
+                  <Image
+                    src={t.image}
+                    alt={t.name}
+                    width={72}
+                    height={72}
+                    className="rounded-full object-cover border-2 border-black"
+                  />
+                  <div>
+                    <h4 className="text-lg font-bold">{t.name}</h4>
+                    <p className="text-sm text-gray-700">{t.role}</p>
+                  </div>
                 </div>
+                <p className="text-sm">{t.testimonial}</p>
               </div>
-              <p className="text-sm">{t.testimonial}</p>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
     </div>
   )
 }

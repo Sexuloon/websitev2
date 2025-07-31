@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -13,11 +12,15 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "images.pexels.com", // ✅ added for Pexels image support
+        hostname: "images.pexels.com",
       },
       {
         protocol: "https",
-        hostname: "res.cloudinary.com", // ✅ added for Cloudinary image support
+        hostname: "res.cloudinary.com",
+      },
+      {
+        protocol: "https",
+        hostname: "image.lexica.art", // ✅ Added Lexica support
       },
     ],
   },
