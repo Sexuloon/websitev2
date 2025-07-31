@@ -1,6 +1,8 @@
 'use client'
-import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useEffect, useState } from 'react';
+// import { useEffect } from 'react';
+
 
 const OffersAndSatisfaction = () => {
   const [isOffersExpanded, setIsOffersExpanded] = useState(true);
@@ -27,50 +29,58 @@ const OffersAndSatisfaction = () => {
     }
   ];
 
-  // Function to create circular progress
-  const CircularProgress = ({ percentage, size = 120, strokeWidth = 8 }) => {
-    const radius = (size - strokeWidth) / 2;
-    const circumference = radius * 2 * Math.PI;
-    const strokeDasharray = circumference;
-    const strokeDashoffset = circumference - (percentage / 100) * circumference;
+ const CircularProgress = ({ percentage, strokeWidth = 8 }) => {
+  const [size, setSize] = useState(120);
 
-    return (
-      <div className="relative" style={{ width: size, height: size }}>
-        <svg
-          className="transform -rotate-90"
-          width={size}
-          height={size}
-        >
-          {/* Background circle */}
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            stroke="#f3f4f6"
-            strokeWidth={strokeWidth}
-            fill="none"
-          />
-          {/* Progress circle */}
-          <circle
-            cx={size / 2}
-            cy={size / 2}
-            r={radius}
-            stroke="#dc6554"
-            strokeWidth={strokeWidth}
-            fill="none"
-            strokeDasharray={strokeDasharray}
-            strokeDashoffset={strokeDashoffset}
-            strokeLinecap="round"
-            className="transition-all duration-1000 ease-in-out"
-          />
-        </svg>
-        {/* Percentage text */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-3xl font-bold text-gray-800">{percentage}%</span>
-        </div>
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setSize(width < 400 ? 70 : width < 640 ? 90 : 120);
+    };
+
+    handleResize(); // Set on first render
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const radius = (size - strokeWidth) / 2;
+  const circumference = radius * 2 * Math.PI;
+  const strokeDashoffset =
+    circumference - (percentage / 100) * circumference;
+
+  return (
+    <div className="relative" style={{ width: size, height: size }}>
+      <svg className="transform -rotate-90" width={size} height={size}>
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="#f3f4f6"
+          strokeWidth={strokeWidth}
+          fill="none"
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="#dc6554"
+          strokeWidth={strokeWidth}
+          fill="none"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          strokeLinecap="round"
+          className="transition-all duration-1000 ease-in-out"
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <span className="text-lg sm:text-xl font-bold text-gray-800">
+          {percentage}%
+        </span>
       </div>
-    );
-  };
+    </div>
+  );
+};
+
 
   return (
     <div className="w-full max-w-2xl mx-auto p-4 space-y-8">
@@ -104,31 +114,35 @@ const OffersAndSatisfaction = () => {
         )}
       </div>
 
-      {/* Satisfied Customers Section */}
       <div className="text-center">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-8">
-          Satisfied Customers
-        </h2>
-        
-        <div className="flex flex-col md:flex-row items-center justify-center gap-12">
-          {satisfactionData.map((item, index) => (
-            <div key={index} className="flex flex-col items-center text-center">
-              <CircularProgress percentage={item.percentage} />
-              <div className="mt-4 max-w-48">
-                <p className="text-gray-700 font-medium leading-relaxed">
-                  {item.title}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-        
-        <div className="mt-8">
-          <p className="text-gray-500 text-sm italic">
-            *Based on at least 6 weeks of consumer usage
+  <h2 className="text-2xl font-semibold text-gray-800 mb-8">
+    Satisfied Customers
+  </h2>
+
+  <div className="flex justify-center gap-6 flex-nowrap px-4">
+    {satisfactionData.map((item, index) => (
+      <div
+        key={index}
+        className="flex flex-col items-center text-center w-[calc(50%-0.75rem)] sm:w-auto"
+      >
+        <CircularProgress percentage={item.percentage} />
+        <div className="mt-4 max-w-48">
+          <p className="text-gray-700 font-medium leading-relaxed">
+            {item.title}
           </p>
         </div>
       </div>
+    ))}
+  </div>
+
+  <div className="mt-8">
+    <p className="text-gray-500 text-sm italic">
+      *Based on at least 6 weeks of consumer usage
+    </p>
+  </div>
+</div>
+
+
     </div>
   );
 };

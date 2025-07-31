@@ -1,6 +1,5 @@
-import { GetProductByHandleQuery } from "@/types/shopify-graphql";
-import React from "react";
 import { cn } from "@/lib/utils";
+import { GetProductByHandleQuery } from "@/types/shopify-graphql";
 import Image from "next/image";
 
 type ProductOptionsProps = {
@@ -52,7 +51,7 @@ ProductOptionsProps) => {
   return (
     <div className="flex flex-col gap-6 w-full lg:p-6">
       <div>
-        <h3 className="font-semibold text-xl">Value Added Packs Offers</h3>
+        <h3 className="font-semibold text-xl text-white">Value Added Packs Offers</h3>
       </div>
 
       {/* Variant Display Section */}

@@ -1,21 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
-import { useParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import OffersAndSatisfaction from "@/components/ui/offer";
+import { Skeleton } from "@/components/ui/skeleton";
+import TestimonialCarousel from '@/components/ui/testimonials';
+import ProductCarousel from "@/components/view/ProductCarousel";
+import ProductOptions from "@/components/view/ProductOptions";
 import { GET_PRODUCT_BY_HANDLE_QUERY } from "@/graphql/products";
 import { useStorefrontQuery } from "@/hooks/useStorefront";
+import { useCartActions } from "@/lib/atoms/cart";
 import {
   GetProductByHandleQuery,
   ImageEdge,
   ProductOption,
   ProductVariant,
 } from "@/types/shopify-graphql";
-import ProductCarousel from "@/components/view/ProductCarousel";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-import ProductOptions from "@/components/view/ProductOptions";
-import { useCartActions } from "@/lib/atoms/cart";
-import OffersAndSatisfaction from "@/components/ui/offer";
+import { useParams } from "next/navigation";
+import { useState } from "react";
 
 const Product = () => {
   const params = useParams();
@@ -145,9 +146,12 @@ const Product = () => {
             <div>
               <OffersAndSatisfaction />
             </div>
+
+            
           </div>
         </div>
       </div>
+      <div><TestimonialCarousel /></div>
     </div>
   );
 };
