@@ -7,6 +7,7 @@ import { GetCollectionsQuery } from "@/types/shopify-graphql";
 import Image from "next/image";
 import React from "react";
 import { useRouter } from "next/navigation";
+export const dynamic = 'force-dynamic'; 
 
 const AllCollections = () => {
   const router = useRouter();

@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { useCartActions } from "@/lib/atoms/cart";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
+export const dynamic = 'force-dynamic'; 
 
 function CartView() {
   const { cart, initializeCart, updateItem, removeItem } = useCartActions();

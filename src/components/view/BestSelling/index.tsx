@@ -3,6 +3,7 @@ import ProductCard from "@/components/view/ProductCard";
 import { GET_COLLECTION_BY_HANDLE_WITH_PAGINATION_QUERY } from "@/graphql/collections";
 import { useStorefrontQuery } from "@/hooks/useStorefront";
 import { GetCollectionByHandleQuery, Product } from "@/types/shopify-graphql";
+export const dynamic = 'force-dynamic';
 
 const CollectionPage = () => {
   const { data, isLoading } = useStorefrontQuery<GetCollectionByHandleQuery>(
