@@ -20,7 +20,15 @@ const Footer = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* -------- MOBILE ONLY Accordion Footer -------- */}
           <div className="md:hidden space-y-6 text-center">
-            <div className="flex flex-col items-center">
+            {/* Logo for Mobile */}
+            <div className="flex flex-col items-start justify-start space-y-2">
+              <Image
+                src="/Web_Icon-removebg-preview.png"
+                alt="Sexuloon Logo"
+                width={120}
+                height={40}
+                className="object-contain"
+              />
               <p className="text-gray-400 text-sm max-w-xs">
                 Empowering men&apos;s sexual health with medically proven
                 solutions and personalized care.
@@ -47,31 +55,11 @@ const Footer = () => {
                   openMenu.quick ? "block" : "hidden"
                 }`}
               >
-                <li>
-                  <a href="#" className="hover:text-white block">
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white block">
-                    Products
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white block">
-                    Consultations
-                  </a>
-                </li>
-                <li>
-                  <a href="/aboutus" className="hover:text-white block">
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="/contactus" className="hover:text-white block">
-                    Contact
-                  </a>
-                </li>
+                <li><a href="#" className="hover:text-white block">Home</a></li>
+                <li><a href="#" className="hover:text-white block">Products</a></li>
+                <li><a href="#" className="hover:text-white block">Consultations</a></li>
+                <li><a href="/aboutus" className="hover:text-white block">About Us</a></li>
+                <li><a href="/contactus" className="hover:text-white block">Contact</a></li>
               </ul>
             </div>
 
@@ -95,31 +83,11 @@ const Footer = () => {
                   openMenu.conditions ? "block" : "hidden"
                 }`}
               >
-                <li>
-                  <a href="#" className="hover:text-white block">
-                    Erectile Dysfunction
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white block">
-                    Premature Ejaculation
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white block">
-                    Low Testosterone
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white block">
-                    Hair Loss
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white block">
-                    Performance Anxiety
-                  </a>
-                </li>
+                <li><a href="#" className="hover:text-white block">Erectile Dysfunction</a></li>
+                <li><a href="#" className="hover:text-white block">Premature Ejaculation</a></li>
+                <li><a href="#" className="hover:text-white block">Low Testosterone</a></li>
+                <li><a href="#" className="hover:text-white block">Hair Loss</a></li>
+                <li><a href="#" className="hover:text-white block">Performance Anxiety</a></li>
               </ul>
             </div>
 
@@ -143,37 +111,11 @@ const Footer = () => {
                   openMenu.support ? "block" : "hidden"
                 }`}
               >
-                <li>
-                  <a href="/privacy&policy" className="hover:text-white block">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/terms&conditions"
-                    className="hover:text-white block"
-                  >
-                    Terms & Conditions
-                  </a>
-                </li>
-                <li>
-                  <a href="/refundpolicy" className="hover:text-white block">
-                    Refund Policy
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/Refund&ReplacementPolicy"
-                    className="hover:text-white block"
-                  >
-                    Refund & Replacement Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="/ShippingPolicy" className="hover:text-white block">
-                    Shipping Policy
-                  </a>
-                </li>
+                <li><a href="/privacy&policy" className="hover:text-white block">Privacy Policy</a></li>
+                <li><a href="/terms&conditions" className="hover:text-white block">Terms & Conditions</a></li>
+                <li><a href="/refundpolicy" className="hover:text-white block">Refund Policy</a></li>
+                <li><a href="/Refund&ReplacementPolicy" className="hover:text-white block">Refund & Replacement Policy</a></li>
+                <li><a href="/ShippingPolicy" className="hover:text-white block">Shipping Policy</a></li>
               </ul>
             </div>
           </div>
@@ -199,31 +141,11 @@ const Footer = () => {
             <div>
               <h3 className="text-lg font-semibold mb-2">Quick Links</h3>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li>
-                  <a href="#" className="hover:text-white">
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white">
-                    Products
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white">
-                    Consultations
-                  </a>
-                </li>
-                <li>
-                  <a href="/aboutus" className="hover:text-white">
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="/contactus" className="hover:text-white">
-                    Contact
-                  </a>
-                </li>
+                <li><a href="#" className="hover:text-white">Home</a></li>
+                <li><a href="#" className="hover:text-white">Products</a></li>
+                <li><a href="#" className="hover:text-white">Consultations</a></li>
+                <li><a href="/aboutus" className="hover:text-white">About Us</a></li>
+                <li><a href="/contactus" className="hover:text-white">Contact</a></li>
               </ul>
             </div>
 
@@ -231,31 +153,11 @@ const Footer = () => {
             <div>
               <h3 className="text-lg font-semibold mb-2">Conditions</h3>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li>
-                  <a href="#" className="hover:text-white">
-                    Erectile Dysfunction
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white">
-                    Premature Ejaculation
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white">
-                    Low Testosterone
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white">
-                    Hair Loss
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-white">
-                    Performance Anxiety
-                  </a>
-                </li>
+                <li><a href="#" className="hover:text-white">Erectile Dysfunction</a></li>
+                <li><a href="#" className="hover:text-white">Premature Ejaculation</a></li>
+                <li><a href="#" className="hover:text-white">Low Testosterone</a></li>
+                <li><a href="#" className="hover:text-white">Hair Loss</a></li>
+                <li><a href="#" className="hover:text-white">Performance Anxiety</a></li>
               </ul>
             </div>
 
@@ -263,34 +165,11 @@ const Footer = () => {
             <div>
               <h3 className="text-lg font-semibold mb-2">Support</h3>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li>
-                  <a href="/privacy&policy" className="hover:text-white">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="/terms&conditions" className="hover:text-white">
-                    Terms & Conditions
-                  </a>
-                </li>
-                <li>
-                  <a href="/refundpolicy" className="hover:text-white">
-                    Refund Policy
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/Refund&ReplacementPolicy"
-                    className="hover:text-white"
-                  >
-                    Refund & Replacement Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="/ShippingPolicy" className="hover:text-white">
-                    Shipping Policy
-                  </a>
-                </li>
+                <li><a href="/privacy&policy" className="hover:text-white">Privacy Policy</a></li>
+                <li><a href="/terms&conditions" className="hover:text-white">Terms & Conditions</a></li>
+                <li><a href="/refundpolicy" className="hover:text-white">Refund Policy</a></li>
+                <li><a href="/Refund&ReplacementPolicy" className="hover:text-white">Refund & Replacement Policy</a></li>
+                <li><a href="/ShippingPolicy" className="hover:text-white">Shipping Policy</a></li>
               </ul>
             </div>
           </div>

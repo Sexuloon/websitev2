@@ -24,9 +24,9 @@ export const metadata: Metadata = {
   title: "Sexuloon",
   description: "India’s Most Trusted Sexual Wellness Brand",
   icons: {
-    icon: "/Web_Icon-removebg-preview.png",
-    shortcut: "/Web_Icon-removebg-preview.png",
-    apple: "/Web_Icon-removebg-preview.png",
+    icon: "/Web_Icon-removebg-preview.ico",
+    shortcut: "/Web_Icon-removebg-preview.ico",
+    apple: "/Web_Icon-removebg-preview.ico",
   },
 };
 
