@@ -7,6 +7,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import React from "react";
 import "./globals.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 // Load Google Fonts
 const geistSans = Geist({
@@ -95,6 +96,9 @@ export default function RootLayout({
           <Footer />
         </Providers>
       </body>
+
+      {/* Google Analytics */}
+      <GoogleAnalytics gaId="G-NP9WZN9MK4" />
     </html>
   );
 }
