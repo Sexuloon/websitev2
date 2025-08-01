@@ -183,7 +183,7 @@ const Footer = () => {
             {/* Logo + Description */}
             <div>
               <Image
-                src="/logo-white.png"
+                src="/Web_Icon-removebg-preview.png"
                 alt="Sexuloon Logo"
                 width={150}
                 height={50}

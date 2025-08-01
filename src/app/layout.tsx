@@ -1,14 +1,12 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import React from "react";
-import "./globals.css";
 import Footer from "@/components/ui/footer";
 import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/view/Navbar";
 import InfiniteScrollingText from "@/components/view/SlidingText";
 import Providers from "@/providers";
-
-
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import React from "react";
+import "./globals.css";
 
 // Load Google Fonts
 const geistSans = Geist({
@@ -21,12 +19,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Site Metadata
+// ✅ Site Metadata with favicon
 export const metadata: Metadata = {
   title: "Sexuloon",
   description: "India’s Most Trusted Sexual Wellness Brand",
+  icons: {
+    icon: "/Web_Icon-removebg-preview.png",
+    shortcut: "/Web_Icon-removebg-preview.png",
+    apple: "/Web_Icon-removebg-preview.png",
+  },
 };
-
 
 // Root Layout Component
 export default function RootLayout({

@@ -1,7 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import CustomerReview from "@/components/ui/customerreview";
 import OffersAndSatisfaction from "@/components/ui/offer";
+import OurPromise from "@/components/ui/OurPromise";
+import ProductFaq from "@/components/ui/productfaq";
 import { Skeleton } from "@/components/ui/skeleton";
 import TestimonialCarousel from '@/components/ui/testimonials';
 import ProductCarousel from "@/components/view/ProductCarousel";
@@ -152,6 +155,9 @@ const Product = () => {
         </div>
       </div>
       <div><TestimonialCarousel /></div>
+      <div><ProductFaq /> </div>
+      <div><CustomerReview /></div>
+      <div> <OurPromise /></div>
     </div>
   );
 };
