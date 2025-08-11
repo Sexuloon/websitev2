@@ -26,21 +26,18 @@ const Product = () => {
   const params = useParams();
   const { addItem } = useCartActions();
 
-  // States
-  const [selectedOptions, setSelectedOptions] = useState<
-    Record<string, string>
-  >({});
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>();
   const [isAdded, setIsAdded] = useState(false);
 
   const handleSelectOptions = (options: Record<string, string>) => {
-    const variant = data?.product?.variants?.edges.find((variant) => {
-      return Object.keys(options).every((key) => {
-        return variant.node.selectedOptions.some(
+    const variant = data?.product?.variants?.edges.find((variant) =>
+      Object.keys(options).every((key) =>
+        variant.node.selectedOptions.some(
           (option) => option.name === key && option.value === options[key]
-        );
-      });
-    });
+        )
+      )
+    );
     setSelectedVariant(variant?.node as ProductVariant);
     setSelectedOptions(options);
   };
@@ -55,16 +52,12 @@ const Product = () => {
 
   if (isLoading)
     return (
-      <div className="container mx-auto px-4 py-6 sm:py-8 lg:py-10">
-        {/* Mobile: Stack vertically, Tablet+: Side by side */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-          {/* Image skeleton */}
+      <div className="container mx-auto px-4 py-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="w-full">
             <Skeleton className="h-[300px] sm:h-[400px] lg:h-[500px] w-full rounded-lg" />
           </div>
-
-          {/* Content skeleton */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             <Skeleton className="h-8 w-3/4" />
             <Skeleton className="h-4 w-full" />
             <Skeleton className="h-4 w-2/3" />
@@ -79,8 +72,7 @@ const Product = () => {
     if (selectedVariant) {
       addItem(selectedVariant.id, 1);
       setIsAdded(true);
-    }
-    if (!selectedVariant) {
+    } else {
       window.location.reload();
       return;
     }
@@ -91,85 +83,47 @@ const Product = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 sm:py-8 lg:py-10">
-      {/* Responsive grid: Stack on mobile, side-by-side on larger screens */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 xl:gap-12">
-        {/* Product Images */}
-        <div className="order-1 lg:order-1">
+    <div className="container mx-auto px-4 py-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="order-1">
           <div className="sticky top-4">
-            <ProductCarousel
-              images={data?.product?.images?.edges as ImageEdge[]}
-            />
+            <ProductCarousel images={data?.product?.images?.edges as ImageEdge[]} />
           </div>
         </div>
 
-        {/* Product Details */}
-        <div className="order-2 lg:order-2">
-          <div className="space-y-4 sm:space-y-6">
-            {/* Title */}
-            <div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
-                {data?.product?.title}
-              </h1>
-            </div>
+        <div className="order-2">
+          <div className="space-y-4">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+              {data?.product?.title}
+            </h1>
 
-            {/* Description */}
             {data?.product?.descriptionHtml && (
-              <div>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: data?.product?.descriptionHtml,
-                  }}
-                ></p>
-              </div>
+              <div dangerouslySetInnerHTML={{ __html: data?.product?.descriptionHtml }} />
             )}
 
-            {/* Product Options */}
-            <div>
-              <ProductOptions
-                Variants={data.product.variants.edges}
-                selectedOptions={selectedOptions}
-                setSelectedOptions={handleSelectOptions}
-                options={data?.product?.options as ProductOption[]}
-              />
-            </div>
+            <ProductOptions
+              Variants={data.product.variants.edges}
+              selectedOptions={selectedOptions}
+              setSelectedOptions={handleSelectOptions}
+              options={data?.product?.options as ProductOption[]}
+            />
 
-            {/* Add to Cart Button */}
-            <div className="pt-4">
-              <Button
-                disabled={!selectedVariant}
-                onClick={handleAddtoCart}
-                className="w-full  h-12 text-base font-medium"
-                size="lg"
-              >
-                {isAdded ? "Added in the Cart...." : "Add to Cart"}
-              </Button>
-            </div>
+            <Button
+              disabled={!selectedVariant}
+              onClick={handleAddtoCart}
+              className="w-full h-12 text-base font-medium"
+              size="lg"
+            >
+              {isAdded ? "Added in the Cart...." : "Add to Cart"}
+            </Button>
 
-            {/* Offer details */}
-            <div>
-              <OffersAndSatisfaction />
-            </div>
-
-            
+            <OffersAndSatisfaction />
           </div>
         </div>
       </div>
-      <div className="w-full relative" style={{ height: "auto", minHeight: "300px" }}>
-        <Image
-          src="/Sexuloon Ejacure web design.jpg"
-          alt="Responsive Image"
-          layout="responsive"
-          width={1920}
-          height={1080}
-          className="object-contain"
-          priority
-        />
-      </div>
-      <div><TestimonialCarousel /></div>
-      <div><ProductFaq /> </div>
-      <div><CustomerReview /></div>
-      <div className="w-full relative" style={{ height: "auto", minHeight: "300px" }}>
+
+      {/* No extra gap between image and above content */}
+      <div className="w-full relative mt-6" style={{ minHeight: "50px" }}>
         <Image
           src="/Sexuloon Ejacure web design 2.jpg"
           alt="Responsive Image"
@@ -180,7 +134,25 @@ const Product = () => {
           priority
         />
       </div>
-      <div> <OurPromise /></div>
+
+      {/* Tight spacing between sections */}
+      <div className="mt-6"><TestimonialCarousel /></div>
+      <div className="mt-6"><ProductFaq /></div>
+      <div className="mt-6"><CustomerReview /></div>
+
+      <div className="w-full relative mt-6" style={{ minHeight: "300px" }}>
+        <Image
+          src="/Sexuloon Ejacure web design.jpg"
+          alt="Responsive Image"
+          layout="responsive"
+          width={1920}
+          height={1080}
+          className="object-contain"
+          priority
+        />
+      </div>
+
+      <div className="mt-6"><OurPromise /></div>
     </div>
   );
 };
