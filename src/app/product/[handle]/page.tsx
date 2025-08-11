@@ -18,6 +18,7 @@ import {
   ProductOption,
   ProductVariant,
 } from "@/types/shopify-graphql";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 
@@ -154,9 +155,31 @@ const Product = () => {
           </div>
         </div>
       </div>
+      <div className="w-full relative" style={{ height: "auto", minHeight: "300px" }}>
+        <Image
+          src="/Sexuloon Ejacure web design.jpg"
+          alt="Responsive Image"
+          layout="responsive"
+          width={1920}
+          height={1080}
+          className="object-contain"
+          priority
+        />
+      </div>
       <div><TestimonialCarousel /></div>
       <div><ProductFaq /> </div>
       <div><CustomerReview /></div>
+      <div className="w-full relative" style={{ height: "auto", minHeight: "300px" }}>
+        <Image
+          src="/Sexuloon Ejacure web design 2.jpg"
+          alt="Responsive Image"
+          layout="responsive"
+          width={1920}
+          height={1080}
+          className="object-contain"
+          priority
+        />
+      </div>
       <div> <OurPromise /></div>
     </div>
   );

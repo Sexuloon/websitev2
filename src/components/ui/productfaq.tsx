@@ -5,24 +5,25 @@ import { useState } from 'react'
 
 const faqs = [
   {
-    question: 'Can I use both Dive+ and Flick with the MyMuse Sync app?',
+    question: 'How long does Ejacure take to show results?',
     answer:
-      'Dive+ is fully app-enabled—so all its live-control and custom pattern features come to life in MyMuse Sync App. Flick, on the other hand, is designed as a standalone tongue massager and doesn’t require an app to deliver those fluttery, toe-curling sensations. It’s so intuitive that you can simply power it on and start exploring—no app needed!',
+      // 'Dive+ is fully app-enabled—so all its live-control and custom pattern features come to life in MyMuse Sync App. Flick, on the other hand, is designed as a standalone tongue massager and doesn’t require an app to deliver those fluttery, toe-curling sensations. It’s so intuitive that you can simply power it on and start exploring—no app needed!',
+      'Most users begin noticing improvements within 2–3 weeks of consistent use. However, results may vary depending on individual body response and lifestyle habits.',
   },
   {
-    question: 'Is gift-wrapping an option?',
+    question: 'Is Ejacure made with natural ingredients?',
     answer:
-      'Yes! Select the option at checkout and leave a note for your recipient. We’ll take care of the rest :)',
+      'Yes, Ejacure is formulated with 100% natural Unani ingredients, traditionally used to support men’s sexual wellness without harmful side effects.',
   },
   {
-    question: 'Will the products be shipped together in one box?',
+    question: 'Can I take Ejacure with other supplements or medications?',
     answer:
-      'Yes, all products in a single order will be shipped together in one discreet, sturdy box for your convenience.',
+      'While Ejacure is generally safe, we recommend consulting a qualified healthcare professional if you are already on other medications or supplements.',
   },
   {
-    question: 'What kind of occasions can I gift this for?',
+    question: ' Is Ejacure a one-time fix or do I need to take it regularly?',
     answer:
-      'Perfect for birthdays, anniversaries, weddings, bachelorette parties, Valentine’s Day, or just because!',
+      'Ejacure supports long-term improvement through consistent use. It’s not a temporary or instant solution, but a natural way to restore performance over time.',
   },
 ]
 
