@@ -1,12 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import CustomerReview from "@/components/ui/customerreview";
-import OffersAndSatisfaction from "@/components/ui/offer";
-import OurPromise from "@/components/ui/OurPromise";
-import ProductFaq from "@/components/ui/productfaq";
 import { Skeleton } from "@/components/ui/skeleton";
-import TestimonialCarousel from '@/components/ui/testimonials';
 import ProductCarousel from "@/components/view/ProductCarousel";
 import ProductOptions from "@/components/view/ProductOptions";
 import { GET_PRODUCT_BY_HANDLE_QUERY } from "@/graphql/products";
@@ -21,14 +16,17 @@ import {
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { dynamicComponent } from "@/lib/dynamicComponent";
 
 const Product = () => {
   const params = useParams();
   const { addItem } = useCartActions();
-
-  const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
+  const [selectedOptions, setSelectedOptions] = useState<
+    Record<string, string>
+  >({});
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>();
   const [isAdded, setIsAdded] = useState(false);
+  const productData = dynamicComponent(params.handle as string);
 
   const handleSelectOptions = (options: Record<string, string>) => {
     const variant = data?.product?.variants?.edges.find((variant) =>
@@ -87,7 +85,9 @@ const Product = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="order-1">
           <div className="sticky top-4">
-            <ProductCarousel images={data?.product?.images?.edges as ImageEdge[]} />
+            <ProductCarousel
+              images={data?.product?.images?.edges as ImageEdge[]}
+            />
           </div>
         </div>
 
@@ -98,7 +98,11 @@ const Product = () => {
             </h1>
 
             {data?.product?.descriptionHtml && (
-              <div dangerouslySetInnerHTML={{ __html: data?.product?.descriptionHtml }} />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: data?.product?.descriptionHtml,
+                }}
+              />
             )}
 
             <ProductOptions
@@ -117,42 +121,52 @@ const Product = () => {
               {isAdded ? "Added in the Cart...." : "Add to Cart"}
             </Button>
 
-            <OffersAndSatisfaction />
+            {productData.offer && <productData.offer />}
           </div>
         </div>
       </div>
 
       {/* No extra gap between image and above content */}
       <div className="w-full relative mt-6" style={{ minHeight: "50px" }}>
-        <Image
-          src="/Sexuloon Ejacure web design 2.jpg"
-          alt="Responsive Image"
-          layout="responsive"
-          width={1920}
-          height={1080}
-          className="object-contain"
-          priority
-        />
+        {productData.bannerImg && (
+          <Image
+            src={productData.bannerImg}
+            alt="Responsive Image"
+            layout="responsive"
+            width={1920}
+            height={1080}
+            className="object-contain"
+            priority
+          />
+        )}
       </div>
 
       {/* Tight spacing between sections */}
-      <div className="mt-6"><TestimonialCarousel /></div>
-      <div className="mt-6"><ProductFaq /></div>
-      <div className="mt-6"><CustomerReview /></div>
-
-      <div className="w-full relative mt-6" style={{ minHeight: "300px" }}>
-        <Image
-          src="/Sexuloon Ejacure web design.jpg"
-          alt="Responsive Image"
-          layout="responsive"
-          width={1920}
-          height={1080}
-          className="object-contain"
-          priority
-        />
+      <div className="mt-6">
+        {productData.successStories && <productData.successStories />}
+      </div>
+      <div className="mt-6">{productData.faq && <productData.faq />}</div>
+      <div className="mt-6">
+        {productData.customerReview && <productData.customerReview />}
       </div>
 
-      <div className="mt-6"><OurPromise /></div>
+      <div className="w-full relative mt-6" style={{ minHeight: "300px" }}>
+        {productData.featureImg && (
+          <Image
+            src={productData.featureImg}
+            alt="Responsive Image"
+            layout="responsive"
+            width={1920}
+            height={1080}
+            className="object-contain"
+            priority
+          />
+        )}
+      </div>
+
+      <div className="mt-6">
+        {productData.cta && <productData.cta />}
+      </div>
     </div>
   );
 };
