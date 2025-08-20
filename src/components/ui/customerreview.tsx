@@ -5,10 +5,10 @@ import { useState } from 'react'
 
 const reviews = {
   average: 4.9,
-  total: 158,
+  total: 130,
   breakdown: {
-    5: 123,
-    4: 32,
+    5: 118,
+    4: 9,
     3: 3,
     2: 0,
     1: 0,
@@ -21,11 +21,11 @@ const allReviews = [
   // ⭐⭐⭐⭐⭐ (4 reviews)
   {
     id: 1,
-    name: 'Manav',
+    name: 'Rohit S',
     rating: 5,
     title: 'GOD TIER.',
-    text: 'Best product ever! Best product ever! Best product ever! Best product ever! Best product ever! Best product ever! Best product ever! Best product ever! Best product ever! Best product ever! Best product ever! Best product ever! Best product ever! Best product ever! Best product ever! Best product ever! Best product ever! Best product ever!',
-    date: 'Aug 2, 2025',
+    text: 'I noticed changes in about 10 days. It gave me relief that something finally worked.',
+    date: ' 2 weeks ago',
     // 4,
     image: '/2121.png',
   },
@@ -213,7 +213,7 @@ const CustomerReview = () => {
               ))}
             </div>
             <span className="text-base font-normal text-gray-700 ml-2">
-              Based on {reviews.total} reviews
+              Based on {reviews.total} +  men reviews
             </span>
           </div>
 

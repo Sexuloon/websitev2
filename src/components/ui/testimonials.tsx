@@ -1,197 +1,157 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+import { useEffect, useState } from "react";
 
-type Testimonial = {
-  name: string;
-  role: string;
-  image: string;
-  testimonial: string;
-};
-
-const testimonials: Testimonial[] = [
-  {
-    name: "Aditi Sharma",
-    role: "Design Lead, StudentHustle",
-    image:
-      "https://image.lexica.art/full_jpg/8f87cbeb-233e-42b7-9822-241444d591b1",
-    testimonial:
-      "The SkillBattles challenges kept my creativity alive every single day. A total game-changer.",
+const testimonials = [
+  { 
+    name: "Rohit, 28", 
+    shortText: `I was very nervous about trying anything, but within two weeks I started noticing changes...`, 
+    fullText: `I was very nervous about trying anything, but within two weeks I started noticing changes. It gave me a sense of relief that something finally worked.` 
   },
-  {
-    name: "Ravi Singh",
-    role: "Frontend Intern, DevSpark",
-    image: "/images/ravi.png",
-    testimonial:
-      "I built habits, improved skills, and had fun. It doesn’t even feel like “learning”.",
+  { 
+    name: "Arjun, 31", 
+    shortText: `At first I thought it would be like the other things I tried, but this time it was different...`, 
+    fullText: `At first I thought it would be like the other things I tried, but this time it was different. My problem actually started improving slowly.` 
   },
-  {
-    name: "Sneha Roy",
-    role: "Marketing Intern, ThinkQuotient",
-    image: "/images/sneha.png",
-    testimonial:
-      "Finally, an app that rewards effort, not just certificates. This is the future.",
+  { 
+    name: "Sameer, 27", 
+    shortText: `The best part for me was that it worked naturally, and I didn’t feel any side effects...`, 
+    fullText: `The best part for me was that it worked naturally, and I didn’t feel any side effects. I just felt better week by week.` 
   },
-  {
-    name: "Rishabh",
-    role: "Wellness User",
-    image: "/banner2.png",
-    testimonial:
-      "Noticed better stress management in just 2 months. Felt calmer and more balanced every day.",
+  { 
+    name: "Nikhil, 30", 
+    shortText: `I didn’t talk to anyone about my issue for a long time. Using this made me feel more normal again...`, 
+    fullText: `I didn’t talk to anyone about my issue for a long time. Using this made me feel more normal again, and my confidence slowly came back.` 
   },
-  {
-    name: "Ujjwal",
-    role: "Productivity Enthusiast",
-    image: "/banner3.jpg",
-    testimonial:
-      "Experienced elevated focus and mental clarity within 3 months of consistent use.",
+  { 
+    name: "Faiz, 33", 
+    shortText: `I saw changes after about 10 days. Small improvements at first, but they kept getting better...`, 
+    fullText: `I saw changes after about 10 days. Small improvements at first, but they kept getting better. That gave me hope.` 
   },
-  {
-    name: "Pranay",
-    role: "Athlete in Recovery",
-    image: "/banner3.jpg",
-    testimonial:
-      "Observed better recovery times and lower fatigue in just 3 months.",
+  { 
+    name: "Vikram, 29", 
+    shortText: `What I liked most is that it was private and easy to use. I didn’t have to explain my problem...`, 
+    fullText: `What I liked most is that it was private and easy to use. I didn’t have to explain my problem to anyone face to face, but I still got results.` 
   },
 ];
 
-const TestimonialCarousel: React.FC = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
 
-  const fullList = [...testimonials, ...testimonials];
+const TestimonialCarousel = () => {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [cardsPerView, setCardsPerView] = useState(3);
 
+  // ✅ Responsive logic for cards per view
   useEffect(() => {
-    const scroll = () => {
-      if (!scrollRef.current || !isPaused) return;
-      scrollRef.current.scrollLeft += 1;
-      if (scrollRef.current.scrollLeft >= scrollRef.current.scrollWidth / 2) {
-        scrollRef.current.scrollLeft = 0;
+    const updateCardsPerView = () => {
+      if (window.innerWidth < 640) {
+        setCardsPerView(1); // Mobile
+      } else if (window.innerWidth < 1024) {
+        setCardsPerView(2); // Tablet
+      } else {
+        setCardsPerView(3); // Desktop
       }
     };
 
-    const interval = setInterval(scroll, 20);
-    return () => clearInterval(interval);
-  }, [isPaused]);
+    updateCardsPerView();
+    window.addEventListener("resize", updateCardsPerView);
+    return () => window.removeEventListener("resize", updateCardsPerView);
+  }, []);
 
-  const scrollByAmount = (amount: number) => {
-    if (scrollRef.current) {
-      if (scrollRef.current.scrollLeft >= scrollRef.current.scrollWidth / 2) {
-        scrollRef.current.scrollLeft = 0;
-        return;
-      }
-      setIsPaused(true);
-      scrollRef.current.scrollLeft += amount;
-      setIsPaused(false);
-    }
+  const maxIndex = testimonials.length - cardsPerView;
+
+  const toggleExpand = (index: number) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
   };
 
-  // Drag helpers
-  const isDragging = useRef(false);
-  const startX = useRef(0);
-  const scrollStart = useRef(0);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    isDragging.current = true;
-    startX.current = e.touches[0].pageX;
-    scrollStart.current = scrollRef.current?.scrollLeft ?? 0;
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : maxIndex));
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging.current || !scrollRef.current) return;
-    const currentX = e.touches[0].pageX;
-    const deltaX = currentX - startX.current;
-    scrollRef.current.scrollLeft = scrollStart.current - deltaX;
-  };
-
-  const handleTouchEnd = () => {
-    isDragging.current = false;
-  };
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    isDragging.current = true;
-    startX.current = e.pageX;
-    scrollStart.current = scrollRef.current?.scrollLeft ?? 0;
-
-    const handleMouseMove = (ev: MouseEvent) => {
-      if (!isDragging.current || !scrollRef.current) return;
-      const delta = ev.pageX - startX.current;
-      scrollRef.current.scrollLeft = scrollStart.current - delta;
-    };
-
-    const handleMouseUp = () => {
-      isDragging.current = false;
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
   };
 
   return (
-    <div className="w-full">
-      <h1 className="text-3xl md:text-4xl font-extrabold text-center text-gray-900 mb-8 mt-12">
-        Our Community&apos;s Success Stories!
-      </h1>
+    <section className="bg-white py-12 px-4 relative">
+      <h2 className="text-3xl font-semibold text-center mb-8">
+        Featured Customer Reviews
+      </h2>
 
-      <div className="relative w-full overflow-hidden">
+      {/* Carousel Container */}
+      <div className="flex items-center justify-center max-w-[1400px] mx-auto relative">
         {/* Left Arrow */}
         <button
-          onClick={() => scrollByAmount(-300)}
-          className="absolute left-2 top-1/2 z-10 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow"
+          onClick={handlePrev}
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full shadow-md p-2 hover:bg-gray-100 z-10"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeftIcon className="h-6 w-6 text-gray-700" />
         </button>
+
+        {/* Cards Wrapper */}
+        <div className="overflow-hidden w-full">
+          <div
+            className="flex gap-6 transition-transform duration-500"
+            style={{
+              transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
+              width: `${(testimonials.length / cardsPerView) * 100}%`,
+            }}
+          >
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className="bg-[#FFF4DC] rounded-2xl p-6 text-center shadow-md flex-shrink-0"
+                style={{
+                  flex: `0 0 ${100 / cardsPerView}%`,
+                }}
+              >
+                {/* Star Rating */}
+                <div className="flex justify-center mb-4">
+                  {Array(5)
+                    .fill(0)
+                    .map((_, i) => (
+                      <svg
+                        key={i}
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-6 h-6 text-orange-500"
+                      >
+                        <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.879 1.486 8.315L12 18.897l-7.422 4.603 1.486-8.315L0 9.306l8.332-1.151z" />
+                      </svg>
+                    ))}
+                </div>
+
+                {/* Testimonial Text */}
+                <p className="text-gray-700 text-base mb-4 leading-relaxed">
+                  {expandedIndex === index
+                    ? `"${testimonial.fullText}"`
+                    : `"${testimonial.shortText}"`}{" "}
+                  <span
+                    className="text-orange-500 font-semibold cursor-pointer hover:underline"
+                    onClick={() => toggleExpand(index)}
+                  >
+                    {expandedIndex === index ? "less" : "more"}
+                  </span>
+                </p>
+
+                {/* Customer Name */}
+                <p className="text-gray-800 font-medium">{testimonial.name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
 
         {/* Right Arrow */}
         <button
-          onClick={() => scrollByAmount(300)}
-          className="absolute right-2 top-1/2 z-10 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow"
+          onClick={handleNext}
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white rounded-full shadow-md p-2 hover:bg-gray-100 z-10"
         >
-          <ChevronRight size={24} />
+          <ChevronRightIcon className="h-6 w-6 text-gray-700" />
         </button>
-
-        {/* Carousel */}
-        <div
-          ref={scrollRef}
-          onMouseEnter={() => setIsPaused(false)}
-          onMouseLeave={() => setIsPaused(true)}
-          onMouseDown={handleMouseDown}
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          className="flex w-full space-x-6 px-4 py-6 overflow-hidden cursor-grab active:cursor-grabbing"
-          style={{ scrollBehavior: "smooth" }}
-        >
-          {fullList.map((t, i) => (
-            <div
-              key={i}
-              className="flex-shrink-0 w-80 rounded-2xl bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 p-[0.5px]"
-            >
-              <div className="h-full w-full bg-white text-black rounded-2xl p-5 shadow-lg">
-                <div className="flex items-center space-x-4 mb-4">
-                  <Image
-                    src={t.image}
-                    alt={t.name}
-                    width={72}
-                    height={72}
-                    className="rounded-full object-cover border-2 border-black"
-                  />
-                  <div>
-                    <h4 className="text-lg font-bold">{t.name}</h4>
-                    <p className="text-sm text-gray-700">{t.role}</p>
-                  </div>
-                </div>
-                <p className="text-sm">{t.testimonial}</p>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

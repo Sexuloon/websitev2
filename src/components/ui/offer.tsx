@@ -20,12 +20,12 @@ const OffersAndSatisfaction = () => {
 
   const satisfactionData = [
     {
-      percentage: 92,
-      title: 'Men reported lasting 5-7 longer in bed'
+      percentage: 98,
+      title: 'Men reported Positive results after using our product'
     },
     {
-      percentage: 94,
-      title: 'Users saw results from their 1st time'
+      percentage: 95,
+      title: 'Users experienced improvement within 2 weeks of use'
     }
   ];
 
