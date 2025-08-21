@@ -45,7 +45,7 @@ const testimonials = [
 
 const TestimonialCarousel = () => {
   return (
-    <section className="bg-white py-12 px-10 lg:px-4 relative w-full">
+    <section className="bg-white py-12 px-10 lg:px-6 relative w-full">
       <h2 className="text-3xl font-bold text-center mb-10">
         Featured Customer Reviews
       </h2>
