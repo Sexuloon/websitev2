@@ -1,5 +1,6 @@
 "use client";
 
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -7,7 +8,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
 
 const testimonials = [
@@ -19,7 +19,7 @@ const testimonials = [
   {
     name: "Arjun, 31",
     fullText: `At first I thought it would be like the other things I tried, but this time it was different. My problem actually started improving slowly.`,
-    rating: 4,
+    rating: 5,
   },
   {
     name: "Sameer, 27",
@@ -34,7 +34,7 @@ const testimonials = [
   {
     name: "Faiz, 33",
     fullText: `I saw changes after about 10 days. Small improvements at first, but they kept getting better. That gave me hope.`,
-    rating: 4,
+    rating: 5,
   },
   {
     name: "Vikram, 29",
