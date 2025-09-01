@@ -1006,7 +1006,7 @@ export const satisfactionData_Electrosure = [
 
 export const testimonials_Electrosure = [
   {
-    name: "Rahul, 32",
+    name: "Rahul, 31",
     fullText: `I started using Testofix and within two weeks I noticed higher energy levels. It gave me the boost I was looking for and felt natural.`,
     rating: 5,
   },
