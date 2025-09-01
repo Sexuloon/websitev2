@@ -49,6 +49,7 @@ export function useStorefrontQuery<TData = unknown>(
     queryFn: async () => {
       try {
         const response = await client.request<TData>(query, variables);
+        if(!response) return null
         return response;
       } catch (error) {
         if (error instanceof Error) {
