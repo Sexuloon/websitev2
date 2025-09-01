@@ -121,7 +121,12 @@ const Product = () => {
               {isAdded ? "Added in the Cart...." : "Add to Cart"}
             </Button>
 
-            {productData.offer && <productData.offer />}
+            {productData.offer && (
+              <productData.offer
+                offers={productData.offerProps}
+                satisfaction={productData.satisfactionProps}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -143,11 +148,22 @@ const Product = () => {
 
       {/* Tight spacing between sections */}
       <div className="mt-6">
-        {productData.successStories && <productData.successStories />}
+        {productData.successStories && (
+          <productData.successStories
+            testimonials={productData.successStoriesProps}
+          />
+        )}
       </div>
-      <div className="mt-6">{productData.faq && <productData.faq />}</div>
       <div className="mt-6">
-        {productData.customerReview && <productData.customerReview />}
+        {productData.faq && <productData.faq faqs={productData.faqProps} />}
+      </div>
+      <div className="mt-6">
+        {productData.customerReview && (
+          <productData.customerReview
+            reviews={productData.reviewProps}
+            allReviews={productData.allReviewProps}
+          />
+        )}
       </div>
 
       <div className="w-full relative mt-6" style={{ minHeight: "300px" }}>
@@ -165,7 +181,7 @@ const Product = () => {
       </div>
 
       <div className="mt-6">
-        {productData.cta && <productData.cta />}
+        {productData.cta && <productData.cta promises={productData.ctaProps} />}
       </div>
     </div>
   );

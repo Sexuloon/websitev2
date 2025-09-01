@@ -1,0 +1,529 @@
+[
+    {
+        "node": {
+            "id": "gid://shopify/Product/7641804898387",
+            "title": "Ejacure - Treating Premature Ejaculation",
+            "vendor": "Sexuloon",
+            "handle": "ejacure",
+            "priceRange": {
+                "minVariantPrice": {
+                    "amount": "689.0",
+                    "currencyCode": "INR"
+                },
+                "maxVariantPrice": {
+                    "amount": "2756.0",
+                    "currencyCode": "INR"
+                }
+            },
+            "compareAtPriceRange": {
+                "minVariantPrice": {
+                    "amount": "1000.0",
+                    "currencyCode": "INR"
+                },
+                "maxVariantPrice": {
+                    "amount": "3999.0",
+                    "currencyCode": "INR"
+                }
+            },
+            "images": {
+                "edges": [
+                    {
+                        "node": {
+                            "url": "https://cdn.shopify.com/s/files/1/0645/6668/9875/files/Ejacure_web.jpg?v=1754919145",
+                            "altText": null
+                        }
+                    },
+                    {
+                        "node": {
+                            "url": "https://cdn.shopify.com/s/files/1/0645/6668/9875/files/Ejacure_web_1_7ff9a13a-ee22-4223-a572-bd1b2a6c4e76.jpg?v=1754919145",
+                            "altText": null
+                        }
+                    }
+                ]
+            },
+            "featuredImage": {
+                "url": "https://cdn.shopify.com/s/files/1/0645/6668/9875/files/Ejacure_web.jpg?v=1754919145"
+            },
+            "options": [
+                {
+                    "name": "Value Added Packs Offers",
+                    "optionValues": [
+                        {
+                            "id": "gid://shopify/ProductOptionValue/5602722218067",
+                            "name": "15 Days (1 Pack)",
+                            "swatch": null
+                        },
+                        {
+                            "id": "gid://shopify/ProductOptionValue/5602722152531",
+                            "name": "1 Month (2 Packs)",
+                            "swatch": null
+                        },
+                        {
+                            "id": "gid://shopify/ProductOptionValue/5602722185299",
+                            "name": "2 Month (4 Packs)",
+                            "swatch": null
+                        }
+                    ]
+                }
+            ],
+            "variants": {
+                "edges": [
+                    {
+                        "node": {
+                            "id": "gid://shopify/ProductVariant/42887265419347",
+                            "availableForSale": true,
+                            "compareAtPrice": {
+                                "amount": "1000.0",
+                                "currencyCode": "INR"
+                            },
+                            "price": {
+                                "amount": "689.0",
+                                "currencyCode": "INR"
+                            },
+                            "selectedOptions": [
+                                {
+                                    "name": "Value Added Packs Offers",
+                                    "value": "15 Days (1 Pack)"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "node": {
+                            "id": "gid://shopify/ProductVariant/42887265353811",
+                            "availableForSale": true,
+                            "compareAtPrice": {
+                                "amount": "1999.0",
+                                "currencyCode": "INR"
+                            },
+                            "price": {
+                                "amount": "1378.0",
+                                "currencyCode": "INR"
+                            },
+                            "selectedOptions": [
+                                {
+                                    "name": "Value Added Packs Offers",
+                                    "value": "1 Month (2 Packs)"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "node": {
+                            "id": "gid://shopify/ProductVariant/42887265386579",
+                            "availableForSale": true,
+                            "compareAtPrice": {
+                                "amount": "3999.0",
+                                "currencyCode": "INR"
+                            },
+                            "price": {
+                                "amount": "2756.0",
+                                "currencyCode": "INR"
+                            },
+                            "selectedOptions": [
+                                {
+                                    "name": "Value Added Packs Offers",
+                                    "value": "2 Month (4 Packs)"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "cursor": "eyJsYXN0X2lkIjo3NjQxODA0ODk4Mzg3LCJsYXN0X3ZhbHVlIjoiRWphY3VyZSAtIFRyZWF0aW5nIFByZW1hdHVyZSBFamFjdWxhdGlvbiIsIm9mZnNldCI6MH0="
+    },
+    {
+        "node": {
+            "id": "gid://shopify/Product/7641601933395",
+            "title": "ErectoSure",
+            "vendor": "Sexuloon",
+            "handle": "erectossure",
+            "priceRange": {
+                "minVariantPrice": {
+                    "amount": "0.0",
+                    "currencyCode": "INR"
+                },
+                "maxVariantPrice": {
+                    "amount": "0.0",
+                    "currencyCode": "INR"
+                }
+            },
+            "compareAtPriceRange": {
+                "minVariantPrice": {
+                    "amount": "0.0",
+                    "currencyCode": "INR"
+                },
+                "maxVariantPrice": {
+                    "amount": "0.0",
+                    "currencyCode": "INR"
+                }
+            },
+            "images": {
+                "edges": [
+                    {
+                        "node": {
+                            "url": "https://cdn.shopify.com/s/files/1/0645/6668/9875/files/erectosure_950637bb-14dd-4328-b993-ca7723424a7d.jpg?v=1751462035",
+                            "altText": null
+                        }
+                    },
+                    {
+                        "node": {
+                            "url": "https://cdn.shopify.com/s/files/1/0645/6668/9875/files/Erecto_Sure_web_1.jpg?v=1751510718",
+                            "altText": null
+                        }
+                    }
+                ]
+            },
+            "featuredImage": {
+                "url": "https://cdn.shopify.com/s/files/1/0645/6668/9875/files/erectosure_950637bb-14dd-4328-b993-ca7723424a7d.jpg?v=1751462035"
+            },
+            "options": [
+                {
+                    "name": "Value Added Packs Offers",
+                    "optionValues": [
+                        {
+                            "id": "gid://shopify/ProductOptionValue/5704376254547",
+                            "name": "15 Days (1 Pack)",
+                            "swatch": null
+                        },
+                        {
+                            "id": "gid://shopify/ProductOptionValue/5704376287315",
+                            "name": "1 Month (2 Packs)",
+                            "swatch": null
+                        },
+                        {
+                            "id": "gid://shopify/ProductOptionValue/5704376320083",
+                            "name": "2 Month (4 Packs)",
+                            "swatch": null
+                        }
+                    ]
+                }
+            ],
+            "variants": {
+                "edges": [
+                    {
+                        "node": {
+                            "id": "gid://shopify/ProductVariant/42998775316563",
+                            "availableForSale": true,
+                            "compareAtPrice": null,
+                            "price": {
+                                "amount": "0.0",
+                                "currencyCode": "INR"
+                            },
+                            "selectedOptions": [
+                                {
+                                    "name": "Value Added Packs Offers",
+                                    "value": "15 Days (1 Pack)"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "node": {
+                            "id": "gid://shopify/ProductVariant/42998775349331",
+                            "availableForSale": true,
+                            "compareAtPrice": null,
+                            "price": {
+                                "amount": "0.0",
+                                "currencyCode": "INR"
+                            },
+                            "selectedOptions": [
+                                {
+                                    "name": "Value Added Packs Offers",
+                                    "value": "1 Month (2 Packs)"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "node": {
+                            "id": "gid://shopify/ProductVariant/42998775382099",
+                            "availableForSale": true,
+                            "compareAtPrice": null,
+                            "price": {
+                                "amount": "0.0",
+                                "currencyCode": "INR"
+                            },
+                            "selectedOptions": [
+                                {
+                                    "name": "Value Added Packs Offers",
+                                    "value": "2 Month (4 Packs)"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "cursor": "eyJsYXN0X2lkIjo3NjQxNjAxOTMzMzk1LCJsYXN0X3ZhbHVlIjoiRXJlY3RvU3VyZSIsIm9mZnNldCI6MX0="
+    },
+    {
+        "node": {
+            "id": "gid://shopify/Product/7641800310867",
+            "title": "Staminor",
+            "vendor": "Sexuloon",
+            "handle": "staminor",
+            "priceRange": {
+                "minVariantPrice": {
+                    "amount": "1199.0",
+                    "currencyCode": "INR"
+                },
+                "maxVariantPrice": {
+                    "amount": "1199.0",
+                    "currencyCode": "INR"
+                }
+            },
+            "compareAtPriceRange": {
+                "minVariantPrice": {
+                    "amount": "1499.0",
+                    "currencyCode": "INR"
+                },
+                "maxVariantPrice": {
+                    "amount": "1499.0",
+                    "currencyCode": "INR"
+                }
+            },
+            "images": {
+                "edges": [
+                    {
+                        "node": {
+                            "url": "https://cdn.shopify.com/s/files/1/0645/6668/9875/files/Staminor.jpg?v=1751508293",
+                            "altText": null
+                        }
+                    },
+                    {
+                        "node": {
+                            "url": "https://cdn.shopify.com/s/files/1/0645/6668/9875/files/Shilajit_tablate_web_1.jpg?v=1751511015",
+                            "altText": null
+                        }
+                    }
+                ]
+            },
+            "featuredImage": {
+                "url": "https://cdn.shopify.com/s/files/1/0645/6668/9875/files/Staminor.jpg?v=1751508293"
+            },
+            "options": [
+                {
+                    "name": "Value Added Packs Offers",
+                    "optionValues": [
+                        {
+                            "id": "gid://shopify/ProductOptionValue/5704375926867",
+                            "name": "15 Days (1 Pack)",
+                            "swatch": null
+                        },
+                        {
+                            "id": "gid://shopify/ProductOptionValue/5704375959635",
+                            "name": "1 Month (2 Packs)",
+                            "swatch": null
+                        },
+                        {
+                            "id": "gid://shopify/ProductOptionValue/5704375992403",
+                            "name": "2 Month (4 Packs)",
+                            "swatch": null
+                        }
+                    ]
+                }
+            ],
+            "variants": {
+                "edges": [
+                    {
+                        "node": {
+                            "id": "gid://shopify/ProductVariant/42998774988883",
+                            "availableForSale": true,
+                            "compareAtPrice": {
+                                "amount": "1499.0",
+                                "currencyCode": "INR"
+                            },
+                            "price": {
+                                "amount": "1199.0",
+                                "currencyCode": "INR"
+                            },
+                            "selectedOptions": [
+                                {
+                                    "name": "Value Added Packs Offers",
+                                    "value": "15 Days (1 Pack)"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "node": {
+                            "id": "gid://shopify/ProductVariant/42998775021651",
+                            "availableForSale": true,
+                            "compareAtPrice": {
+                                "amount": "1499.0",
+                                "currencyCode": "INR"
+                            },
+                            "price": {
+                                "amount": "1199.0",
+                                "currencyCode": "INR"
+                            },
+                            "selectedOptions": [
+                                {
+                                    "name": "Value Added Packs Offers",
+                                    "value": "1 Month (2 Packs)"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "node": {
+                            "id": "gid://shopify/ProductVariant/42998775054419",
+                            "availableForSale": true,
+                            "compareAtPrice": {
+                                "amount": "1499.0",
+                                "currencyCode": "INR"
+                            },
+                            "price": {
+                                "amount": "1199.0",
+                                "currencyCode": "INR"
+                            },
+                            "selectedOptions": [
+                                {
+                                    "name": "Value Added Packs Offers",
+                                    "value": "2 Month (4 Packs)"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "cursor": "eyJsYXN0X2lkIjo3NjQxODAwMzEwODY3LCJsYXN0X3ZhbHVlIjoiU3RhbWlub3IiLCJvZmZzZXQiOjJ9"
+    },
+    {
+        "node": {
+            "id": "gid://shopify/Product/7603925483603",
+            "title": "Testofix - Testosterone, stamina & vitality",
+            "vendor": "My Store",
+            "handle": "same-products",
+            "priceRange": {
+                "minVariantPrice": {
+                    "amount": "1000.0",
+                    "currencyCode": "INR"
+                },
+                "maxVariantPrice": {
+                    "amount": "1000.0",
+                    "currencyCode": "INR"
+                }
+            },
+            "compareAtPriceRange": {
+                "minVariantPrice": {
+                    "amount": "5000.0",
+                    "currencyCode": "INR"
+                },
+                "maxVariantPrice": {
+                    "amount": "5000.0",
+                    "currencyCode": "INR"
+                }
+            },
+            "images": {
+                "edges": [
+                    {
+                        "node": {
+                            "url": "https://cdn.shopify.com/s/files/1/0645/6668/9875/files/Testo_Fix_111_1.jpg?v=1756540233",
+                            "altText": null
+                        }
+                    },
+                    {
+                        "node": {
+                            "url": "https://cdn.shopify.com/s/files/1/0645/6668/9875/files/Sexuloon_Testofix_web_1.jpg?v=1756540282",
+                            "altText": null
+                        }
+                    }
+                ]
+            },
+            "featuredImage": {
+                "url": "https://cdn.shopify.com/s/files/1/0645/6668/9875/files/Testo_Fix_111_1.jpg?v=1756540233"
+            },
+            "options": [
+                {
+                    "name": "Value Added Packs Offers",
+                    "optionValues": [
+                        {
+                            "id": "gid://shopify/ProductOptionValue/5702141968467",
+                            "name": "15 Days (1 Pack)",
+                            "swatch": null
+                        },
+                        {
+                            "id": "gid://shopify/ProductOptionValue/5702142001235",
+                            "name": "1 Month (2 Packs)",
+                            "swatch": null
+                        },
+                        {
+                            "id": "gid://shopify/ProductOptionValue/5702142034003",
+                            "name": "2 Month (4 Packs)",
+                            "swatch": null
+                        }
+                    ]
+                }
+            ],
+            "variants": {
+                "edges": [
+                    {
+                        "node": {
+                            "id": "gid://shopify/ProductVariant/42996493353043",
+                            "availableForSale": true,
+                            "compareAtPrice": {
+                                "amount": "5000.0",
+                                "currencyCode": "INR"
+                            },
+                            "price": {
+                                "amount": "1000.0",
+                                "currencyCode": "INR"
+                            },
+                            "selectedOptions": [
+                                {
+                                    "name": "Value Added Packs Offers",
+                                    "value": "15 Days (1 Pack)"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "node": {
+                            "id": "gid://shopify/ProductVariant/42996493385811",
+                            "availableForSale": true,
+                            "compareAtPrice": {
+                                "amount": "5000.0",
+                                "currencyCode": "INR"
+                            },
+                            "price": {
+                                "amount": "1000.0",
+                                "currencyCode": "INR"
+                            },
+                            "selectedOptions": [
+                                {
+                                    "name": "Value Added Packs Offers",
+                                    "value": "1 Month (2 Packs)"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "node": {
+                            "id": "gid://shopify/ProductVariant/42996493418579",
+                            "availableForSale": true,
+                            "compareAtPrice": {
+                                "amount": "5000.0",
+                                "currencyCode": "INR"
+                            },
+                            "price": {
+                                "amount": "1000.0",
+                                "currencyCode": "INR"
+                            },
+                            "selectedOptions": [
+                                {
+                                    "name": "Value Added Packs Offers",
+                                    "value": "2 Month (4 Packs)"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        "cursor": "eyJsYXN0X2lkIjo3NjAzOTI1NDgzNjAzLCJsYXN0X3ZhbHVlIjoiVGVzdG9maXggLSBUZXN0b3N0ZXJvbmUsIHN0YW1pbmEgJiB2aXRhbGl0eSIsIm9mZnNldCI6M30="
+    }
+]

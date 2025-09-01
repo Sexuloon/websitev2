@@ -7,13 +7,25 @@ import Collections from "../view/Collections";
 
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState("Erectile Dysfunction");
-
+  const [categoryValue, setCategoryValue] = useState("bettererections");
   // Categories
   const categories = [
-    "Erectile Dysfunction",
-    "Premature Ejaculation",
-    "Low Testosterone",
-    "All Products",
+    {
+      key: "Erectile Dysfunction",
+      value: "bettererections",
+    },
+    {
+      key: "Premature Ejaculation",
+      value: "lastlonger",
+    },
+    {
+      key: "Low Testosterone",
+      value: "lowtestostrone",
+    },
+    {
+      key: "All Products",
+      value: "allproduct",
+    },
   ];
 
   return (
@@ -78,15 +90,18 @@ export default function Home() {
                 {categories.map((category, index) => (
                   <button
                     key={index}
-                    onClick={() => setActiveCategory(category)}
+                    onClick={() => {
+                      setActiveCategory(category.key);
+                      setCategoryValue(category.value);
+                    }}
                     className={`px-5 py-2 rounded-md border text-sm font-semibold whitespace-nowrap transition-all duration-200
                         ${
-                          activeCategory === category
+                          activeCategory === category.key
                             ? "bg-black text-white border-black"
                             : "bg-white text-black border-black hover:bg-gray-100"
                         }`}
                   >
-                    {category}
+                    {category.key}
                   </button>
                 ))}
               </div>
@@ -95,7 +110,7 @@ export default function Home() {
 
           {/* Products Grid */}
           <div className="mt-10">
-            <BestSelling />
+            <BestSelling category={categoryValue} />
           </div>
 
           {/* View All Button */}
@@ -383,8 +398,8 @@ export default function Home() {
               <div className="rounded-2xl overflow-hidden shadow-xl relative">
                 <div className="relative h-80 sm:h-[450px] w-full">
                   <Image
-                  width={1000}
-                  height={1000}
+                    width={1000}
+                    height={1000}
                     src="https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                     alt="Doctor consulting with patient"
                     className="object-cover"
@@ -579,8 +594,8 @@ export default function Home() {
               <div className="rounded-2xl overflow-hidden shadow-xl relative">
                 <div className="relative h-80 sm:h-[450px] w-full">
                   <Image
-                  width={1000}
-                  height={1000}
+                    width={1000}
+                    height={1000}
                     src="https://images.pexels.com/photos/2280551/pexels-photo-2280551.jpeg?auto=compress&cs=tinysrgb&w=600"
                     alt="Medical Expert"
                     className="object-cover"

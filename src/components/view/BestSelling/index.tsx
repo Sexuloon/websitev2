@@ -1,11 +1,13 @@
+"use client";
 import { Skeleton } from "@/components/ui/skeleton";
 import ProductCard from "@/components/view/ProductCard";
 import { GET_COLLECTION_BY_HANDLE_WITH_PAGINATION_QUERY } from "@/graphql/collections";
 import { useStorefrontQuery } from "@/hooks/useStorefront";
 import { GetCollectionByHandleQuery, Product } from "@/types/shopify-graphql";
-export const dynamic = 'force-dynamic';
+import { useEffect, useState } from "react";
+export const dynamic = "force-dynamic";
 
-const CollectionPage = () => {
+const CollectionPage = ({ category }: { category: string }) => {
   const { data, isLoading } = useStorefrontQuery<GetCollectionByHandleQuery>(
     ["collections", null],
     {
@@ -17,6 +19,29 @@ const CollectionPage = () => {
       },
     }
   );
+
+  const [filterProducts, setFilterProducts] = useState<Product[]>([]);
+
+  const filterKeys = {
+    bettererections: ["erectossure", "staminor"],
+    lastlonger: ["ejacure", "staminor"],
+    lowtestostrone: ["same-products", "staminor"],
+    allproduct: [],
+  };
+
+  const handleFilter = () => {
+    const info = data?.collection?.products?.edges ?? [];
+    if (info.length > 0) {
+      const filtered = info
+        .map((f) => f.node as Product)
+        .filter((product) => filterKeys[category]?.includes(product.handle));
+      setFilterProducts(filtered);
+    }
+  };
+
+  useEffect(() => {
+    if (data) handleFilter();
+  }, [data, category]);
 
   if (isLoading) {
     return (
@@ -31,15 +56,17 @@ const CollectionPage = () => {
     );
   }
 
+  console.log("Filtered Products:", filterProducts);
+
   return (
     <div className="my-10 flex flex-col gap-y-6 px-4 sm:px-6 lg:px-10">
       {/* Products Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-        {data?.collection?.products?.edges?.map((product) => (
-          <ProductCard
-            key={product?.node?.id}
-            product={product.node as Product}
-          />
+        {(filterProducts.length > 0
+          ? filterProducts
+          : data?.collection?.products?.edges?.map((p) => p.node as Product)
+        )?.map((product) => (
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
 

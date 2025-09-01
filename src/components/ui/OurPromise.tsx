@@ -1,34 +1,9 @@
 // src/components/OurPromise.tsx
 import Image from "next/image";
 
-const promises = [
-  {
-    icon: "/dd.png", // Place your icons in public/icons/
-    title: "Discreet Delivery",
-    description:
-      "We deliver Surge right to your door with full privacy. Enjoy convenience without any awkwardness.",
-  },
-  {
-    icon: "/ei.png",
-    title: "Enhanced Intimacy",
-    description:
-      "Boost your confidence in the bedroom with our fast-acting formula, helping you last 5–7 times longer.",
-  },
-  {
-    icon: "/quct.png",
-    title: "Quality You Can Trust",
-    description:
-      "All our men’s wellness products are FDA-approved and rigorously tested for safety and effectiveness.",
-  },
-  {
-    icon: "/ecs.png",
-    title: "Support That Cares",
-    description:
-      "Experience industry-leading support from our team, ensuring confidential and reliable service at every stage.",
-  },
-];
 
-const OurPromise = () => {
+
+const OurPromise = ({promises}) => {
   return (
     <section className="py-12 bg-white text-center">
       <h2 className="text-3xl font-bold text-gray-900 mb-10">The Sexuloon Promise</h2>

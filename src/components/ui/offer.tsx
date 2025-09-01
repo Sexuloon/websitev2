@@ -4,30 +4,10 @@ import { useEffect, useState } from 'react';
 
 
 
-const OffersAndSatisfaction = () => {
+const OffersAndSatisfaction = ({offers,satisfaction}) => {
   const [isOffersExpanded, setIsOffersExpanded] = useState(true);
 
-  const offers = [
-    {
-      code: 'SAVE5',
-      description: 'Get 5% off + 10% prepaid discount'
-    },
-    {
-      code: 'SAVE10',
-      description: 'Get 10% off on orders above Rs.999 + FREE Gift + 10% prepaid discount'
-    }
-  ];
-
-  const satisfactionData = [
-    {
-      percentage: 98,
-      title: 'Men reported Positive results after using our product'
-    },
-    {
-      percentage: 95,
-      title: 'Users experienced improvement within 2 weeks of use'
-    }
-  ];
+  
 
  const CircularProgress = ({ percentage, strokeWidth = 8 }) => {
   const [size, setSize] = useState(120);
@@ -120,7 +100,7 @@ const OffersAndSatisfaction = () => {
   </h2>
 
   <div className="flex justify-center gap-6 flex-nowrap px-4">
-    {satisfactionData.map((item, index) => (
+    {satisfaction.map((item, index) => (
       <div
         key={index}
         className="flex flex-col items-center text-center w-[calc(50%-0.75rem)] sm:w-auto"
