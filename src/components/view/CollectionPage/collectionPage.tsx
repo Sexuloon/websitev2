@@ -32,20 +32,21 @@ const CollectionPage = ({ handle }: { handle: string }) => {
       },
     }
   );
+  
 
   useEffect(() => {
     if (data?.collection?.products?.edges.length > 0) {
-      window.sessionStorage.setItem(
-        "data",
-        JSON.stringify(data.collection.products.edges)
-      );
+      // window.sessionStorage.setItem(
+      //   "data",
+      //   JSON.stringify(data.collection.products.edges)
+      // );
       setProduct(data.collection.products.edges);
     }
-    if (!data) {
-      const cacheData = window.sessionStorage.getItem("data");
-      if (!cacheData) return;
-      setProduct(JSON.parse(cacheData));
-    }
+    // if (!data) {
+    //   const cacheData = window.sessionStorage.getItem("data");
+    //   if (!cacheData) return;
+    //   setProduct(JSON.parse(cacheData));
+    // }
   }, [handle]);
 
   const handleNextPage = () => {

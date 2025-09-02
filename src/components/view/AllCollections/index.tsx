@@ -149,7 +149,7 @@ const AllCollections = () => {
           // If more than 6 collections, make it scrollable
           <div className="overflow-x-auto">
             <div className="flex gap-8 px-4 pb-2" style={{ minWidth: 'max-content' }}>
-              {data.collections.edges.map((collection) => (
+              {data?.collections?.edges.map((collection) => (
                 <button
                   key={collection.node.id}
                   onClick={() =>

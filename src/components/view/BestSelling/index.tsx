@@ -13,7 +13,7 @@ const CollectionPage = ({ category }: { category: string }) => {
     {
       query: GET_COLLECTION_BY_HANDLE_WITH_PAGINATION_QUERY,
       variables: {
-        handle: "best-sellers",
+        handle: "all-products",
         first: 12,
         after: null,
       },
@@ -25,7 +25,7 @@ const CollectionPage = ({ category }: { category: string }) => {
   const filterKeys = {
     bettererections: ["erectossure", "staminor"],
     lastlonger: ["ejacure", "staminor"],
-    lowtestostrone: ["same-products", "staminor"],
+    lowtestostrone: ["testofix", "staminor"],
     allproduct: [],
   };
 

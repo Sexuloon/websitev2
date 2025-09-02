@@ -11,7 +11,7 @@ const BestPerformingPage = () => {
     {
       query: GET_COLLECTION_BY_HANDLE_WITH_PAGINATION_QUERY,
       variables: {
-        handle: "best-sellers",
+        handle: "all-products",
         first: 12,
         after: null,
       },
