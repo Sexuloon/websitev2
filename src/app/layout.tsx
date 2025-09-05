@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Sexuloon",
     description: "India’s Most Trusted Sexual Wellness Brand",
-    images: ["/seo-banner.png"], // ✅ Update with your OG image
+    images: ["/seo-banner.png"], 
   },
 };
 

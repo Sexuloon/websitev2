@@ -12,17 +12,16 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 
 const CollectionPage = ({ handle }: { handle: string }) => {
   // Pagination
   const [currentCursor, setCurrentCursor] = useState<string | null>(null);
   const [previousCursors, setPreviousCursors] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [products, setProduct] = useState([]);
 
   const { data, isLoading } = useStorefrontQuery<GetCollectionByHandleQuery>(
-    ["collections", currentCursor],
+    ["collections", handle, currentCursor],
     {
       query: GET_COLLECTION_BY_HANDLE_WITH_PAGINATION_QUERY,
       variables: {
@@ -32,22 +31,8 @@ const CollectionPage = ({ handle }: { handle: string }) => {
       },
     }
   );
-  
 
-  useEffect(() => {
-    if (data?.collection?.products?.edges.length > 0) {
-      // window.sessionStorage.setItem(
-      //   "data",
-      //   JSON.stringify(data.collection.products.edges)
-      // );
-      setProduct(data.collection.products.edges);
-    }
-    // if (!data) {
-    //   const cacheData = window.sessionStorage.getItem("data");
-    //   if (!cacheData) return;
-    //   setProduct(JSON.parse(cacheData));
-    // }
-  }, [handle]);
+  
 
   const handleNextPage = () => {
     if (currentCursor) {
@@ -97,18 +82,17 @@ const CollectionPage = ({ handle }: { handle: string }) => {
   }
 
   // Check if collection has products
-  const hasProducts = products.length > 0;
+  const hasProducts = data?.collection?.products?.edges.length > 0
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-6 sm:py-8 lg:py-10">
         {/* Collection Header */}
-
         {/* Products Grid */}
         {hasProducts ? (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12">
-              {products?.map((product) => (
+              {data?.collection?.products?.edges?.map((product) => (
                 <div
                   key={product?.node?.id}
                   className="group transition-transform duration-200 hover:scale-[1.02]"
