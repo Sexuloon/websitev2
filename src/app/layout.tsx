@@ -8,6 +8,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import React from "react";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { PostHogProvider } from "@/posthog/posthog-provider";
 
 // Load Google Fonts
 const geistSans = Geist({
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Sexuloon",
     description: "India’s Most Trusted Sexual Wellness Brand",
-    images: ["/seo-banner.png"], 
+    images: ["/seo-banner.png"],
   },
 };
 
@@ -76,7 +77,10 @@ export default function RootLayout({
 
         {/* Open Graph Meta (Redundant here but safe fallback) */}
         <meta property="og:title" content="Sexuloon" />
-        <meta property="og:description" content="India’s Most Trusted Sexual Wellness Brand" />
+        <meta
+          property="og:description"
+          content="India’s Most Trusted Sexual Wellness Brand"
+        />
         <meta property="og:image" content="/seo-banner.png" />
         <meta property="og:url" content="https://www.sexuloon.in" />
         <meta property="og:type" content="website" />
@@ -84,17 +88,22 @@ export default function RootLayout({
         {/* Twitter Cards */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Sexuloon" />
-        <meta name="twitter:description" content="India’s Most Trusted Sexual Wellness Brand" />
+        <meta
+          name="twitter:description"
+          content="India’s Most Trusted Sexual Wellness Brand"
+        />
         <meta name="twitter:image" content="/seo-banner.png" />
       </head>
       <body className="antialiased mx-auto max-w-8xl">
-        <Providers>
-          <InfiniteScrollingText />
-          <Navbar />
-          <Toaster />
-          {children}
-          <Footer />
-        </Providers>
+        <PostHogProvider>
+          <Providers>
+            <InfiniteScrollingText />
+            <Navbar />
+            <Toaster />
+            {children}
+            <Footer />
+          </Providers>
+        </PostHogProvider>
       </body>
 
       {/* Google Analytics */}

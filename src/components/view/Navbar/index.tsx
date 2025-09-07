@@ -45,7 +45,7 @@ function Navbar() {
           {[
             { href: "/", label: "Home" },
             { href: "/collections/all-products", label: "All Products" },
-            { href: "/consultation", label: "Consultation" },
+            { href: "/consultancy", label: "Consultation" },
           ].map(({ href, label }) => (
             <Link
               key={label}
