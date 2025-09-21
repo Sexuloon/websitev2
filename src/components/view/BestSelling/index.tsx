@@ -56,7 +56,7 @@ const CollectionPage = ({ category }: { category: string }) => {
     );
   }
 
-  console.log("Filtered Products:", filterProducts);
+
 
   return (
     <div className="my-10 flex flex-col gap-y-6 px-4 sm:px-6 lg:px-10">

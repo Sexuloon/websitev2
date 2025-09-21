@@ -6,7 +6,8 @@ import { useStorefrontQuery } from "@/hooks/useStorefront";
 import { GetCollectionsQuery } from "@/types/shopify-graphql";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-export const dynamic = 'force-dynamic'; 
+export const dynamic = "force-dynamic";
+import Link from "next/link";
 
 const AllCollections = () => {
   const router = useRouter();
@@ -22,16 +23,22 @@ const AllCollections = () => {
       <div className="w-full py-6">
         {/* Mobile: Horizontal scroll */}
         <div className="sm:hidden overflow-x-auto">
-          <div className="flex gap-4 items-center justify-center px-4 pb-2" style={{ minWidth: 'max-content' }}>
+          <div
+            className="flex gap-4 items-center justify-center px-4 pb-2"
+            style={{ minWidth: "max-content" }}
+          >
             {Array.from({ length: 9 }).map((_, index) => (
-              <div key={index} className="flex flex-col items-center flex-shrink-0">
+              <div
+                key={index}
+                className="flex flex-col items-center flex-shrink-0"
+              >
                 <Skeleton className="w-16 h-16 rounded-full mb-2" />
                 <Skeleton className="h-3 w-12" />
               </div>
             ))}
           </div>
         </div>
-        
+
         {/* Tablet: 4 columns */}
         <div className="hidden sm:grid md:hidden grid-cols-4 gap-6 px-4">
           {Array.from({ length: 8 }).map((_, index) => (
@@ -41,7 +48,7 @@ const AllCollections = () => {
             </div>
           ))}
         </div>
-        
+
         {/* Desktop: Horizontal scroll */}
         <div className="hidden md:flex gap-6 justify-center px-4 overflow-x-auto">
           {Array.from({ length: 9 }).map((_, index) => (
@@ -59,20 +66,27 @@ const AllCollections = () => {
     <div className="w-full py-4 scroll-smooth ">
       {/* Mobile: Horizontal scrollable */}
       <div className="sm:hidden overflow-x-auto">
-        <div className="flex items-center justify-center gap-7 px-4 pb-2" style={{ minWidth: 'max-content' }}>
+        <div
+          className="flex items-center justify-center gap-7 px-4 pb-2"
+          style={{ minWidth: "max-content" }}
+        >
           {data?.collections.edges.map((collection) => (
-            <button
+            <Link
+              prefetch
               key={collection.node.id}
-              onClick={() =>
-                router.push(`/collections/${collection.node.handle}`)
-              }
+              href={`/collections/${collection.node.handle}`}
+              // onClick={() =>
+              //   router.push(`/collections/${collection.node.handle}`)
+              // }
               className="flex flex-col items-center group flex-shrink-0"
             >
               <div className="relative w-10 h-10 mb-2">
                 <div className="w-full h-full overflow-hidden bg-white shadow-sm rounded-full border border-gray-200 group-hover:shadow-md transition-shadow duration-200">
                   <Image
                     src={collection.node.image?.url ?? "/placeholder.png"}
-                    alt={collection.node.image?.altText ?? collection.node.title}
+                    alt={
+                      collection.node.image?.altText ?? collection.node.title
+                    }
                     fill
                     className="object-cover rounded-full group-hover:scale-105 transition-transform duration-200"
                     sizes="64px"
@@ -82,7 +96,7 @@ const AllCollections = () => {
               <h3 className="text-black text-center font-medium leading-tight text-xs w-16 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
                 {collection.node.title}
               </h3>
-            </button>
+            </Link>
           ))}
         </div>
       </div>
@@ -132,7 +146,9 @@ const AllCollections = () => {
                   <div className="w-full h-full overflow-hidden bg-white shadow-sm rounded-full border border-gray-200 group-hover:shadow-lg transition-shadow duration-300">
                     <Image
                       src={collection.node.image?.url ?? "/placeholder.png"}
-                      alt={collection.node.image?.altText ?? collection.node.title}
+                      alt={
+                        collection.node.image?.altText ?? collection.node.title
+                      }
                       fill
                       className="object-cover rounded-full group-hover:scale-110 transition-transform duration-300"
                       sizes="80px"
@@ -148,7 +164,10 @@ const AllCollections = () => {
         ) : (
           // If more than 6 collections, make it scrollable
           <div className="overflow-x-auto">
-            <div className="flex gap-8 px-4 pb-2" style={{ minWidth: 'max-content' }}>
+            <div
+              className="flex gap-8 px-4 pb-2"
+              style={{ minWidth: "max-content" }}
+            >
               {data?.collections?.edges.map((collection) => (
                 <button
                   key={collection.node.id}
@@ -161,7 +180,10 @@ const AllCollections = () => {
                     <div className="w-full h-full overflow-hidden bg-white shadow-sm rounded-full border border-gray-200 group-hover:shadow-lg transition-shadow duration-300">
                       <Image
                         src={collection.node.image?.url ?? "/placeholder.png"}
-                        alt={collection.node.image?.altText ?? collection.node.title}
+                        alt={
+                          collection.node.image?.altText ??
+                          collection.node.title
+                        }
                         fill
                         className="object-cover rounded-full group-hover:scale-110 transition-transform duration-300"
                         sizes="80px"
