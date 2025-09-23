@@ -1,5 +1,5 @@
-import React from "react";
-import { Calendar, Stethoscope, Clock } from "lucide-react";
+import { Calendar, Clock, Stethoscope } from "lucide-react";
+import Link from 'next/link';
 
 function Page() {
   return (
@@ -67,10 +67,10 @@ function Page() {
           </p>
 
           <div className="mt-6 flex flex-col sm:flex-row items-center lg:items-start gap-3">
-            <button className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg text-white font-medium transition w-full sm:w-auto">
+           <Link href="/joinus" className="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg text-white font-medium transition w-full sm:w-auto">
               Join Us
-            </button>
-          </div>
+            </Link>
+            </div>
         </div>
       </div>
     </div>
