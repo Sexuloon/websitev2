@@ -12,15 +12,15 @@ export default function FAQPage() {
     General: [
       {
         q: "What is Sexuloon?",
-        a: "Sexuloon is your trusted partner for men’s sexual wellness. From Ayurveda & Unani solutions to doctor consultations, we’ve got you covered—confidentially.",
+        a: "Sexuloon is your trusted partner for men's sexual wellness. From Ayurveda & Unani solutions to doctor consultations, we've got you covered—confidentially.",
       },
       {
         q: "Who can use Sexuloon?",
         a: "Any man aged 18+ who wants to improve his sexual health.",
       },
       {
-        q: "Can I use Sexuloon if I’m just curious about my health?",
-        a: "Of course! You don’t need to have a “problem” to care about your sexual health. Prevention and awareness are equally important.",
+        q: "Can I use Sexuloon if I'm just curious about my health?",
+        a: "Of course! You don't need to have a 'problem' to care about your sexual health. Prevention and awareness are equally important.",
       },
     ],
     Privacy: [
@@ -34,7 +34,7 @@ export default function FAQPage() {
       },
       {
         q: "Is it awkward to consult online?",
-        a: "Not at all. Our doctors are professionals who deal with men’s health daily. You’ll feel comfortable and heard.",
+        a: "Not at all. Our doctors are professionals who deal with men's health daily. You'll feel comfortable and heard.",
       },
     ],
     "Doctors & Medicines": [
@@ -44,7 +44,7 @@ export default function FAQPage() {
       },
       {
         q: "Do I need a prescription?",
-        a: "Not always. For Ayurveda & Unani remedies, you don’t. For modern medicines, you’ll need a doctor’s prescription—which you can get right here on our platform.",
+        a: "Not always. For Ayurveda & Unani remedies, you don't. For modern medicines, you'll need a doctor's prescription—which you can get right here on our platform.",
       },
       {
         q: "Can I talk to a doctor online?",
@@ -66,7 +66,7 @@ export default function FAQPage() {
       },
       {
         q: "Why should I trust Sexuloon?",
-        a: "Because we’re here to remove the shame around men’s sexual health. We combine science + natural care, all while keeping your privacy first.",
+        a: "Because we're here to remove the shame around men's sexual health. We combine science + natural care, all while keeping your privacy first.",
       },
     ],
   };
@@ -76,13 +76,13 @@ export default function FAQPage() {
   };
 
   return (
-    <div className="bg-[#fdf6ec]">
+    <div className="bg-gradient-to-br from-blue-50 to-white">
       {/* FAQ Section */}
       <section className="min-h-screen py-12 px-4 sm:px-6">
         {/* Header Section */}
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="md:w-1/2 text-center md:text-left">
-            <h1 className="text-3xl sm:text-4xl font-bold mb-4">
+            <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-gray-900">
               Frequently Asked Questions
             </h1>
             <p className="text-gray-600">
@@ -95,17 +95,17 @@ export default function FAQPage() {
             <img
               src="/doctor.jpg"
               alt="faq"
-              className="w-24 h-24 sm:w-28 sm:h-28 rounded-lg object-cover shadow-md flex-shrink-0"
+              className="w-24 h-24 sm:w-28 sm:h-28 rounded-lg object-cover shadow-md flex-shrink-0 border-2 border-blue-200"
             />
             <img
               src="/q.jpg"
               alt="faq"
-              className="w-24 h-24 sm:w-28 sm:h-28 rounded-lg object-cover shadow-md flex-shrink-0"
+              className="w-24 h-24 sm:w-28 sm:h-28 rounded-lg object-cover shadow-md flex-shrink-0 border-2 border-blue-200"
             />
             <img
               src="/couple.jpg"
               alt="faq"
-              className="w-24 h-24 sm:w-28 sm:h-28 rounded-lg object-cover shadow-md flex-shrink-0"
+              className="w-24 h-24 sm:w-28 sm:h-28 rounded-lg object-cover shadow-md flex-shrink-0 border-2 border-blue-200"
             />
           </div>
         </div>
@@ -113,13 +113,13 @@ export default function FAQPage() {
         {/* FAQ Section */}
         <div className="max-w-6xl mx-auto mt-12 flex flex-col md:flex-row gap-8">
           {/* Left Side: Topics */}
-          <div className="hidden md:block md:w-1/3 border-r pr-6">
+          <div className="hidden md:block md:w-1/3 border-r border-blue-200 pr-6">
             {Object.keys(topics).map((topic) => (
               <div
                 key={topic}
                 className={`cursor-pointer py-3 font-semibold ${
                   activeTopic === topic
-                    ? "text-black border-l-4 border-black pl-2"
+                    ? "text-blue-600 border-l-4 border-blue-600 pl-2"
                     : "text-gray-500"
                 }`}
                 onClick={() => {
@@ -133,13 +133,13 @@ export default function FAQPage() {
           </div>
 
           {/* Mobile tabs */}
-          <div className="md:hidden flex gap-4 overflow-x-auto pb-2 border-b">
+          <div className="md:hidden flex gap-4 overflow-x-auto pb-2 border-b border-blue-200">
             {Object.keys(topics).map((topic) => (
               <button
                 key={topic}
                 className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium ${
                   activeTopic === topic
-                    ? "bg-black text-white"
+                    ? "bg-blue-600 text-white"
                     : "bg-gray-200 text-gray-600"
                 }`}
                 onClick={() => {
@@ -158,15 +158,15 @@ export default function FAQPage() {
               <div
                 key={index}
                 className={`rounded-xl border p-4 ${
-                  openIndex === index ? "bg-red-100 shadow-md" : "bg-white"
+                  openIndex === index ? "bg-blue-50 shadow-md border-blue-300" : "bg-white border-blue-100"
                 }`}
               >
                 <button
-                  className="w-full flex justify-between items-center text-left font-semibold"
+                  className="w-full flex justify-between items-center text-left font-semibold text-gray-900"
                   onClick={() => toggleFAQ(index)}
                 >
                   {faq.q}
-                  <span>{openIndex === index ? "−" : "+"}</span>
+                  <span className="text-blue-600">{openIndex === index ? "−" : "+"}</span>
                 </button>
                 {openIndex === index && (
                   <p className="mt-2 text-gray-600">{faq.a}</p>
@@ -178,25 +178,25 @@ export default function FAQPage() {
       </section>
 
       {/* Bottom Section */}
-      <section className="w-full bg-[#fdf6ec] text-black px-4 md:px-8 py-12 md:py-20">
+      <section className="w-full bg-white text-black px-4 md:px-8 py-12 md:py-20">
         {/* Highlight Box */}
-        <div className="max-w-4xl mx-auto bg-orange-200 rounded-xl shadow-lg border-2 border-yellow-400 p-8 md:p-12 text-center relative">
-          <h2 className="text-3xl md:text-4xl font-bold text-brown-800">
+        <div className="max-w-4xl mx-auto bg-blue-50 rounded-xl shadow-lg border-2 border-blue-300 p-8 md:p-12 text-center relative">
+          <h2 className="text-3xl md:text-4xl font-bold text-blue-900">
             Unlock Your Wellness Potential
           </h2>
-          <p className="mt-4 text-brown-700 text-base md:text-lg">
+          <p className="mt-4 text-gray-700 text-base md:text-lg">
             Ready to improve your health and productivity? <br />
             Sexuloon simplifies the process with trusted wellness solutions.
           </p>
-          <button className="mt-6 px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold rounded-lg shadow-md transition">
+          <button className="mt-6 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition">
             Get Started
           </button>
         </div>
 
         {/* Footer */}
         <div className="max-w-4xl mx-auto mt-12 text-center">
-          <h3 className="text-lg font-semibold">Sexuloon</h3>
-          <p className="text-gray-400 mt-2">
+          <h3 className="text-lg font-semibold text-gray-900">Sexuloon</h3>
+          <p className="text-gray-600 mt-2">
             A trusted health & wellness medicine platform that makes wellness
             simple.
           </p>
@@ -206,16 +206,16 @@ export default function FAQPage() {
             <a
               href="#"
               aria-label="LinkedIn"
-              className="p-2 rounded-full border border-gray-600 hover:border-white transition"
+              className="p-2 rounded-full border border-blue-400 hover:border-blue-600 hover:bg-blue-50 transition"
             >
-              <Linkedin className="w-6 h-6" />
+              <Linkedin className="w-6 h-6 text-blue-600" />
             </a>
             <a
               href="#"
               aria-label="Instagram"
-              className="p-2 rounded-full border border-gray-600 hover:border-white transition"
+              className="p-2 rounded-full border border-blue-400 hover:border-blue-600 hover:bg-blue-50 transition"
             >
-              <Instagram className="w-6 h-6" />
+              <Instagram className="w-6 h-6 text-blue-600" />
             </a>
           </div>
 

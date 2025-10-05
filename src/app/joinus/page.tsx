@@ -1,29 +1,128 @@
 "use client";
 
 import { useState } from "react";
+import { CheckCircle, Mail, Phone, Clock } from 'lucide-react';
 
 export default function DoctorRegistrationForm() {
-  const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
-  const [licensePreview, setLicensePreview] = useState<string | null>(null);
-  const [panPreview, setPanPreview] = useState<string | null>(null);
-  const [aadhaarPreview, setAadhaarPreview] = useState<string | null>(null);
-
-  // File preview handler
-  const handleFileChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    setPreview: (url: string | null) => void
-  ) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setPreview(url);
-    }
-  };
+  const [info, setInfo] = useState({
+    name: "",
+    gender: "",
+    phonenumber: "",
+    email: "",
+    address: "",
+    resnumber: "",
+    qualification: "",
+    yoe: "",
+    specailzation: "",
+    optional: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Form submitted! 🚀 (Here you’ll connect backend logic)");
+    setSubmitted(true)
   };
+
+  if (submitted) {
+    return (
+      <>
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center p-4">
+          <div className="max-w-2xl w-full">
+            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 text-center border border-blue-100">
+              {/* Success Icon */}
+              <div className="flex justify-center mb-6">
+                <div className="bg-blue-100 rounded-full p-4">
+                  <CheckCircle className="w-16 h-16 text-blue-600" />
+                </div>
+              </div>
+
+              {/* Main Heading */}
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Thank You for Your Interest in Sexuloon!
+              </h1>
+
+              {/* Subheading */}
+              <p className="text-lg text-gray-600 mb-8">
+                We&apso;ve received your request and our team will contact you soon.
+              </p>
+
+              {/* Info Cards */}
+              <div className="grid md:grid-cols-3 gap-4 mb-8">
+                <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                  <Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                  <p className="text-sm font-semibold text-gray-800">
+                    Response Time
+                  </p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    Within 24-48 hours
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                  <Mail className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                  <p className="text-sm font-semibold text-gray-800">
+                    Check Your Email
+                  </p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    We&apso;ll reach out via email
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                  <Phone className="w-8 h-8 text-blue-600 mx-auto mb-2" />
+                  <p className="text-sm font-semibold text-gray-800">
+                    Phone Call
+                  </p>
+                  <p className="text-xs text-gray-600 mt-1">
+                    Keep your phone handy
+                  </p>
+                </div>
+              </div>
+
+              {/* Additional Info */}
+              <div className="bg-blue-50 rounded-lg p-6 mb-6 border border-blue-100">
+                <h2 className="text-lg font-semibold text-gray-800 mb-3">
+                  What&apos;s Next?
+                </h2>
+                <ul className="text-left space-y-2 text-gray-600">
+                  <li className="flex items-start">
+                    <span className="text-blue-600 mr-2">•</span>
+                    <span>Our team is reviewing your information</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 mr-2">•</span>
+                    <span>You&apso;ll receive a confirmation email shortly</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-blue-600 mr-2">•</span>
+                    <span>
+                      A team member will reach out to discuss your needs
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* CTA Button */}
+              <button className="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-md">
+                Return to Homepage
+              </button>
+
+              {/* Footer Text */}
+              <p className="text-sm text-gray-500 mt-6">
+                Questions? Contact us at{" "}
+                <a
+                  href="mailto:support@sexuloon.com"
+                  className="text-blue-600 hover:underline"
+                >
+                  support@sexuloon.com
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-2xl mt-6">
@@ -34,225 +133,128 @@ export default function DoctorRegistrationForm() {
       <form onSubmit={handleSubmit} className="space-y-8">
         {/* ========== Basic Personal Info ========== */}
         <section>
-          <h3 className="text-xl font-semibold mb-4">Basic Personal Information</h3>
+          <h3 className="text-xl font-semibold mb-4">
+            Basic Personal Information
+          </h3>
           <div className="grid md:grid-cols-2 gap-4">
             <input
+              onChange={(e) =>
+                setInfo({
+                  ...info,
+                  name: e.target.value,
+                })
+              }
               type="text"
               placeholder="Full Name"
               required
               className="border p-2 rounded w-full"
             />
-            <select required className="border p-2 rounded w-full">
-              <option value="">Select Gender</option>
-              <option>Male</option>
-              <option>Female</option>
-              <option>Other</option>
-            </select>
-            <input
-              type="date"
+            <select
+              onChange={(e) =>
+                setInfo({
+                  ...info,
+                  gender: e.target.value,
+                })
+              }
               required
               className="border p-2 rounded w-full"
-            />
+            >
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
             <input
+              onChange={(e) =>
+                setInfo({
+                  ...info,
+                  phonenumber: e.target.value,
+                })
+              }
               type="tel"
               placeholder="Phone Number"
               required
               className="border p-2 rounded w-full"
             />
             <input
+              onChange={(e) =>
+                setInfo({
+                  ...info,
+                  email: e.target.value,
+                })
+              }
               type="email"
               placeholder="Email"
               required
               className="border p-2 rounded w-full"
             />
             <textarea
+              onChange={(e) =>
+                setInfo({
+                  ...info,
+                  address: e.target.value,
+                })
+              }
               placeholder="Residential Address"
               required
               className="border p-2 rounded w-full md:col-span-2"
             ></textarea>
-
-            {/* Profile photo upload */}
-            <div className="md:col-span-2">
-              <label className="block mb-2">Profile Photo</label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleFileChange(e, setProfilePhoto)}
-                className="border p-2 rounded w-full"
-              />
-              {profilePhoto && (
-                <img
-                  src={profilePhoto}
-                  alt="Profile Preview"
-                  className="mt-2 w-32 h-32 object-cover rounded-full"
-                />
-              )}
-            </div>
           </div>
         </section>
 
         {/* ========== Professional Credentials ========== */}
         <section>
-          <h3 className="text-xl font-semibold mb-4">Professional Credentials</h3>
+          <h3 className="text-xl font-semibold mb-4">
+            Professional Credentials
+          </h3>
           <div className="grid md:grid-cols-2 gap-4">
             <input
+              onChange={(e) =>
+                setInfo({
+                  ...info,
+                  resnumber: e.target.value,
+                })
+              }
               type="text"
               placeholder="Medical Registration Number"
               required
               className="border p-2 rounded w-full"
             />
             <input
+              onChange={(e) =>
+                setInfo({
+                  ...info,
+                  qualification: e.target.value,
+                })
+              }
               type="text"
               placeholder="Qualification"
               required
               className="border p-2 rounded w-full"
             />
             <input
+              onChange={(e) =>
+                setInfo({
+                  ...info,
+                  yoe: e.target.value,
+                })
+              }
               type="number"
               placeholder="Years of Experience"
               required
               className="border p-2 rounded w-full"
             />
             <textarea
+              onChange={(e) =>
+                setInfo({
+                  ...info,
+                  specailzation: e.target.value,
+                })
+              }
               placeholder="Specialization"
               required
               className="border p-2 rounded w-full md:col-span-2"
             ></textarea>
-
-            <div>
-              <label className="block mb-2">Upload Degree Certificate (Optional)</label>
-              <input
-                type="file"
-                accept="image/*,.pdf"
-                className="border p-2 rounded w-full"
-              />
-            </div>
-
-            <div>
-              <label className="block mb-2">Upload Practice License (Required)</label>
-              <input
-                type="file"
-                accept="image/*"
-                required
-                onChange={(e) => handleFileChange(e, setLicensePreview)}
-                className="border p-2 rounded w-full"
-              />
-              {licensePreview && (
-                <img
-                  src={licensePreview}
-                  alt="License Preview"
-                  className="mt-2 w-40 h-32 object-cover rounded"
-                />
-              )}
-            </div>
-          </div>
-        </section>
-
-        {/* ========== Consultation Preferences ========== */}
-        <section>
-          <h3 className="text-xl font-semibold mb-4">Consultation Preferences</h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            <fieldset className="md:col-span-2">
-              <legend className="font-medium mb-2">Consultation Days</legend>
-              <div className="flex flex-wrap gap-4">
-                {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
-                  <label key={day} className="flex items-center gap-2">
-                    <input type="checkbox" value={day} />
-                    {day}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-
-            <select required className="border p-2 rounded w-full">
-              <option value="">Select Consultation Mode</option>
-              <option>In-person</option>
-              <option>Online</option>
-              <option>Both</option>
-            </select>
-
-            <input
-              type="number"
-              placeholder="Fee Per Consultation"
-              required
-              className="border p-2 rounded w-full"
-            />
-          </div>
-        </section>
-
-        {/* ========== Banking & Payment Details ========== */}
-        <section>
-          <h3 className="text-xl font-semibold mb-4">Banking & Payment Details</h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder="Bank Account Number"
-              required
-              className="border p-2 rounded w-full"
-            />
-            <input
-              type="text"
-              placeholder="IFSC Code"
-              required
-              className="border p-2 rounded w-full"
-            />
-            <input
-              type="text"
-              placeholder="UPI ID (Optional)"
-              className="border p-2 rounded w-full md:col-span-2"
-            />
-          </div>
-        </section>
-
-        {/* ========== Compliance & Legal ========== */}
-        <section>
-          <h3 className="text-xl font-semibold mb-4">Compliance & Legal</h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className="block mb-2">Upload PAN Card</label>
-              <input
-                type="file"
-                accept="image/*"
-                required
-                onChange={(e) => handleFileChange(e, setPanPreview)}
-                className="border p-2 rounded w-full"
-              />
-              {panPreview && (
-                <img
-                  src={panPreview}
-                  alt="PAN Preview"
-                  className="mt-2 w-40 h-32 object-cover rounded"
-                />
-              )}
-            </div>
-
-            <div>
-              <label className="block mb-2">Upload Aadhaar Card</label>
-              <input
-                type="file"
-                accept="image/*"
-                required
-                onChange={(e) => handleFileChange(e, setAadhaarPreview)}
-                className="border p-2 rounded w-full"
-              />
-              {aadhaarPreview && (
-                <img
-                  src={aadhaarPreview}
-                  alt="Aadhaar Preview"
-                  className="mt-2 w-40 h-32 object-cover rounded"
-                />
-              )}
-            </div>
-          </div>
-
-          <div className="mt-4 space-y-2">
-            <label className="flex items-center gap-2">
-              <input type="checkbox" required /> I agree to terms & conditions
-            </label>
-            <label className="flex items-center gap-2">
-              <input type="checkbox" required /> I consent to share details with
-              patients
-            </label>
           </div>
         </section>
 
@@ -260,6 +262,12 @@ export default function DoctorRegistrationForm() {
         <section>
           <h3 className="text-xl font-semibold mb-4">Optional Introduction</h3>
           <textarea
+            onChange={(e) =>
+              setInfo({
+                ...info,
+                optional: e.target.value,
+              })
+            }
             placeholder="Write a short bio/introduction about yourself..."
             className="border p-2 rounded w-full"
           ></textarea>
@@ -270,7 +278,7 @@ export default function DoctorRegistrationForm() {
           type="submit"
           className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
         >
-          Save / Submit
+          Submit
         </button>
       </form>
     </div>
