@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import BestPerformingPage from "../view/BestPerforming";
 import BestSelling from "../view/BestSelling";
@@ -35,7 +36,10 @@ export default function Home() {
           <div className="overflow-x-auto">
             <div className="grid grid-cols-3 gap-4 min-w-[768px]">
               {/* Card 1 */}
-              <div className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 w-full">
+              <Link
+                href="/collections/all-products"
+                className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 w-full block"
+              >
                 <div className="bg-blue-500 relative h-50">
                   <Image
                     src="https://res.cloudinary.com/drw4abclv/image/upload/v1751507104/1_mmc3zw.jpg"
@@ -45,10 +49,13 @@ export default function Home() {
                     className="object-fit w-full h-full"
                   />
                 </div>
-              </div>
+              </Link>
 
               {/* Card 2 */}
-              <div className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 w-full">
+              <Link
+                href="/collections/all-products"
+                className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 w-full block"
+              >
                 <div className="bg-blue-500 relative h-50">
                   <Image
                     src="https://res.cloudinary.com/drw4abclv/image/upload/v1751507269/2_nkai9e.jpg"
@@ -58,10 +65,13 @@ export default function Home() {
                     className="object-fit w-full h-full"
                   />
                 </div>
-              </div>
+              </Link>
 
               {/* Card 3 */}
-              <div className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 w-full">
+              <Link
+                href="/collections/all-products"
+                className="bg-white rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 w-full block"
+              >
                 <div className="bg-blue-500 relative h-50">
                   <Image
                     src="https://res.cloudinary.com/drw4abclv/image/upload/v1751507334/3_ncmmjk.jpg"
@@ -71,7 +81,7 @@ export default function Home() {
                     className="object-fit w-full h-full"
                   />
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
         </div>

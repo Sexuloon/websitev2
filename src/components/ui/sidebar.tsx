@@ -1,6 +1,7 @@
 "use client";
 import { Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
+import Link from "next/link";
 
 const slideImages = [
   {
@@ -31,13 +32,16 @@ function SlideShow() {
         >
           {slideImages.map((slideImage, index) => (
             <div key={index} className="w-full">
-              <div className="relative w-full">
+              <Link
+                href="/collections/all-products"
+                className="relative w-full block"
+              >
                 <img
                   className="w-full h-full object-cover"
                   src={slideImage.url}
                   alt={`Slide ${index + 1}`}
                 />
-              </div>
+              </Link>
             </div>
           ))}
         </Slide>
