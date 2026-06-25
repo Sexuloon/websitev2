@@ -17,138 +17,93 @@ const ProductOptions = ({
   options,
   selectedOptions = {},
   setSelectedOptions,
-}: // isGlass = false,
-ProductOptionsProps) => {
+}: ProductOptionsProps) => {
   const handleOptionChange = (optionName: string, value: string) => {
-    const updatedOptions = {
-      ...selectedOptions,
-      [optionName]: value,
-    };
-    setSelectedOptions?.(updatedOptions);
+    setSelectedOptions?.({ ...selectedOptions, [optionName]: value });
   };
 
-  const calculateSavings = (price, comparePrice) => {
+  const calculateSavings = (price: string, comparePrice?: string) => {
     if (!comparePrice) return 0;
-    const savings =
-      ((parseFloat(comparePrice) - parseFloat(price)) /
-        parseFloat(comparePrice)) *
-      100;
-    return Math.round(savings);
-  };
-
-  // Get badge info
-  const getBadgeInfo = (title) => {
-    switch (title) {
-      case "2 Packs":
-        return { text: "Most Popular", color: "bg-orange-500" };
-      case "3 Packs":
-        return { text: "Best Value", color: "bg-red-500" };
-      default:
-        return null;
-    }
+    return Math.round(
+      ((parseFloat(comparePrice) - parseFloat(price)) / parseFloat(comparePrice)) * 100
+    );
   };
 
   return (
-    <div className="flex flex-col gap-6 w-full lg:p-6">
-      <div>
-        <h3 className="font-semibold text-xl text-white">Value Added Packs Offers</h3>
-      </div>
+    <div className="flex flex-col gap-2.5 w-full">
+      <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase">
+        Select a Pack
+      </p>
 
-      {/* Variant Display Section */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-2.5">
         {Variants.map((variant, index) => {
           const isSelected =
-            selectedOptions[options[0].name] ===
-            options[0].optionValues[index].name;
+            selectedOptions[options[0].name] === options[0].optionValues[index].name;
 
           const savings = calculateSavings(
             variant.node.price.amount,
             variant.node.compareAtPrice?.amount
           );
 
-          const badgeInfo = getBadgeInfo(variant.node.title);
+          const unavailable = !variant?.node?.availableForSale;
 
           return (
-            <div
-              onClick={() =>
-                handleOptionChange(
-                  options[0].name,
-                  options[0].optionValues[index].name
-                )
-              }
+            <button
               key={variant.node.id}
+              onClick={() =>
+                !unavailable &&
+                handleOptionChange(options[0].name, options[0].optionValues[index].name)
+              }
+              disabled={unavailable}
               className={cn(
-                "relative flex flex-col items-center gap-4 border rounded-lg lg:p-6 transition hover:shadow cursor-pointer",
-                {
-                  "opacity-50": !variant?.node?.availableForSale,
-                  "bg-red-100 text-black ring-2 ring-red-500": isSelected,
-                }
+                "relative flex flex-col items-center gap-2 rounded-2xl p-3 pt-4 border transition-all text-left",
+                isSelected
+                  ? "border-[#1a4731] bg-[#f4f9f6] shadow-sm"
+                  : "border-gray-150 bg-gray-50 hover:border-gray-300 hover:bg-white",
+                unavailable && "opacity-40 cursor-not-allowed"
               )}
             >
-              {/* Discount Badge */}
+              {/* Save badge */}
               {savings > 0 && (
-                <div className="absolute -top-3 ">
-                  <span className="bg-black text-white px-1 lg:px-3 lg:py-1 rounded-full  text-xs lg:text-sm font-medium">
-                    Save {savings}%
-                  </span>
-                </div>
-              )}
-
-              {/* Product Image */}
-              {variant?.node.image?.url && (
-                <div className="mt-2 mb-2">
-                  <div className="w-16 h-20 bg-gray-100 rounded border flex items-center justify-center">
-                    <div className="flex gap-1">
-                      <Image
-                        height={1000}
-                        width={1000}
-                        src={variant?.node.image?.url}
-                        alt="product"
-                      />
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Product Details */}
-              <div className="flex flex-col items-center text-center">
-                <span className="font-semibold text-center lg:text-lg mb-2">
-                  {variant?.node?.title}
+                <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#1a4731] text-white text-[10px] font-semibold px-2.5 py-0.5 rounded-full whitespace-nowrap">
+                  Save {savings}%
                 </span>
+              )}
 
-                <div className="flex flex-col gap-2 justify-center lg:items-baseline mb-2">
-                  <span className="text-black text-center font-bold lg:text-2xl">
-                    ₹{parseFloat(variant?.node?.price?.amount).toFixed(0)}
-                  </span>
-                  {variant?.node?.compareAtPrice?.amount && (
-                    <span className="flex flex-row gap-1">
-                      <span>MRP:</span>
-                      <span className="line-through text-gray-500 lg:text-sm">
-                        ₹
-                        {parseFloat(variant.node.compareAtPrice.amount).toFixed(
-                          0
-                        )}
-                      </span>
-                    </span>
-                  )}
+              {/* Image */}
+              {variant?.node.image?.url && (
+                <div className="w-12 h-14 flex items-center justify-center">
+                  <Image
+                    height={56}
+                    width={48}
+                    src={variant.node.image.url}
+                    alt={variant.node.title}
+                    className="object-contain w-full h-full"
+                  />
                 </div>
+              )}
 
-                {!variant.node.availableForSale && (
-                  <span className="text-xs text-gray-500">Out of Stock</span>
+              {/* Pack name */}
+              <span className="text-xs font-semibold text-gray-800 text-center leading-tight">
+                {variant?.node?.title}
+              </span>
+
+              {/* Price */}
+              <div className="flex flex-col items-center">
+                <span className="text-sm font-bold text-gray-900">
+                  ₹{parseFloat(variant.node.price.amount).toFixed(0)}
+                </span>
+                {variant?.node?.compareAtPrice?.amount && (
+                  <span className="text-[11px] text-gray-400 line-through">
+                    ₹{parseFloat(variant.node.compareAtPrice.amount).toFixed(0)}
+                  </span>
                 )}
               </div>
 
-              {/* Bottom Badge */}
-              {badgeInfo && (
-                <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2">
-                  <span
-                    className={`${badgeInfo.color} text-white px-4 py-1 rounded-full text-sm font-medium`}
-                  >
-                    {badgeInfo.text}
-                  </span>
-                </div>
+              {unavailable && (
+                <span className="text-[10px] text-red-400">Out of stock</span>
               )}
-            </div>
+            </button>
           );
         })}
       </div>

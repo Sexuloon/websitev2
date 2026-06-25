@@ -245,10 +245,16 @@ function CartView() {
               {/* Action Buttons */}
               <div className="space-y-2">
                 <Button
-                  className="w-full h-12 text-base font-medium"
+                  className="w-full h-12 text-base font-medium bg-[#1a4731] hover:bg-[#143828] text-white rounded-full"
                   onClick={() => {
                     if (cart?.checkoutUrl) {
-                      window.open(cart.checkoutUrl, "_blank");
+                      // Rewrite custom domain → myshopify checkout URL
+                      // (sexuloon.com is served by Next.js and has no /cart/c/ route)
+                      const url = cart.checkoutUrl.replace(
+                        "sexuloon.com",
+                        "rj1ghp-kr.myshopify.com"
+                      );
+                      window.open(url, "_blank");
                     }
                   }}
                   disabled={!cart?.checkoutUrl}

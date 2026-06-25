@@ -28,11 +28,12 @@ import {
   testimonials_Ejacure,
   testimonials_Electrosure,
   testimonials_Staminor,
-  testimonials_testofix
+  testimonials_testofix,
 } from "@/lib/data";
 
 export const dynamicComponent = (key: string) => {
-  const componentObject = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const componentObject: Record<string, any> = {
     ejacure: {
       offer: OffersAndSatisfaction,
       offerProps: offers_Ejacure,
@@ -48,8 +49,8 @@ export const dynamicComponent = (key: string) => {
       featureImg: "/Sexuloon Ejacure web design (1).jpg",
       cta: OurPromise,
       ctaProps: promises_Ejacure,
+      pairedHandles: ["testofix", "staminor"],
     },
-
     erectossure: {
       offer: OffersAndSatisfaction,
       offerProps: offers_Electrosure,
@@ -60,11 +61,12 @@ export const dynamicComponent = (key: string) => {
       faq: ProductFaq,
       faqProps: faqs_Electrosure,
       customerReview: CustomerReview,
-      reviewProps: reviews_Ejacure,
+      reviewProps: reviews_Ejacure,          // reuse Ejacure summary — no separate one exists
       allReviewProps: allReviews_Electrosure,
       featureImg: "/Sexuloon Erecto sure web design (1).jpg",
       cta: OurPromise,
       ctaProps: promises_Electrosure,
+      pairedHandles: ["ejacure", "staminor"],
     },
     testofix: {
       offer: OffersAndSatisfaction,
@@ -81,8 +83,9 @@ export const dynamicComponent = (key: string) => {
       featureImg: "/Sexuloon Testofix  web design.jpg",
       cta: OurPromise,
       ctaProps: promises_Testofix,
+      pairedHandles: ["ejacure", "staminor"],
     },
-    staminor:{
+    staminor: {
       offer: OffersAndSatisfaction,
       offerProps: offers_Staminor,
       satisfactionProps: satisfactionData_Staminor,
@@ -97,9 +100,9 @@ export const dynamicComponent = (key: string) => {
       featureImg: "/Sexuloon Staminor  web design (1).jpg",
       cta: OurPromise,
       ctaProps: promises_Staminor,
-
-    }
+      pairedHandles: ["ejacure", "testofix"],
+    },
   };
 
-  return componentObject[key] || {};
+  return componentObject[key] ?? {};
 };

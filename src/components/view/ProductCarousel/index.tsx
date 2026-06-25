@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { ImageEdge } from "@/types/shopify-graphql";
 
@@ -22,6 +21,7 @@ export default function ProductCarousel({ images }: { images: ImageEdge[] }) {
     containScroll: "keepSnaps",
     dragFree: true,
     align: "start",
+    axis: "x",
   });
 
   const scrollPrev = useCallback(() => {
@@ -46,7 +46,6 @@ export default function ProductCarousel({ images }: { images: ImageEdge[] }) {
 
     const newIndex = mainEmblaApi.selectedScrollSnap();
     setSelectedIndex(newIndex);
-
     setCanScrollPrev(mainEmblaApi.canScrollPrev());
     setCanScrollNext(mainEmblaApi.canScrollNext());
 
@@ -57,11 +56,9 @@ export default function ProductCarousel({ images }: { images: ImageEdge[] }) {
 
   useEffect(() => {
     if (!mainEmblaApi) return;
-
     onSelect();
     mainEmblaApi.on("select", onSelect);
     mainEmblaApi.on("reInit", onSelect);
-
     return () => {
       mainEmblaApi.off("select", onSelect);
       mainEmblaApi.off("reInit", onSelect);
@@ -71,69 +68,67 @@ export default function ProductCarousel({ images }: { images: ImageEdge[] }) {
   if (!images) return null;
 
   return (
-    <div className="col-span-2 mx-auto grid w-full grid-cols-[auto_1fr] gap-x-4">
-      {/* Thumbnail Carousel */}
-      <div className="hidden overflow-hidden lg:block" ref={thumbCarouselRef}>
-        <div className="grid grid-flow-row gap-y-2">
-          {images.map((image, index) => (
-            <button
-              key={index}
-              onClick={() => onThumbClick(index)}
-              className={cn(
-                "relative aspect-square h-24 w-24 cursor-pointer overflow-hidden rounded-xl border",
-                selectedIndex === index ? "border-gray-800" : "border-gray-200"
-              )}
-            >
-              <Image
-                width={96}
-                height={96}
-                src={image.node.url}
-                alt={image.node.altText ?? ""}
-                className="h-full w-full object-cover"
-                style={{ objectFit: "cover" }}
-              />
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Main Carousel */}
-      <div className="relative grid place-items-center">
+    <div className="flex flex-col w-full gap-3">
+      {/* Main Image */}
+      <div className="relative w-full overflow-hidden rounded-xl bg-gray-50">
         <div className="overflow-hidden" ref={mainCarouselRef}>
           <div className="grid auto-cols-[100%] grid-flow-col">
             {images.map((image, index) => (
               <div className="relative min-w-0" key={index}>
                 <Image
                   width={1000}
-                  height={400}
+                  height={800}
                   src={image.node.url.toString()}
                   alt={image.node.altText ?? ""}
-                  className="h-full max-h-[650px] w-full object-contain"
+                  className="w-full max-h-[520px] object-contain"
+                  priority={index === 0}
                 />
               </div>
             ))}
           </div>
         </div>
 
-        <Button
-          variant="outline"
-          size="icon"
-          className="absolute left-2 top-1/2 -translate-y-1/2 disabled:opacity-50"
+        {/* Prev / Next arrows */}
+        <button
           onClick={scrollPrev}
           disabled={!canScrollPrev}
+          className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-white/80 border border-gray-200 shadow hover:bg-white transition disabled:opacity-30"
         >
-          <ChevronLeft className="h-4 w-4" />
-        </Button>
-
-        <Button
-          variant="outline"
-          size="icon"
-          className="absolute right-2 top-1/2 -translate-y-1/2 disabled:opacity-50"
+          <ChevronLeft className="h-4 w-4 text-gray-700" />
+        </button>
+        <button
           onClick={scrollNext}
           disabled={!canScrollNext}
+          className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-white/80 border border-gray-200 shadow hover:bg-white transition disabled:opacity-30"
         >
-          <ChevronRight className="h-4 w-4" />
-        </Button>
+          <ChevronRight className="h-4 w-4 text-gray-700" />
+        </button>
+      </div>
+
+      {/* Horizontal Thumbnail Strip */}
+      <div className="overflow-hidden" ref={thumbCarouselRef}>
+        <div className="flex gap-2">
+          {images.map((image, index) => (
+            <button
+              key={index}
+              onClick={() => onThumbClick(index)}
+              className={cn(
+                "relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all",
+                selectedIndex === index
+                  ? "border-gray-800 opacity-100"
+                  : "border-gray-200 opacity-60 hover:opacity-100"
+              )}
+            >
+              <Image
+                width={80}
+                height={80}
+                src={image.node.url}
+                alt={image.node.altText ?? ""}
+                className="w-full h-full object-cover"
+              />
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
