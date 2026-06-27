@@ -1,186 +1,166 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+
+type FooterSection = {
+  key: "quick" | "conditions" | "support";
+  title: string;
+  links: { href: string; label: string }[];
+};
+
+const sections: FooterSection[] = [
+  {
+    key: "quick",
+    title: "Quick Links",
+    links: [
+      { href: "/", label: "Home" },
+      { href: "/collections/all-products", label: "Products" },
+      { href: "/consultancy", label: "Consultations" },
+      { href: "/aboutus", label: "About Us" },
+      { href: "/contactus", label: "Contact" },
+    ],
+  },
+  {
+    key: "conditions",
+    title: "Conditions",
+    links: [
+      { href: "/collections/all-products", label: "Erectile Dysfunction" },
+      { href: "/collections/all-products", label: "Premature Ejaculation" },
+      { href: "/collections/all-products", label: "Low Testosterone" },
+      { href: "/collections/all-products", label: "Performance Anxiety" },
+    ],
+  },
+  {
+    key: "support",
+    title: "Support",
+    links: [
+      { href: "/privacy&policy", label: "Privacy Policy" },
+      { href: "/terms&conditions", label: "Terms & Conditions" },
+      { href: "/refundpolicy", label: "Refund Policy" },
+      { href: "/Refund&ReplacementPolicy", label: "Refund & Replacement" },
+      { href: "/ShippingPolicy", label: "Shipping Policy" },
+    ],
+  },
+];
 
 const Footer = () => {
-  const [openMenu, setOpenMenu] = useState({
-    quick: false,
-    conditions: false,
-    support: false,
-  });
-
-  const toggleMenu = (key: string) => {
+  const [openMenu, setOpenMenu] = useState<Record<string, boolean>>({});
+  const toggle = (key: string) =>
     setOpenMenu((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
 
   return (
-    <div className="w-full">
-      <footer className="bg-gray-900 text-white w-full py-12 sm:py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {/* -------- MOBILE ONLY Accordion Footer -------- */}
-          <div className="md:hidden space-y-6 text-center">
-            {/* Logo for Mobile */}
-            <div className="flex flex-col items-start justify-start space-y-2">
+    <footer className="bg-[#080808] border-t border-[#1e1e1e] text-[#F5F0E8] w-full">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+
+        {/* ── Mobile accordion ────────────────────────────── */}
+        <div className="md:hidden space-y-5">
+          {/* Logo */}
+          <div className="flex flex-col gap-3 pb-6 border-b border-[#1e1e1e]">
+            <div className="relative w-28 h-10">
               <Image
                 src="/Web_Icon-removebg-preview.png"
                 alt="Sexuloon Logo"
-                width={120}
-                height={40}
+                fill
                 className="object-contain"
+                style={{ filter: "brightness(0) invert(1)" }}
               />
-              <p className="text-gray-400 text-sm max-w-xs">
-                Empowering men&apos;s sexual health with medically proven
-                solutions and personalized care.
-              </p>
             </div>
-
-            {/* Quick Links Accordion */}
-            <div className="bg-gray-800 border border-gray-700 rounded-md overflow-hidden">
-              <button
-                onClick={() => toggleMenu("quick")}
-                className="w-full flex items-center justify-between px-4 py-3 font-semibold text-white"
-              >
-                Quick Links
-                <span
-                  className={`transform transition-transform ${
-                    openMenu.quick ? "rotate-180" : ""
-                  }`}
-                >
-                  ▼
-                </span>
-              </button>
-              <ul
-                className={`px-4 pb-3 space-y-2 text-gray-400 text-lg transition-all duration-300 ${
-                  openMenu.quick ? "block" : "hidden"
-                }`}
-              >
-                <li><a href="#" className="hover:text-white block">Home</a></li>
-                <li><a href="#" className="hover:text-white block">Products</a></li>
-                <li><a href="#" className="hover:text-white block">Consultations</a></li>
-                <li><a href="/aboutus" className="hover:text-white block">About Us</a></li>
-                <li><a href="/contactus" className="hover:text-white block">Contact</a></li>
-              </ul>
-            </div>
-
-            {/* Conditions Accordion */}
-            <div className="bg-gray-800 border border-gray-700 rounded-md overflow-hidden">
-              <button
-                onClick={() => toggleMenu("conditions")}
-                className="w-full flex items-center justify-between px-4 py-3 font-semibold text-white"
-              >
-                Conditions
-                <span
-                  className={`transform transition-transform ${
-                    openMenu.conditions ? "rotate-180" : ""
-                  }`}
-                >
-                  ▼
-                </span>
-              </button>
-              <ul
-                className={`px-4 pb-3 space-y-2 text-gray-400 text-lg transition-all duration-300 ${
-                  openMenu.conditions ? "block" : "hidden"
-                }`}
-              >
-                <li><a href="#" className="hover:text-white block">Erectile Dysfunction</a></li>
-                <li><a href="#" className="hover:text-white block">Premature Ejaculation</a></li>
-                <li><a href="#" className="hover:text-white block">Low Testosterone</a></li>
-                <li><a href="#" className="hover:text-white block">Hair Loss</a></li>
-                <li><a href="#" className="hover:text-white block">Performance Anxiety</a></li>
-              </ul>
-            </div>
-
-            {/* Support Accordion */}
-            <div className="bg-gray-800 border border-gray-700 rounded-md overflow-hidden">
-              <button
-                onClick={() => toggleMenu("support")}
-                className="w-full flex items-center justify-between px-4 py-3 font-semibold text-white"
-              >
-                Support
-                <span
-                  className={`transform transition-transform ${
-                    openMenu.support ? "rotate-180" : ""
-                  }`}
-                >
-                  ▼
-                </span>
-              </button>
-              <ul
-                className={`px-4 pb-3 space-y-2 text-gray-400 text-lg transition-all duration-300 ${
-                  openMenu.support ? "block" : "hidden"
-                }`}
-              >
-                <li><a href="/privacy&policy" className="hover:text-white block">Privacy Policy</a></li>
-                <li><a href="/terms&conditions" className="hover:text-white block">Terms & Conditions</a></li>
-                <li><a href="/refundpolicy" className="hover:text-white block">Refund Policy</a></li>
-                <li><a href="/Refund&ReplacementPolicy" className="hover:text-white block">Refund & Replacement Policy</a></li>
-                <li><a href="/ShippingPolicy" className="hover:text-white block">Shipping Policy</a></li>
-              </ul>
-            </div>
+            <p className="text-[#7A6E62] text-sm leading-relaxed max-w-xs">
+              Empowering men&apos;s sexual health with natural Unani formulations
+              and personalized care.
+            </p>
           </div>
 
-          {/* -------- DESKTOP Footer Layout -------- */}
-          <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-8 mt-8 text-center md:text-left">
-            {/* Logo + Description */}
-            <div>
+          {sections.map(({ key, title, links }) => (
+            <div
+              key={key}
+              className="border border-[#1e1e1e] rounded-xl overflow-hidden"
+            >
+              <button
+                onClick={() => toggle(key)}
+                className="w-full flex items-center justify-between px-4 py-3.5 font-semibold text-[#F5F0E8] text-sm bg-[#111111] hover:bg-[#181818] transition-colors"
+              >
+                {title}
+                <ChevronDown
+                  className={`w-4 h-4 text-[#C9A84C] transition-transform duration-300 ${
+                    openMenu[key] ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              {openMenu[key] && (
+                <ul className="px-4 py-3 space-y-2.5 bg-[#0d0d0d]">
+                  {links.map(({ href, label }) => (
+                    <li key={label}>
+                      <Link
+                        href={href}
+                        className="text-[#7A6E62] text-sm hover:text-[#C9A84C] transition-colors block"
+                      >
+                        {label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* ── Desktop grid ─────────────────────────────────── */}
+        <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-10">
+          {/* Logo + Description */}
+          <div className="flex flex-col gap-4">
+            <div className="relative w-32 h-10">
               <Image
                 src="/Web_Icon-removebg-preview.png"
                 alt="Sexuloon Logo"
-                width={150}
-                height={50}
-                className="object-contain mb-4"
+                fill
+                className="object-contain"
+                style={{ filter: "brightness(0) invert(1)" }}
               />
-              <p className="text-gray-400 text-sm max-w-xs">
-                Empowering men&apos;s sexual health with medically proven
-                solutions and personalized care.
-              </p>
             </div>
-
-            {/* Quick Links */}
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Quick Links</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><a href="#" className="hover:text-white">Home</a></li>
-                <li><a href="#" className="hover:text-white">Products</a></li>
-                <li><a href="#" className="hover:text-white">Consultations</a></li>
-                <li><a href="/aboutus" className="hover:text-white">About Us</a></li>
-                <li><a href="/contactus" className="hover:text-white">Contact</a></li>
-              </ul>
-            </div>
-
-            {/* Conditions */}
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Conditions</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><a href="#" className="hover:text-white">Erectile Dysfunction</a></li>
-                <li><a href="#" className="hover:text-white">Premature Ejaculation</a></li>
-                <li><a href="#" className="hover:text-white">Low Testosterone</a></li>
-                <li><a href="#" className="hover:text-white">Hair Loss</a></li>
-                <li><a href="#" className="hover:text-white">Performance Anxiety</a></li>
-              </ul>
-            </div>
-
-            {/* Support */}
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Support</h3>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li><a href="/privacy&policy" className="hover:text-white">Privacy Policy</a></li>
-                <li><a href="/terms&conditions" className="hover:text-white">Terms & Conditions</a></li>
-                <li><a href="/refundpolicy" className="hover:text-white">Refund Policy</a></li>
-                <li><a href="/Refund&ReplacementPolicy" className="hover:text-white">Refund & Replacement Policy</a></li>
-                <li><a href="/ShippingPolicy" className="hover:text-white">Shipping Policy</a></li>
-              </ul>
-            </div>
+            <p className="text-[#7A6E62] text-sm leading-relaxed">
+              Empowering men&apos;s sexual health with natural Unani
+              formulations and personalized care.
+            </p>
+            {/* Gold divider */}
+            <div className="w-10 h-0.5 bg-gradient-to-r from-[#C9A84C] to-transparent" />
           </div>
 
-          {/* Footer Bottom */}
-          <div className="mt-12 border-t border-gray-700 pt-6 text-center text-sm text-gray-500">
-            © {new Date().getFullYear()} Sexuloon. All rights reserved.
-          </div>
+          {sections.map(({ key, title, links }) => (
+            <div key={key}>
+              <h3 className="text-sm font-bold tracking-wider text-[#C9A84C] uppercase mb-5">
+                {title}
+              </h3>
+              <ul className="space-y-3">
+                {links.map(({ href, label }) => (
+                  <li key={label}>
+                    <Link
+                      href={href}
+                      className="text-sm text-[#7A6E62] hover:text-[#E8C87A] transition-colors"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-      </footer>
-    </div>
+
+        {/* ── Bottom bar ───────────────────────────────────── */}
+        <div className="mt-12 pt-6 border-t border-[#1e1e1e] flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-[#7A6E62]">
+            © {new Date().getFullYear()} Sexuloon. All rights reserved.
+          </p>
+          <p className="text-xs text-[#7A6E62]">
+            Made with ❤️ for men&apos;s wellness
+          </p>
+        </div>
+      </div>
+    </footer>
   );
 };
 

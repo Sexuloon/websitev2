@@ -5,22 +5,10 @@ import InfiniteScrollingText from "@/components/view/SlidingText";
 import Providers from "@/providers";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import React from "react";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { PostHogProvider } from "@/posthog/posthog-provider";
-
-// Load Google Fonts
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 // ✅ Site Metadata for Next.js (used for SSG/SSR)
 export const metadata: Metadata = {
@@ -62,7 +50,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <html lang="en">
         <head>
           {/* Basic Meta */}
           <meta charSet="UTF-8" />
@@ -96,7 +84,7 @@ export default function RootLayout({
           />
           <meta name="twitter:image" content="/seo-banner.png" />
         </head>
-        <body className="antialiased mx-auto max-w-8xl">
+        <body className="antialiased bg-[#080808] text-[#F5F0E8]">
           <PostHogProvider>
             <Providers>
               <InfiniteScrollingText />

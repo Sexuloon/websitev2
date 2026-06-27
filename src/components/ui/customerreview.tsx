@@ -1,25 +1,25 @@
-'use client'
+'use client';
 
-import { Star } from 'lucide-react'
-import { useState } from 'react'
+import { Star } from 'lucide-react';
+import { useState } from 'react';
 
 type Review = {
-  id?: string | number
-  name: string
-  rating: number
-  date?: string
-  title?: string
-  text: string
-}
+  id?: string | number;
+  name: string;
+  rating: number;
+  date?: string;
+  title?: string;
+  text: string;
+};
 
 type ReviewSummary = {
-  average: number
-  total: number
-  breakdown: Record<number, number>
-}
+  average: number;
+  total: number;
+  breakdown: Record<number, number>;
+};
 
 const StarRow = ({ rating, size = 'sm' }: { rating: number; size?: 'sm' | 'xs' }) => {
-  const cls = size === 'xs' ? 'w-3.5 h-3.5' : 'w-4 h-4'
+  const cls = size === 'xs' ? 'w-3.5 h-3.5' : 'w-4 h-4';
   return (
     <div className="flex gap-0.5">
       {[...Array(5)].map((_, i) => (
@@ -27,51 +27,61 @@ const StarRow = ({ rating, size = 'sm' }: { rating: number; size?: 'sm' | 'xs' }
           key={i}
           className={`${cls} ${
             i < Math.floor(rating)
-              ? 'fill-amber-400 text-amber-400'
-              : 'fill-gray-200 text-gray-200'
+              ? 'fill-[#C9A84C] text-[#C9A84C]'
+              : 'fill-[#2a2a2a] text-[#2a2a2a]'
           }`}
         />
       ))}
     </div>
-  )
-}
+  );
+};
 
-const INITIAL_SHOW = 3
+const INITIAL_SHOW = 6;
 
-const CustomerReview = ({ reviews, allReviews }: { reviews: ReviewSummary; allReviews: Review[] }) => {
-  const [selectedRating, setSelectedRating] = useState<number | null>(null)
-  const [showAll, setShowAll] = useState(false)
+const CustomerReview = ({
+  reviews,
+  allReviews,
+}: {
+  reviews: ReviewSummary;
+  allReviews: Review[];
+}) => {
+  const [selectedRating, setSelectedRating] = useState<number | null>(null);
+  const [showAll, setShowAll] = useState(false);
 
   const filtered = selectedRating
     ? allReviews.filter((r) => r.rating === selectedRating)
-    : allReviews
+    : allReviews;
 
-  const visible = showAll ? filtered : filtered.slice(0, INITIAL_SHOW)
+  const visible = showAll ? filtered : filtered.slice(0, INITIAL_SHOW);
 
   return (
-    <section className="bg-white py-14 px-6 lg:px-8">
+    <section className="bg-[#080808] py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto">
-
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Customer Reviews</h2>
-            <div className="flex items-center gap-2 mt-2">
+            <p className="text-[11px] font-bold tracking-widest text-[#C9A84C] uppercase mb-3">
+              Customer Reviews
+            </p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white mb-3">
+              Real People, Real Results
+            </h2>
+            <div className="flex items-center gap-2.5">
               <StarRow rating={reviews.average} />
-              <span className="text-sm font-semibold text-gray-700">{reviews.average}</span>
-              <span className="text-sm text-gray-400">· {reviews.total} reviews</span>
+              <span className="text-sm font-bold text-white font-mono-num">{reviews.average}</span>
+              <span className="text-sm text-[#7A6E62]">· {reviews.total} reviews</span>
             </div>
           </div>
-          <button className="self-start sm:self-auto px-5 py-2.5 rounded-full border border-[#1a4731] text-[#1a4731] text-sm font-medium hover:bg-[#1a4731] hover:text-white transition-all">
+          <button className="self-start sm:self-auto px-5 py-2.5 rounded-full border border-[#C9A84C]/40 text-[#C9A84C] text-sm font-medium hover:bg-[#C9A84C]/10 transition-all">
             Write a review
           </button>
         </div>
 
         {/* Rating bars */}
-        <div className="space-y-2 mb-10 max-w-sm">
+        <div className="space-y-2 mb-10 max-w-xs">
           {[5, 4, 3, 2, 1].map((star) => {
-            const count = reviews.breakdown[star] || 0
-            const percent = reviews.total > 0 ? (count / reviews.total) * 100 : 0
+            const count = reviews.breakdown[star] || 0;
+            const percent = reviews.total > 0 ? (count / reviews.total) * 100 : 0;
             return (
               <button
                 key={star}
@@ -79,70 +89,81 @@ const CustomerReview = ({ reviews, allReviews }: { reviews: ReviewSummary; allRe
                 className="flex items-center gap-3 w-full group"
               >
                 <div className="flex items-center gap-1 w-8 shrink-0">
-                  <span className={`text-xs font-medium ${selectedRating === star ? 'text-[#1a4731]' : 'text-gray-500'}`}>{star}</span>
-                  <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                  <span className={`text-xs font-bold font-mono-num ${selectedRating === star ? 'text-[#C9A84C]' : 'text-[#7A6E62]'}`}>
+                    {star}
+                  </span>
+                  <Star className="w-3 h-3 fill-[#C9A84C] text-[#C9A84C]" />
                 </div>
-                <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <div className="flex-1 h-1.5 bg-[#1e1e1e] rounded-full overflow-hidden">
                   <div
-                    className={`h-full rounded-full transition-all duration-500 ${selectedRating === star ? 'bg-[#1a4731]' : 'bg-gray-400'}`}
+                    className={`h-full rounded-full transition-all duration-700 ${
+                      selectedRating === star ? 'bg-[#C9A84C]' : 'bg-[#C9A84C]/50'
+                    }`}
                     style={{ width: `${percent}%` }}
                   />
                 </div>
-                <span className="w-6 text-xs text-gray-400 text-right shrink-0">{count}</span>
+                <span className="w-6 text-xs text-[#7A6E62] text-right shrink-0 font-mono-num">{count}</span>
               </button>
-            )
+            );
           })}
         </div>
 
         {selectedRating && (
-          <button onClick={() => setSelectedRating(null)} className="mb-6 text-xs text-[#1a4731] hover:underline">
+          <button
+            onClick={() => setSelectedRating(null)}
+            className="mb-6 text-xs text-[#C9A84C] hover:underline"
+          >
             ✕ Clear {selectedRating}★ filter
           </button>
         )}
 
-        {/* 3-col grid */}
+        {/* Review grid */}
         {visible.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {visible.map((review, idx) => (
               <div
                 key={review.id ?? idx}
-                className="flex flex-col gap-3 p-5 rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-sm transition-all"
+                className="flex flex-col gap-3 p-5 rounded-2xl border border-[#262626] bg-[#111111] hover:border-[#C9A84C]/25 transition-all duration-200"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
-                      <svg className="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
-                      </svg>
+                    <div className="w-7 h-7 rounded-full bg-[#1a4731]/20 border border-[#1a4731]/40 flex items-center justify-center shrink-0">
+                      <span className="text-[10px] font-bold text-[#1a4731]">
+                        {review.name.charAt(0)}
+                      </span>
                     </div>
                     <div>
-                      <span className="text-xs font-semibold text-gray-900">{review.name}</span>
-                      <span className="ml-1.5 text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">Verified</span>
+                      <span className="text-xs font-bold text-white">{review.name}</span>
+                      <span className="ml-1.5 text-[9px] border border-[#C9A84C]/20 text-[#C9A84C]/70 px-1.5 py-0.5 rounded-sm">
+                        Verified
+                      </span>
                     </div>
                   </div>
-                  {review.date && <span className="text-[11px] text-gray-400">{review.date}</span>}
+                  {review.date && (
+                    <span className="text-[11px] text-[#7A6E62]">{review.date}</span>
+                  )}
                 </div>
 
                 <StarRow rating={review.rating} size="xs" />
 
                 {review.title && (
-                  <p className="text-sm font-semibold text-gray-800">{review.title}</p>
+                  <p className="text-sm font-bold text-[#E8C87A]">{review.title}</p>
                 )}
 
-                <p className="text-sm text-gray-500 leading-relaxed">{review.text}</p>
+                <p className="text-sm text-[#B8A99A] leading-relaxed">{review.text}</p>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-center text-gray-400 py-8 text-sm">No reviews for this rating.</p>
+          <p className="text-center text-[#7A6E62] py-8 text-sm">No reviews for this rating.</p>
         )}
 
-        {/* Show more / less */}
+        {/* Show more */}
         {filtered.length > INITIAL_SHOW && (
           <div className="mt-8 text-center">
             <button
               onClick={() => setShowAll((s) => !s)}
-              className="px-8 py-2.5 rounded-full border border-gray-200 text-sm text-gray-600 font-medium hover:border-gray-400 hover:text-gray-900 transition-all"
+              className="px-8 py-3 rounded-full border border-[#262626] text-sm text-[#B8A99A] font-medium hover:border-[#C9A84C]/40 hover:text-[#C9A84C] transition-all"
             >
               {showAll ? 'Show less' : `Show all ${filtered.length} reviews`}
             </button>
@@ -150,7 +171,7 @@ const CustomerReview = ({ reviews, allReviews }: { reviews: ReviewSummary; allRe
         )}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default CustomerReview
+export default CustomerReview;

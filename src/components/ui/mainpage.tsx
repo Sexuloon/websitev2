@@ -30,7 +30,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="bg-gray-50 w-full">
+    <div className="bg-[#080808] w-full">
       <section id="feature-images">
         <div className="container mx-auto px-4 py-8">
           <div className="overflow-x-auto">
@@ -88,11 +88,11 @@ export default function Home() {
       </section>
 
       {/* Best Sellers Section - Enhanced product cards and filtering */}
-      <section className="py-16 sm:py-24 bg-gray-50">
+      <section className="py-16 sm:py-24 bg-[#080808]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-start gap-4">
             {/* Heading */}
-            <h2 className="text-3xl font-bold text-gray-900">Bestsellers</h2>
+            <h2 className="font-display text-3xl font-bold text-white">Bestsellers</h2>
 
             {/* Category Buttons */}
             <div className="w-full overflow-x-auto scrollbar-hide">
@@ -104,11 +104,11 @@ export default function Home() {
                       setActiveCategory(category.key);
                       setCategoryValue(category.value);
                     }}
-                    className={`px-5 py-2 rounded-md border text-sm font-semibold whitespace-nowrap transition-all duration-200
+                    className={`px-5 py-2.5 rounded-full border text-sm font-semibold whitespace-nowrap transition-all duration-200
                         ${
                           activeCategory === category.key
-                            ? "bg-black text-white border-black"
-                            : "bg-white text-black border-black hover:bg-gray-100"
+                            ? "bg-[#C9A84C] text-[#080808] border-[#C9A84C]"
+                            : "bg-transparent text-[#B8A99A] border-[#262626] hover:border-[#C9A84C]/40 hover:text-[#C9A84C]"
                         }`}
                   >
                     {category.key}
@@ -125,21 +125,9 @@ export default function Home() {
 
           {/* View All Button */}
           <div className="mt-12 text-center">
-            <button className="bg-white border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium px-8 py-3 rounded-full inline-flex items-center transition-colors duration-200">
-              View All Products
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 ml-2"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
+            <a href="/collections/all-products" className="border border-[#C9A84C]/40 text-[#C9A84C] hover:bg-[#C9A84C]/10 font-medium px-8 py-3 rounded-full inline-flex items-center gap-2 transition-all duration-200">
+              View All Products →
+            </a>
           </div>
         </div>
       </section>
@@ -150,10 +138,10 @@ export default function Home() {
       </section>
 
       {/* Best performing Section - Enhanced product cards and filtering */}
-      <section className="py-16 sm:py-24 bg-gray-50">
+      <section className="py-16 sm:py-24 bg-[#080808]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4 sm:mb-0">
+            <h2 className="font-display text-3xl font-bold text-white mb-4 sm:mb-0">
               Best Performing
             </h2>
           </div>
@@ -165,26 +153,14 @@ export default function Home() {
 
           {/* View All Products Button */}
           <div className="mt-12 text-center">
-            <button className="bg-white border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium px-8 py-3 rounded-full inline-flex items-center transition-colors duration-200">
-              View All Products
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 ml-2"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
+            <a href="/collections/all-products" className="border border-[#C9A84C]/40 text-[#C9A84C] hover:bg-[#C9A84C]/10 font-medium px-8 py-3 rounded-full inline-flex items-center gap-2 transition-all duration-200">
+              View All Products →
+            </a>
           </div>
         </div>
       </section>
 
-      <section className="bg-gradient-to-br from-blue-50 to-white py-12 sm:py-16 lg:py-20">
+      <section className="bg-[#0d0d0d] border-t border-[#1e1e1e] py-12 sm:py-16 lg:py-20">
         <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col-reverse lg:flex-row items-center lg:items-start justify-between gap-10 lg:gap-16">
             {/* Left Content */}
@@ -253,13 +229,13 @@ export default function Home() {
                 ].map((item, idx) => (
                   <div
                     key={idx}
-                    className="flex flex-col justify-start h-full  p-4  border border-gray-200 rounded-xl bg-white shadow-sm hover:shadow-md transition duration-300"
+                    className="flex flex-col justify-start h-full p-4 border border-[#262626] rounded-xl bg-[#111111] hover:border-[#C9A84C]/30 transition duration-300"
                   >
                     <div className="flex flex-col md:flex-row md:items-start items-center text-left gap-3">
-                      <div className="bg-blue-100 p-3 rounded-lg">
+                      <div className="bg-[#1a1500] p-3 rounded-lg border border-[#C9A84C]/20">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-6 w-6 text-blue-600"
+                          className="h-6 w-6 text-[#C9A84C]"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >
@@ -267,10 +243,10 @@ export default function Home() {
                         </svg>
                       </div>
                       <div className="text-center md:text-left">
-                        <h4 className="font-semibold text-gray-900 text-sm sm:text-base">
+                        <h4 className="font-semibold text-[#F5F0E8] text-sm sm:text-base">
                           {item.title}
                         </h4>
-                        <p className="text-xs sm:text-sm text-gray-600 mt-1 leading-snug">
+                        <p className="text-xs sm:text-sm text-[#7A6E62] mt-1 leading-snug">
                           {item.desc}
                         </p>
                       </div>
@@ -280,21 +256,9 @@ export default function Home() {
               </div>
 
               <div className="pt-6">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-3 rounded-full flex items-center shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
-                  Get Started Now
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 ml-2"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
+                <a href="/consultancy" className="bg-[#1a4731] hover:bg-[#143828] text-white font-medium px-8 py-3 rounded-full inline-flex items-center gap-2 shadow-md transition-all duration-300">
+                  Get Started Now →
+                </a>
               </div>
             </div>
 
@@ -318,16 +282,16 @@ export default function Home() {
       </section>
 
       {/* Process Steps Section - Enhanced with numbered steps and better visuals */}
-      <section className="py-16 sm:py-24 bg-white">
+      <section className="py-16 sm:py-24 bg-[#080808]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="inline-block bg-blue-100 text-blue-600 font-medium px-4 py-1 rounded-full text-sm mb-4">
+            <span className="inline-block bg-[#1a1500] text-[#C9A84C] font-medium px-4 py-1 rounded-full text-sm mb-4 border border-[#C9A84C]/20">
               Fastest Solution
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-white leading-tight">
               4 Easy Steps To Get Your Solution
             </h2>
-            <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
+            <p className="mt-4 text-[#7A6E62] max-w-2xl mx-auto text-base sm:text-lg">
               Our streamlined process ensures you get the help you need quickly
               and discreetly
             </p>
@@ -363,12 +327,12 @@ export default function Home() {
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="relative flex flex-col items-center bg-white border border-gray-200 rounded-2xl shadow-sm p-6 sm:p-8 transition-all hover:shadow-lg"
+                className="relative flex flex-col items-center bg-[#111111] border border-[#262626] rounded-2xl p-6 sm:p-8 transition-all hover:border-[#C9A84C]/30"
               >
-                <div className="absolute -top-4 -left-4 sm:-top-5 sm:-left-5 bg-blue-600 text-white w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm sm:text-base font-bold shadow-md z-10">
+                <div className="absolute -top-4 -left-4 sm:-top-5 sm:-left-5 bg-[#C9A84C] text-[#080808] w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm sm:text-base font-bold z-10">
                   {item.step}
                 </div>
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-blue-100 shadow-md mb-6">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-4 border-[#C9A84C]/20 mb-6">
                   <Image
                     src={item.img}
                     alt={item.title}
@@ -377,10 +341,10 @@ export default function Home() {
                     className="object-cover w-full h-full"
                   />
                 </div>
-                <h3 className="text-center text-base sm:text-lg font-semibold text-gray-900">
+                <h3 className="text-center text-base sm:text-lg font-semibold text-[#F5F0E8]">
                   {item.title}
                 </h3>
-                <p className="text-sm sm:text-base text-gray-600 text-center mt-2">
+                <p className="text-sm sm:text-base text-[#7A6E62] text-center mt-2">
                   {item.desc}
                 </p>
               </div>
@@ -399,7 +363,7 @@ export default function Home() {
       </section>
 
       {/* Doctor Consultation & Expert Q&A Sections - Combined into a features section */}
-      <section className="py-16 sm:py-24 bg-white">
+      <section className="py-16 sm:py-24 bg-[#080808]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {/* Doctor Consultation Section */}
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16 mb-24">
@@ -427,7 +391,7 @@ export default function Home() {
                       </p>
                     </div>
                     <div className="text-center">
-                      <p className="text-2xl sm:text-3xl font-bold text-blue-600">
+                      <p className="text-2xl sm:text-3xl font-bold text-[#C9A84C]">
                         24/7
                       </p>
                       <p className="text-xs sm:text-sm text-gray-600">
@@ -435,8 +399,8 @@ export default function Home() {
                       </p>
                     </div>
                   </div>
-                  <div className="p-2 bg-blue-50 rounded-lg">
-                    <p className="text-xs text-center text-blue-700">
+                  <div className="p-2 bg-[#1a1500] rounded-lg border border-[#C9A84C]/20">
+                    <p className="text-xs text-center text-[#C9A84C]">
                       &quot;Our doctors are available for virtual consultations
                       whenever you need them&quot;
                     </p>
@@ -448,13 +412,13 @@ export default function Home() {
             {/* Text Content - Right Side */}
             <div className="lg:w-1/2">
               <div className="space-y-6">
-                <span className="inline-block bg-blue-100 text-blue-600 font-medium px-4 py-1 rounded-full text-sm">
+                <span className="inline-block bg-[#1a1500] text-[#C9A84C] font-medium px-4 py-1 rounded-full text-sm border border-[#C9A84C]/20">
                   FIND YOUR DOCTOR
                 </span>
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+                <h2 className="font-display text-3xl sm:text-4xl font-bold text-white">
                   Consult With A Specialized Doctor
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-[#7A6E62]">
                   Our network of licensed healthcare professionals specializes
                   in men&apos;s health issues. Get expert medical advice and
                   personalized treatment plans from the comfort of your home.
@@ -462,10 +426,10 @@ export default function Home() {
 
                 <ul className="space-y-4">
                   <li className="flex items-start">
-                    <div className="bg-blue-100 p-1 rounded-full mr-3 mt-1">
+                    <div className="bg-[#1a1500] p-1 rounded-full mr-3 mt-1 border border-[#C9A84C]/20">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4 text-blue-600"
+                        className="h-4 w-4 text-[#C9A84C]"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                       >
@@ -476,7 +440,7 @@ export default function Home() {
                         />
                       </svg>
                     </div>
-                    <span className="text-gray-700">
+                    <span className="text-[#B8A99A]">
                       Private and confidential video consultations
                     </span>
                   </li>
@@ -495,7 +459,7 @@ export default function Home() {
                         />
                       </svg>
                     </div>
-                    <span className="text-gray-700">
+                    <span className="text-[#B8A99A]">
                       Prescription medications delivered to your door
                     </span>
                   </li>
@@ -514,28 +478,16 @@ export default function Home() {
                         />
                       </svg>
                     </div>
-                    <span className="text-gray-700">
+                    <span className="text-[#B8A99A]">
                       Follow-up care and ongoing support
                     </span>
                   </li>
                 </ul>
 
                 <div className="pt-4">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-full flex items-center transition-colors duration-200 shadow-md">
-                    Book Consultation
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 ml-2"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
+                  <a href="/consultancy" className="bg-[#1a4731] hover:bg-[#143828] text-white font-medium px-6 py-3 rounded-full inline-flex items-center gap-2 transition-all shadow-md">
+                    Book Consultation →
+                  </a>
                 </div>
               </div>
             </div>
@@ -545,15 +497,15 @@ export default function Home() {
           <div className="flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-16">
             {/* Text Content - Left Side */}
             <div className="lg:w-1/2">
-              <div className="border border-blue-100 rounded-xl p-6 sm:p-8 bg-gradient-to-br from-white to-blue-50">
-                <span className="inline-block bg-blue-100 text-blue-600 font-medium px-4 py-1 rounded-full text-sm mb-4">
+              <div className="border border-[#262626] rounded-xl p-6 sm:p-8 bg-[#111111]">
+                <span className="inline-block bg-[#1a1500] text-[#C9A84C] font-medium px-4 py-1 rounded-full text-sm mb-4 border border-[#C9A84C]/20">
                   ASK OUR EXPERTS
                 </span>
-                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                <h2 className="font-display text-3xl sm:text-4xl font-bold text-white mb-4">
                   Get Answers From Our Medical Experts
                 </h2>
 
-                <p className="text-gray-600 mb-6">
+                <p className="text-[#7A6E62] mb-6">
                   Have questions about your sexual health? Our team of medical
                   professionals is ready to answer all your questions discreetly
                   and provide personalized guidance.
@@ -561,27 +513,27 @@ export default function Home() {
 
                 <ul className="space-y-4 mb-6">
                   <li className="flex items-start">
-                    <div className="bg-blue-600 rounded-full p-1 mr-3 mt-1 flex items-center justify-center">
-                      <div className="bg-white rounded-full w-1.5 h-1.5"></div>
+                    <div className="bg-[#C9A84C] rounded-full p-1 mr-3 mt-1 flex items-center justify-center">
+                      <div className="bg-[#080808] rounded-full w-1.5 h-1.5"></div>
                     </div>
-                    <span className="text-gray-700">
+                    <span className="text-[#B8A99A]">
                       Get expert medical opinions about symptoms and treatments
                     </span>
                   </li>
                   <li className="flex items-start">
-                    <div className="bg-blue-600 rounded-full p-1 mr-3 mt-1 flex items-center justify-center">
-                      <div className="bg-white rounded-full w-1.5 h-1.5"></div>
+                    <div className="bg-[#C9A84C] rounded-full p-1 mr-3 mt-1 flex items-center justify-center">
+                      <div className="bg-[#080808] rounded-full w-1.5 h-1.5"></div>
                     </div>
-                    <span className="text-gray-700">
+                    <span className="text-[#B8A99A]">
                       Learn about lifestyle changes that can improve your
                       condition
                     </span>
                   </li>
                   <li className="flex items-start">
-                    <div className="bg-blue-600 rounded-full p-1 mr-3 mt-1 flex items-center justify-center">
-                      <div className="bg-white rounded-full w-1.5 h-1.5"></div>
+                    <div className="bg-[#C9A84C] rounded-full p-1 mr-3 mt-1 flex items-center justify-center">
+                      <div className="bg-[#080808] rounded-full w-1.5 h-1.5"></div>
                     </div>
-                    <span className="text-gray-700">
+                    <span className="text-[#B8A99A]">
                       Understand the potential benefits and side effects of
                       medications
                     </span>
@@ -589,12 +541,12 @@ export default function Home() {
                 </ul>
 
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg shadow-md transition-colors duration-200">
+                  <a href="/consultancy" className="bg-[#1a4731] hover:bg-[#143828] text-white font-medium px-6 py-3 rounded-xl transition-all">
                     Ask a Question
-                  </button>
-                  <button className="border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium px-6 py-3 rounded-lg transition-colors duration-200">
+                  </a>
+                  <a href="/faq" className="border border-[#C9A84C]/40 text-[#C9A84C] hover:bg-[#C9A84C]/10 font-medium px-6 py-3 rounded-xl transition-all">
                     Browse FAQ
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>

@@ -12,73 +12,84 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { X, Menu, ChevronDown } from "lucide-react";
+
+const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/collections/all-products", label: "All Products" },
+  { href: "/consultancy", label: "Consultation" },
+];
+
+const MORE_LINKS = [
+  { href: "/contactus", label: "Contact Us" },
+  { href: "/faq", label: "FAQ" },
+  { href: "/aboutus", label: "About Us" },
+];
 
 function Navbar() {
   const { cart, initializeCart } = useCartActions();
-
-  useEffect(() => {
-    if (!cart?.checkoutUrl) {
-      initializeCart();
-    }
-  }, [cart, initializeCart]);
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
-    setIsMoreOpen(false);
-  };
+  useEffect(() => {
+    if (!cart?.checkoutUrl) initializeCart();
+  }, [cart, initializeCart]);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50 font-geist">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-0.5 flex items-center justify-between">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-[#080808]/95 backdrop-blur-md border-b border-[#262626] shadow-[0_2px_24px_rgba(0,0,0,0.6)]"
+          : "bg-[#080808] border-b border-[#1e1e1e]"
+      }`}
+    >
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
         {/* Logo */}
-        <Link prefetch href="/">
-          <div className="relative w-[120px] sm:w-[140px] md:w-[160px] lg:w-[180px] xl:w-[200px] h-[50px] sm:h-[60px] md:h-[70px] lg:h-[80px] xl:h-[90px]">
+        <Link prefetch href="/" className="shrink-0">
+          <div className="relative w-[120px] sm:w-[140px] h-[44px] sm:h-[52px]">
             <Image
               src="https://res.cloudinary.com/drw4abclv/image/upload/v1750498548/Sexuloon_o4inzi.png"
               alt="Sexuloon Logo"
               fill
               className="object-contain"
               priority
+              style={{ filter: "brightness(0) invert(1)" }}
             />
           </div>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden min-[1030px]:flex items-center space-x-6">
-          {[
-            { href: "/", label: "Home" },
-            { href: "/collections/all-products", label: "All Products" },
-            { href: "/consultancy", label: "Consultation" },
-          ].map(({ href, label }) => (
+        {/* Desktop Nav */}
+        <nav className="hidden min-[1030px]:flex items-center gap-1">
+          {NAV_LINKS.map(({ href, label }) => (
             <Link
               prefetch
               key={label}
               href={href}
-              className="text-[18px] font-semibold text-black px-4 py-2 rounded-full transition-all duration-200 hover:bg-black hover:text-white"
+              className="text-[15px] font-medium text-[#B8A99A] px-4 py-2 rounded-full transition-all duration-200 hover:text-white hover:bg-[#1a1a1a]"
             >
               {label}
             </Link>
           ))}
 
-          {/* More Dropdown */}
+          {/* More dropdown */}
           <div className="relative group">
-            <button className="flex items-center gap-1 text-[18px] font-semibold text-black px-4 py-2 rounded-full transition-all duration-200 hover:bg-black hover:text-white">
-              More <span className="text-sm">▼</span>
+            <button className="flex items-center gap-1.5 text-[15px] font-medium text-[#B8A99A] px-4 py-2 rounded-full transition-all duration-200 hover:text-white hover:bg-[#1a1a1a]">
+              More <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180 duration-200" />
             </button>
-            <div className="absolute hidden group-hover:block bg-white border border-gray-200 shadow-lg rounded-lg w-48 z-50">
-              {[
-                { href: "/contactus", label: "Contact Us" },
-                { href: "/faq", label: "FAQ" },
-                { href: "/aboutus", label: "About Us" },
-              ].map(({ href, label }) => (
+            <div className="absolute top-full left-0 mt-1 hidden group-hover:block w-48 rounded-xl bg-[#111111] border border-[#262626] shadow-[0_8px_32px_rgba(0,0,0,0.8)] overflow-hidden z-50">
+              {MORE_LINKS.map(({ href, label }) => (
                 <Link
                   prefetch
                   key={label}
                   href={href}
-                  className="block px-4 py-3 text-[16px] text-black hover:text-blue-800 transition-all rounded-full"
+                  className="block px-4 py-3 text-sm text-[#B8A99A] hover:text-white hover:bg-[#1a1a1a] transition-all"
                 >
                   {label}
                 </Link>
@@ -87,144 +98,95 @@ function Navbar() {
           </div>
         </nav>
 
-        {/* Actions + Hamburger */}
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center gap-x-3">
-            <CartView />
-            
-            <SignedOut>
-              {/* Sign In Button */}
-              <SignInButton mode="modal">
-                <button className="hidden sm:flex items-center justify-center bg-white text-black border-2 border-black rounded-full font-semibold text-sm sm:text-base h-10 sm:h-11 px-5 sm:px-6 hover:bg-black hover:text-white transition-all duration-200 cursor-pointer">
-                  Sign In
-                </button>
-              </SignInButton>
+        {/* Actions */}
+        <div className="flex items-center gap-3">
+          <CartView />
 
-              {/* Sign Up Button */}
-              <SignUpButton mode="modal">
-                <button className="flex items-center justify-center bg-black text-white rounded-full font-semibold text-sm sm:text-base h-10 sm:h-11 px-5 sm:px-6 hover:bg-gray-800 transition-all duration-200 cursor-pointer shadow-sm">
-                  Sign Up
-                </button>
-              </SignUpButton>
-            </SignedOut>
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button className="hidden sm:flex items-center justify-center border border-[#C9A84C]/50 text-[#C9A84C] rounded-full font-semibold text-sm h-10 px-5 hover:bg-[#C9A84C]/10 hover:border-[#C9A84C] transition-all duration-200 cursor-pointer">
+                Sign In
+              </button>
+            </SignInButton>
+            <SignUpButton mode="modal">
+              <button className="flex items-center justify-center bg-[#1a4731] text-white rounded-full font-semibold text-sm h-10 px-5 hover:bg-[#143828] transition-all duration-200 cursor-pointer">
+                Sign Up
+              </button>
+            </SignUpButton>
+          </SignedOut>
 
-            <SignedIn>
-              <UserButton 
-                appearance={{
-                  elements: {
-                    avatarBox: "w-10 h-10 sm:w-11 sm:h-11"
-                  }
-                }}
-              />
-            </SignedIn>
-          </div>
+          <SignedIn>
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "w-9 h-9 sm:w-10 sm:h-10 ring-2 ring-[#C9A84C]/30",
+                },
+              }}
+            />
+          </SignedIn>
 
           {/* Hamburger */}
           <button
-            className="min-[1030px]:hidden p-2 text-gray-600 focus:outline-none"
-            onClick={toggleMenu}
+            className="min-[1030px]:hidden p-2 text-[#B8A99A] hover:text-white focus:outline-none"
+            onClick={() => { setIsMenuOpen((p) => !p); setIsMoreOpen(false); }}
             aria-label="Toggle menu"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              {isMenuOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
+            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="min-[1030px]:hidden bg-white py-4 px-4 shadow-md">
-          <div className="flex flex-col items-start space-y-4 w-full">
-            {/* Mobile Auth Buttons */}
+        <div className="min-[1030px]:hidden bg-[#0d0d0d] border-t border-[#1e1e1e] py-4 px-4">
+          <div className="flex flex-col gap-1">
+            {/* Mobile Auth */}
             <SignedOut>
-              <div className="flex gap-3 w-full pb-2 border-b border-gray-200">
+              <div className="flex gap-3 pb-4 mb-2 border-b border-[#1e1e1e]">
                 <SignInButton mode="modal">
-                  <button className="flex-1 bg-white text-black border-2 border-black rounded-full font-semibold text-base h-11 hover:bg-black hover:text-white transition-all duration-200">
+                  <button className="flex-1 border border-[#C9A84C]/50 text-[#C9A84C] rounded-full font-semibold text-sm h-11 hover:bg-[#C9A84C]/10 transition-all">
                     Sign In
                   </button>
                 </SignInButton>
                 <SignUpButton mode="modal">
-                  <button className="flex-1 bg-black text-white rounded-full font-semibold text-base h-11 hover:bg-gray-800 transition-all duration-200">
+                  <button className="flex-1 bg-[#1a4731] text-white rounded-full font-semibold text-sm h-11 hover:bg-[#143828] transition-all">
                     Sign Up
                   </button>
                 </SignUpButton>
               </div>
             </SignedOut>
 
-            <Link
-              href="/"
-              className="w-full text-[18px] font-semibold text-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition-all text-left"
-            >
-              Home
-            </Link>
-            <Link
-              href="/collections/all-products"
-              className="w-full text-[18px] font-semibold text-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition-all text-left"
-            >
-              All Products
-            </Link>
-            <Link
-              href="/consultancy"
-              className="w-full text-[18px] font-semibold text-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition-all text-left"
-            >
-              Consultation
-            </Link>
+            {NAV_LINKS.map(({ href, label }) => (
+              <Link
+                key={label}
+                href={href}
+                onClick={() => setIsMenuOpen(false)}
+                className="text-[16px] font-medium text-[#B8A99A] px-4 py-2.5 rounded-xl hover:text-white hover:bg-[#1a1a1a] transition-all text-left"
+              >
+                {label}
+              </Link>
+            ))}
 
             <button
               onClick={() => setIsMoreOpen(!isMoreOpen)}
-              className="w-full flex items-center justify-between text-[18px] font-semibold text-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition-all"
+              className="flex items-center justify-between text-[16px] font-medium text-[#B8A99A] px-4 py-2.5 rounded-xl hover:text-white hover:bg-[#1a1a1a] transition-all"
             >
               <span>More</span>
-              <span
-                className={`transform transition-transform duration-300 ${
-                  isMoreOpen ? "rotate-180" : "rotate-0"
-                }`}
-              >
-                ▼
-              </span>
+              <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isMoreOpen ? "rotate-180" : ""}`} />
             </button>
 
             {isMoreOpen && (
-              <div className="pl-4 flex flex-col space-y-2 w-full">
-                <Link
-                  href="/contactus"
-                  className="text-[16px] text-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition-all w-full text-left"
-                >
-                  Contact Us
-                </Link>
-                <Link
-                  href="/faq"
-                  className="text-[16px] text-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition-all w-full text-left"
-                >
-                  FAQ
-                </Link>
-                <Link
-                  href="/aboutus"
-                  className="text-[16px] text-black px-4 py-2 rounded-full hover:bg-black hover:text-white transition-all w-full text-left"
-                >
-                  About Us
-                </Link>
+              <div className="pl-4 flex flex-col gap-1">
+                {MORE_LINKS.map(({ href, label }) => (
+                  <Link
+                    key={label}
+                    href={href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-[15px] text-[#7A6E62] px-4 py-2 rounded-xl hover:text-white hover:bg-[#1a1a1a] transition-all w-full text-left"
+                  >
+                    {label}
+                  </Link>
+                ))}
               </div>
             )}
           </div>

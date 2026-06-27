@@ -9,14 +9,8 @@ import { ImageEdge } from "@/types/shopify-graphql";
 
 export default function ProductCarousel({ images }: { images: ImageEdge[] }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(false);
 
-  const [mainCarouselRef, mainEmblaApi] = useEmblaCarousel({
-    loop: true,
-    align: "start",
-  });
-
+  const [mainCarouselRef, mainEmblaApi] = useEmblaCarousel({ loop: true, align: "start" });
   const [thumbCarouselRef, thumbEmblaApi] = useEmblaCarousel({
     containScroll: "keepSnaps",
     dragFree: true,
@@ -24,13 +18,8 @@ export default function ProductCarousel({ images }: { images: ImageEdge[] }) {
     axis: "x",
   });
 
-  const scrollPrev = useCallback(() => {
-    if (mainEmblaApi) mainEmblaApi.scrollPrev();
-  }, [mainEmblaApi]);
-
-  const scrollNext = useCallback(() => {
-    if (mainEmblaApi) mainEmblaApi.scrollNext();
-  }, [mainEmblaApi]);
+  const scrollPrev = useCallback(() => mainEmblaApi?.scrollPrev(), [mainEmblaApi]);
+  const scrollNext = useCallback(() => mainEmblaApi?.scrollNext(), [mainEmblaApi]);
 
   const onThumbClick = useCallback(
     (index: number) => {
@@ -43,15 +32,9 @@ export default function ProductCarousel({ images }: { images: ImageEdge[] }) {
 
   const onSelect = useCallback(() => {
     if (!mainEmblaApi) return;
-
     const newIndex = mainEmblaApi.selectedScrollSnap();
     setSelectedIndex(newIndex);
-    setCanScrollPrev(mainEmblaApi.canScrollPrev());
-    setCanScrollNext(mainEmblaApi.canScrollNext());
-
-    if (thumbEmblaApi) {
-      thumbEmblaApi.scrollTo(newIndex);
-    }
+    thumbEmblaApi?.scrollTo(newIndex);
   }, [mainEmblaApi, thumbEmblaApi]);
 
   useEffect(() => {
@@ -69,18 +52,18 @@ export default function ProductCarousel({ images }: { images: ImageEdge[] }) {
 
   return (
     <div className="flex flex-col w-full gap-3">
-      {/* Main Image */}
-      <div className="relative w-full overflow-hidden rounded-xl bg-gray-50">
+      {/* Main image */}
+      <div className="relative w-full overflow-hidden rounded-2xl bg-[#111111] border border-[#262626]">
         <div className="overflow-hidden" ref={mainCarouselRef}>
           <div className="grid auto-cols-[100%] grid-flow-col">
             {images.map((image, index) => (
               <div className="relative min-w-0" key={index}>
                 <Image
-                  width={1000}
+                  width={800}
                   height={800}
                   src={image.node.url.toString()}
                   alt={image.node.altText ?? ""}
-                  className="w-full max-h-[520px] object-contain"
+                  className="w-full max-h-[480px] sm:max-h-[540px] object-contain p-4"
                   priority={index === 0}
                 />
               </div>
@@ -88,24 +71,38 @@ export default function ProductCarousel({ images }: { images: ImageEdge[] }) {
           </div>
         </div>
 
-        {/* Prev / Next arrows */}
+        {/* Nav arrows */}
         <button
           onClick={scrollPrev}
-          disabled={!canScrollPrev}
-          className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-white/80 border border-gray-200 shadow hover:bg-white transition disabled:opacity-30"
+          className="absolute left-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-[#1a1a1a]/80 border border-[#C9A84C]/30 backdrop-blur-sm hover:border-[#C9A84C]/70 hover:bg-[#1a1a1a] transition-all duration-200"
         >
-          <ChevronLeft className="h-4 w-4 text-gray-700" />
+          <ChevronLeft className="h-4 w-4 text-[#C9A84C]" />
         </button>
         <button
           onClick={scrollNext}
-          disabled={!canScrollNext}
-          className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-white/80 border border-gray-200 shadow hover:bg-white transition disabled:opacity-30"
+          className="absolute right-3 top-1/2 -translate-y-1/2 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-[#1a1a1a]/80 border border-[#C9A84C]/30 backdrop-blur-sm hover:border-[#C9A84C]/70 hover:bg-[#1a1a1a] transition-all duration-200"
         >
-          <ChevronRight className="h-4 w-4 text-gray-700" />
+          <ChevronRight className="h-4 w-4 text-[#C9A84C]" />
         </button>
+
+        {/* Dot indicators */}
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+          {images.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => onThumbClick(i)}
+              className={cn(
+                "rounded-full transition-all duration-300",
+                i === selectedIndex
+                  ? "w-5 h-1.5 bg-[#C9A84C]"
+                  : "w-1.5 h-1.5 bg-white/30 hover:bg-white/50"
+              )}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* Horizontal Thumbnail Strip */}
+      {/* Thumbnail strip */}
       <div className="overflow-hidden" ref={thumbCarouselRef}>
         <div className="flex gap-2">
           {images.map((image, index) => (
@@ -113,10 +110,10 @@ export default function ProductCarousel({ images }: { images: ImageEdge[] }) {
               key={index}
               onClick={() => onThumbClick(index)}
               className={cn(
-                "relative flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 cursor-pointer transition-all",
+                "relative flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border-2 cursor-pointer transition-all duration-200 bg-[#111111]",
                 selectedIndex === index
-                  ? "border-gray-800 opacity-100"
-                  : "border-gray-200 opacity-60 hover:opacity-100"
+                  ? "border-[#C9A84C] opacity-100 shadow-[0_0_8px_rgba(201,168,76,0.4)]"
+                  : "border-[#262626] opacity-50 hover:opacity-80 hover:border-[#C9A84C]/40"
               )}
             >
               <Image
@@ -124,7 +121,7 @@ export default function ProductCarousel({ images }: { images: ImageEdge[] }) {
                 height={80}
                 src={image.node.url}
                 alt={image.node.altText ?? ""}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain p-1"
               />
             </button>
           ))}

@@ -6,10 +6,7 @@ type ProductOptionsProps = {
   options: NonNullable<GetProductByHandleQuery["product"]>["options"];
   selectedOptions?: Record<string, string>;
   setSelectedOptions?: (options: Record<string, string>) => void;
-  isGlass?: boolean;
-  Variants: NonNullable<
-    GetProductByHandleQuery["product"]
-  >["variants"]["edges"];
+  Variants: NonNullable<GetProductByHandleQuery["product"]>["variants"]["edges"];
 };
 
 const ProductOptions = ({
@@ -29,16 +26,29 @@ const ProductOptions = ({
     );
   };
 
+  // Find the variant with the highest savings to mark as "Most Popular"
+  const bestValueIndex = Variants.reduce((best, curr, idx) => {
+    const currSavings = calculateSavings(
+      curr.node.price.amount,
+      curr.node.compareAtPrice?.amount
+    );
+    const bestSavings = calculateSavings(
+      Variants[best].node.price.amount,
+      Variants[best].node.compareAtPrice?.amount
+    );
+    return currSavings > bestSavings ? idx : best;
+  }, 0);
+
   return (
-    <div className="flex flex-col gap-2.5 w-full">
-      <p className="text-xs font-semibold tracking-widest text-gray-400 uppercase">
+    <div className="flex flex-col gap-3 w-full">
+      <p className="text-[11px] font-semibold tracking-widest text-[#7A6E62] uppercase">
         Select a Pack
       </p>
 
       <div className="grid grid-cols-3 gap-2.5">
         {Variants.map((variant, index) => {
           const isSelected =
-            selectedOptions[options[0].name] === options[0].optionValues[index].name;
+            selectedOptions[options[0].name] === options[0].optionValues[index]?.name;
 
           const savings = calculateSavings(
             variant.node.price.amount,
@@ -46,36 +56,49 @@ const ProductOptions = ({
           );
 
           const unavailable = !variant?.node?.availableForSale;
+          const isBestValue = index === bestValueIndex && savings > 0;
 
           return (
             <button
               key={variant.node.id}
               onClick={() =>
                 !unavailable &&
-                handleOptionChange(options[0].name, options[0].optionValues[index].name)
+                handleOptionChange(options[0].name, options[0].optionValues[index]?.name)
               }
               disabled={unavailable}
               className={cn(
-                "relative flex flex-col items-center gap-2 rounded-2xl p-3 pt-4 border transition-all text-left",
+                "relative flex flex-col items-center gap-2 rounded-2xl p-3 pt-5 border transition-all duration-200 text-center",
                 isSelected
-                  ? "border-[#1a4731] bg-[#f4f9f6] shadow-sm"
-                  : "border-gray-150 bg-gray-50 hover:border-gray-300 hover:bg-white",
+                  ? "border-[#C9A84C] bg-[#1a1500] shadow-[0_0_16px_rgba(201,168,76,0.2)]"
+                  : "border-[#262626] bg-[#111111] hover:border-[#C9A84C]/40 hover:bg-[#161100]",
                 unavailable && "opacity-40 cursor-not-allowed"
               )}
             >
+              {/* Best Value badge */}
+              {isBestValue && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#C9A84C] text-[#080808] text-[9px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap tracking-wide uppercase">
+                  Best Value
+                </span>
+              )}
+
               {/* Save badge */}
-              {savings > 0 && (
-                <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#1a4731] text-white text-[10px] font-semibold px-2.5 py-0.5 rounded-full whitespace-nowrap">
+              {savings > 0 && !isBestValue && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#1a4731] text-white text-[9px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap tracking-wide">
+                  Save {savings}%
+                </span>
+              )}
+              {savings > 0 && isBestValue && (
+                <span className="absolute -top-3 right-2 bg-[#1a4731] text-white text-[9px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap tracking-wide hidden">
                   Save {savings}%
                 </span>
               )}
 
-              {/* Image */}
+              {/* Product image */}
               {variant?.node.image?.url && (
-                <div className="w-12 h-14 flex items-center justify-center">
+                <div className="w-10 h-12 flex items-center justify-center">
                   <Image
-                    height={56}
-                    width={48}
+                    height={48}
+                    width={40}
                     src={variant.node.image.url}
                     alt={variant.node.title}
                     className="object-contain w-full h-full"
@@ -84,17 +107,23 @@ const ProductOptions = ({
               )}
 
               {/* Pack name */}
-              <span className="text-xs font-semibold text-gray-800 text-center leading-tight">
+              <span className={cn(
+                "text-xs font-semibold leading-tight",
+                isSelected ? "text-[#E8C87A]" : "text-[#B8A99A]"
+              )}>
                 {variant?.node?.title}
               </span>
 
               {/* Price */}
-              <div className="flex flex-col items-center">
-                <span className="text-sm font-bold text-gray-900">
+              <div className="flex flex-col items-center gap-0.5">
+                <span className={cn(
+                  "text-sm font-bold font-mono-num",
+                  isSelected ? "text-white" : "text-[#F5F0E8]"
+                )}>
                   ₹{parseFloat(variant.node.price.amount).toFixed(0)}
                 </span>
                 {variant?.node?.compareAtPrice?.amount && (
-                  <span className="text-[11px] text-gray-400 line-through">
+                  <span className="text-[10px] text-[#7A6E62] line-through font-mono-num">
                     ₹{parseFloat(variant.node.compareAtPrice.amount).toFixed(0)}
                   </span>
                 )}

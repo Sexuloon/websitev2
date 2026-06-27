@@ -33,8 +33,8 @@ const InfiniteScrollingText = () => {
   });
 
   return (
-    <div className="w-full bg-black text-white py-1 overflow-hidden whitespace-nowrap border-b border-gray-700">
-      <div className="animate-marquee flex gap-2 text-[10px] sm:text-xs md:text-sm font-sans font-medium tracking-normal">
+    <div className="w-full bg-[#0d0d0d] text-[#B8A99A] py-1.5 overflow-hidden whitespace-nowrap border-b border-[#1e1e1e]">
+      <div className="animate-marquee flex gap-2 text-[10px] sm:text-xs font-medium tracking-wide">
         {duplicatedTexts}
       </div>
     </div>

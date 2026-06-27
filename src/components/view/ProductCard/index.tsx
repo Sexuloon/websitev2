@@ -2,120 +2,94 @@
 import { useState } from "react";
 import { Product } from "@/types/shopify-graphql";
 import Image from "next/image";
-// import { useRouter } from "next/navigation";
 import { useCartActions } from "@/lib/atoms/cart";
 import Link from "next/link";
+import { Star } from "lucide-react";
 
 const ProductCard = ({ product }: { product: Product }) => {
-  // const router = useRouter();
   const { addItem } = useCartActions();
   const [isAdded, setIsAdded] = useState(false);
-  const discountPercentage = Math.floor(Math.random() * 30) + 10;
 
-  // console.log("p1", product.variants.edges[2].node.id)
+  const minPrice = parseFloat(product.priceRange.minVariantPrice.amount);
+  const maxPrice = parseFloat(product.priceRange.maxVariantPrice.amount);
+  const comparePrice = product.variants?.edges?.[0]?.node?.compareAtPrice?.amount
+    ? parseFloat(product.variants.edges[0].node.compareAtPrice.amount)
+    : null;
 
-  const discountPercent = (min: number, original: number) => {
-    const amount = Math.floor((min - original) / 100);
-    return amount;
-  };
+  const discount = comparePrice && comparePrice > minPrice
+    ? Math.round(((comparePrice - minPrice) / comparePrice) * 100)
+    : maxPrice > minPrice
+    ? Math.round(((maxPrice - minPrice) / maxPrice) * 100)
+    : null;
 
   const handleAddtoCart = () => {
-    if (product.variants.edges[0].node.id) {
-      addItem(product.variants.edges[2].node.id, 1);
-      setIsAdded(true);
-    }
-    if (!product.variants.edges[0].node.id) {
-      window.location.reload();
-      return;
-    }
-    const id = setTimeout(() => {
-      setIsAdded(false);
-    }, 1000);
+    const variantId = product.variants?.edges?.[0]?.node?.id;
+    if (!variantId) return;
+    addItem(variantId, 1);
+    setIsAdded(true);
+    const id = setTimeout(() => setIsAdded(false), 1200);
     return () => clearTimeout(id);
   };
 
   return (
-    <div className="group cursor-pointer w-full">
-      <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-lg transition-all duration-300 group-hover:scale-[1.02]">
+    <div className="group w-full">
+      <div className="border border-[#262626] rounded-2xl overflow-hidden bg-[#111111] hover:border-[#C9A84C]/30 hover:shadow-[0_0_24px_rgba(201,168,76,0.08)] transition-all duration-300">
         <Link prefetch href={`/product/${product.handle}`}>
-          <div
-            // onClick={() => router.push(`/product/${product.handle}`)}
-            className="relative aspect-square overflow-hidden"
-          >
+          {/* Image */}
+          <div className="relative aspect-square overflow-hidden bg-[#1a1a1a]">
             <Image
               src={product.featuredImage?.url || "/placeholder.png"}
               alt={product.featuredImage?.altText ?? product.title}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
-              sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+              className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+              sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
             />
-
             {/* Discount Badge */}
-            <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
-              {discountPercent(
-                product.priceRange.maxVariantPrice.amount,
-                product.priceRange.minVariantPrice.amount
-              )}
-              % OFF
-            </div>
+            {discount && discount > 0 && (
+              <div className="absolute top-2.5 right-2.5 bg-[#1a4731] text-white text-[10px] font-bold px-2 py-1 rounded-full">
+                {discount}% OFF
+              </div>
+            )}
           </div>
 
-          {/* Product Details */}
-          <div className="p-3 sm:p-4">
-            {/* Title */}
-            <h3 className="font-semibold text-sm sm:text-base text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+          {/* Details */}
+          <div className="p-4">
+            {/* Rating */}
+            <div className="flex items-center gap-1 mb-2">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className={`w-3 h-3 ${i < 5 ? "fill-[#C9A84C] text-[#C9A84C]" : "fill-[#2a2a2a] text-[#2a2a2a]"}`} />
+              ))}
+              <span className="text-[11px] text-[#7A6E62] ml-1">4.8</span>
+            </div>
+
+            <h3 className="font-semibold text-sm text-[#F5F0E8] mb-2 line-clamp-2 group-hover:text-[#E8C87A] transition-colors duration-200">
               {product.title}
             </h3>
 
-            {/* Description - Only show on larger screens */}
-            {product.description && (
-              <p className="hidden sm:block text-gray-600 text-xs sm:text-sm mb-3 line-clamp-2">
-                {product.description}
-              </p>
-            )}
-
-            {/* Price Section */}
-            <div className="flex items-center gap-2 mb-3">
-              <span className="font-bold text-sm sm:text-lg text-gray-900">
-                ₹ {product.priceRange.minVariantPrice.amount}
+            {/* Price */}
+            <div className="flex items-baseline gap-2">
+              <span className="font-bold text-base text-white font-mono-num">
+                ₹{minPrice.toFixed(0)}
               </span>
-              {/* Original Price (calculated) - Only show if there's a meaningful difference */}
-              <span className="text-gray-500 line-through text-xs sm:text-sm">
-                ₹
-                {(
-                  (parseFloat(product.priceRange.minVariantPrice.amount) *
-                    (100 + discountPercentage)) /
-                  100
-                ).toFixed(2)}
-              </span>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex gap-2">
-              <button
-                disabled={!product.variants.edges[0].node.id}
-                onClick={handleAddtoCart}
-                className="flex-1 py-2 sm:py-2.5 border border-gray-300 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-50 transition-colors duration-200 flex items-center justify-center"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-3 w-3 sm:h-4 sm:w-4 mr-1"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-                {isAdded ? "Adding to cart... " : "Add to cart"}
-              </button>
+              {comparePrice && comparePrice > minPrice && (
+                <span className="text-[#7A6E62] line-through text-xs font-mono-num">
+                  ₹{comparePrice.toFixed(0)}
+                </span>
+              )}
             </div>
           </div>
         </Link>
+
+        {/* Add to Cart */}
+        <div className="px-4 pb-4">
+          <button
+            disabled={!product.variants?.edges?.[0]?.node?.id}
+            onClick={handleAddtoCart}
+            className="w-full py-2.5 bg-[#1a4731] text-white rounded-xl text-sm font-bold hover:bg-[#143828] active:scale-[0.98] transition-all disabled:opacity-40"
+          >
+            {isAdded ? "Added ✓" : "Add to Cart"}
+          </button>
+        </div>
       </div>
     </div>
   );

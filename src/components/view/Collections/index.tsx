@@ -6,204 +6,117 @@ import { useStorefrontQuery } from "@/hooks/useStorefront";
 import { GetCollectionsQuery } from "@/types/shopify-graphql";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-export const dynamic = 'force-dynamic'; 
+import { ArrowRight } from "lucide-react";
+export const dynamic = "force-dynamic";
 
 const Collections = () => {
   const router = useRouter();
   const { data, isLoading } = useStorefrontQuery<GetCollectionsQuery>(
     ["collections"],
-    {
-      query: GET_COLLECTIONS_QUERY,
-    }
+    { query: GET_COLLECTIONS_QUERY }
   );
 
   if (isLoading) {
     return (
-      <div className="w-full py-8 px-4 max-w-7xl mx-auto">
-        {/* Mobile: Horizontal scroll tabs */}
-        <div className="lg:hidden">
-          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
-            {Array.from({ length: 8 }).map((_, index) => (
-              <div key={index} className="flex-none w-72 snap-start">
-                <div className="bg-white rounded-xl border shadow-sm overflow-hidden h-80">
-                  <Skeleton className="w-full h-48 bg-gray-200" />
-                  <div className="p-4 space-y-2">
-                    <Skeleton className="h-5 w-3/4 bg-gray-200" />
-                    <Skeleton className="h-4 w-1/2 bg-gray-200" />
-                  </div>
-                </div>
-              </div>
+      <section className="w-full py-16 px-4 sm:px-6 lg:px-8 bg-[#080808]">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <Skeleton key={i} className="h-64 rounded-2xl bg-[#1a1a1a]" />
             ))}
           </div>
         </div>
-        
-        {/* Desktop: Grid layout (hidden on mobile) */}
-        <div className="hidden lg:grid lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {Array.from({ length: 8 }).map((_, index) => (
-            <div key={index} className="group">
-              <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
-                <Skeleton className="w-full h-56 bg-gray-200" />
-                <div className="p-4 space-y-2">
-                  <Skeleton className="h-5 w-3/4 bg-gray-200" />
-                  <Skeleton className="h-4 w-1/2 bg-gray-200" />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      </section>
     );
   }
 
   return (
-    <div className="w-full py-8 px-4 max-w-7xl mx-auto">
-      <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 text-center mb-2">
-          Shop By Category
-        </h2>
-        <p className="text-gray-600 text-center">
-          Discover our curated selection of products
-        </p>
-      </div>
+    <section className="w-full py-16 px-4 sm:px-6 lg:px-8 bg-[#080808]">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <p className="text-[11px] font-bold tracking-widest text-[#C9A84C] uppercase mb-3">
+            Browse by Goal
+          </p>
+          <h2 className="font-display text-3xl sm:text-4xl font-bold text-white">
+            Shop By Category
+          </h2>
+        </div>
 
-      {/* Mobile: Horizontal scroll tabs */}
-      <div className="lg:hidden">
-        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
+        {/* Mobile: horizontal scroll */}
+        <div className="lg:hidden flex gap-4 overflow-x-auto no-scrollbar pb-2">
           {data?.collections.edges.map((collection) => (
             <div
               key={collection.node.id}
-              onClick={() =>
-                router.push(`/collections/${collection.node.handle}`)
-              }
-              className="flex-none w-72 snap-start group cursor-pointer transform transition-all duration-300 hover:scale-105"
+              onClick={() => router.push(`/collections/${collection.node.handle}`)}
+              className="flex-none w-60 group cursor-pointer"
             >
-              <div className="bg-white rounded-xl border shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden h-80">
-                <div className="relative w-full h-48 overflow-hidden">
+              <div className="rounded-2xl border border-[#262626] bg-[#111111] overflow-hidden hover:border-[#C9A84C]/30 hover:shadow-[0_0_20px_rgba(201,168,76,0.08)] transition-all duration-300">
+                <div className="relative w-full h-44 overflow-hidden">
                   <Image
                     src={collection.node.image?.url ?? "/placeholder.png"}
                     alt={collection.node.image?.altText ?? collection.node.title}
                     fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
+                    className="object-cover group-hover:scale-105 transition-transform duration-400"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/60 to-transparent" />
                 </div>
-
-                <div className="p-4 flex flex-col justify-between h-32">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 text-center group-hover:text-blue-600 transition-colors duration-300 line-clamp-1">
-                      {collection.node.title}
-                    </h3>
-
-                    {collection.node.description && (
-                      <p className="text-sm text-gray-600 text-center mt-2 line-clamp-2">
-                        {collection.node.description}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="mt-3 flex justify-center">
-                    <div className="inline-flex items-center text-sm font-medium text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
-                      Explore Collection
-                      <svg
-                        className="ml-1 w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </div>
+                <div className="p-4">
+                  <h3 className="text-sm font-bold text-[#F5F0E8] group-hover:text-[#E8C87A] transition-colors line-clamp-1">
+                    {collection.node.title}
+                  </h3>
+                  <div className="flex items-center gap-1 mt-2 text-[#C9A84C] text-xs font-medium">
+                    Explore <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </div>
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Desktop: Grid layout (hidden on mobile) */}
-      <div className="hidden lg:grid lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {data?.collections.edges.map((collection) => (
-          <div
-            key={collection.node.id}
-            onClick={() =>
-              router.push(`/collections/${collection.node.handle}`)
-            }
-            className="group cursor-pointer transform transition-all duration-300 hover:scale-105"
-          >
-            <div className="bg-white rounded-xl border shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden">
-              <div className="relative w-full h-80 overflow-hidden">
-                <Image
-                  src={collection.node.image?.url ?? "/placeholder.png"}
-                  alt={collection.node.image?.altText ?? collection.node.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-110"
-                />
-              </div>
-
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 text-center group-hover:text-blue-600 transition-colors duration-300">
-                  {collection.node.title}
-                </h3>
-
-                {collection.node.description && (
-                  <p className="text-sm text-gray-600 text-center mt-2 line-clamp-2">
-                    {collection.node.description}
-                  </p>
-                )}
-
-                <div className="mt-3 flex justify-center">
-                  <div className="inline-flex items-center text-sm font-medium text-blue-600 group-hover:text-blue-700 transition-colors duration-300">
-                    Explore Collection
-                    <svg
-                      className="ml-1 w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
+        {/* Desktop: grid */}
+        <div className="hidden lg:grid lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          {data?.collections.edges.map((collection) => (
+            <div
+              key={collection.node.id}
+              onClick={() => router.push(`/collections/${collection.node.handle}`)}
+              className="group cursor-pointer"
+            >
+              <div className="rounded-2xl border border-[#262626] bg-[#111111] overflow-hidden hover:border-[#C9A84C]/30 hover:shadow-[0_0_24px_rgba(201,168,76,0.08)] transition-all duration-300">
+                <div className="relative w-full h-56 overflow-hidden">
+                  <Image
+                    src={collection.node.image?.url ?? "/placeholder.png"}
+                    alt={collection.node.image?.altText ?? collection.node.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/50 to-transparent" />
+                </div>
+                <div className="p-5">
+                  <h3 className="text-base font-bold text-[#F5F0E8] group-hover:text-[#E8C87A] transition-colors">
+                    {collection.node.title}
+                  </h3>
+                  {collection.node.description && (
+                    <p className="text-sm text-[#7A6E62] mt-1 line-clamp-2">
+                      {collection.node.description}
+                    </p>
+                  )}
+                  <div className="flex items-center gap-1 mt-3 text-[#C9A84C] text-sm font-medium">
+                    Explore Collection <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-
-      {data?.collections.edges.length === 0 && (
-        <div className="text-center py-12">
-          <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-            <svg
-              className="w-8 h-8 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-              />
-            </svg>
-          </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            No collections found
-          </h3>
-          <p className="text-gray-600">Check back later for new collections.</p>
+          ))}
         </div>
-      )}
-    </div>
+
+        {data?.collections.edges.length === 0 && (
+          <div className="text-center py-16">
+            <p className="text-[#7A6E62]">No collections found.</p>
+          </div>
+        )}
+      </div>
+    </section>
   );
 };
 

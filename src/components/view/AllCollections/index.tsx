@@ -5,56 +5,23 @@ import { GET_COLLECTIONS_QUERY } from "@/graphql/collections";
 import { useStorefrontQuery } from "@/hooks/useStorefront";
 import { GetCollectionsQuery } from "@/types/shopify-graphql";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-export const dynamic = "force-dynamic";
 import Link from "next/link";
+export const dynamic = "force-dynamic";
 
 const AllCollections = () => {
-  const router = useRouter();
   const { data, isLoading } = useStorefrontQuery<GetCollectionsQuery>(
     ["collections"],
-    {
-      query: GET_COLLECTIONS_QUERY,
-    }
+    { query: GET_COLLECTIONS_QUERY }
   );
 
   if (isLoading) {
     return (
-      <div className="w-full py-6">
-        {/* Mobile: Horizontal scroll */}
-        <div className="sm:hidden overflow-x-auto">
-          <div
-            className="flex gap-4 items-center justify-center px-4 pb-2"
-            style={{ minWidth: "max-content" }}
-          >
-            {Array.from({ length: 9 }).map((_, index) => (
-              <div
-                key={index}
-                className="flex flex-col items-center flex-shrink-0"
-              >
-                <Skeleton className="w-16 h-16 rounded-full mb-2" />
-                <Skeleton className="h-3 w-12" />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Tablet: 4 columns */}
-        <div className="hidden sm:grid md:hidden grid-cols-4 gap-6 px-4">
-          {Array.from({ length: 8 }).map((_, index) => (
-            <div key={index} className="flex flex-col items-center">
-              <Skeleton className="w-18 h-18 rounded-full mb-2" />
-              <Skeleton className="h-4 w-16" />
-            </div>
-          ))}
-        </div>
-
-        {/* Desktop: Horizontal scroll */}
-        <div className="hidden md:flex gap-6 justify-center px-4 overflow-x-auto">
-          {Array.from({ length: 9 }).map((_, index) => (
-            <div key={index} className="flex-shrink-0 text-center">
-              <Skeleton className="w-20 h-20 rounded-full mb-2 mx-auto" />
-              <Skeleton className="h-4 w-20" />
+      <div className="w-full py-5 px-4 border-b border-[#1e1e1e]">
+        <div className="flex gap-6 overflow-x-auto no-scrollbar">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="flex flex-col items-center gap-2 flex-shrink-0">
+              <Skeleton className="w-14 h-14 rounded-full bg-[#1a1a1a]" />
+              <Skeleton className="h-3 w-12 bg-[#1a1a1a]" />
             </div>
           ))}
         </div>
@@ -63,144 +30,32 @@ const AllCollections = () => {
   }
 
   return (
-    <div className="w-full py-4 scroll-smooth ">
-      {/* Mobile: Horizontal scrollable */}
-      <div className="sm:hidden overflow-x-auto">
-        <div
-          className="flex items-center justify-center gap-7 px-4 pb-2"
-          style={{ minWidth: "max-content" }}
-        >
-          {data?.collections.edges.map((collection) => (
-            <Link
-              prefetch
-              key={collection.node.id}
-              href={`/collections/${collection.node.handle}`}
-              // onClick={() =>
-              //   router.push(`/collections/${collection.node.handle}`)
-              // }
-              className="flex flex-col items-center group flex-shrink-0"
-            >
-              <div className="relative w-10 h-10 mb-2">
-                <div className="w-full h-full overflow-hidden bg-white shadow-sm rounded-full border border-gray-200 group-hover:shadow-md transition-shadow duration-200">
-                  <Image
-                    src={collection.node.image?.url ?? "/placeholder.png"}
-                    alt={
-                      collection.node.image?.altText ?? collection.node.title
-                    }
-                    fill
-                    className="object-cover rounded-full group-hover:scale-105 transition-transform duration-200"
-                    sizes="64px"
-                  />
-                </div>
-              </div>
-              <h3 className="text-black text-center font-medium leading-tight text-xs w-16 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
-                {collection.node.title}
-              </h3>
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* Tablet: 4 columns grid */}
-      <div className="hidden sm:grid md:hidden grid-cols-4 gap-6 px-4">
-        {data?.collections.edges.slice(0, 8).map((collection) => (
-          <button
+    <div className="w-full py-4 px-4 sm:px-6 border-b border-[#1e1e1e] bg-[#0d0d0d]">
+      <div className="flex gap-6 sm:gap-8 overflow-x-auto no-scrollbar justify-start sm:justify-center">
+        {data?.collections.edges.map((collection) => (
+          <Link
+            prefetch
             key={collection.node.id}
-            onClick={() =>
-              router.push(`/collections/${collection.node.handle}`)
-            }
-            className="flex flex-col items-center group"
+            href={`/collections/${collection.node.handle}`}
+            className="flex flex-col items-center gap-2 flex-shrink-0 group"
           >
-            <div className="relative w-18 h-18 mb-2">
-              <div className="w-full h-full overflow-hidden bg-white shadow-sm rounded-full border border-gray-200 group-hover:shadow-md transition-shadow duration-200">
+            <div className="relative w-12 h-12 sm:w-14 sm:h-14">
+              <div className="w-full h-full rounded-full overflow-hidden border-2 border-[#262626] group-hover:border-[#C9A84C]/60 transition-all duration-200 bg-[#1a1a1a]">
                 <Image
                   src={collection.node.image?.url ?? "/placeholder.png"}
                   alt={collection.node.image?.altText ?? collection.node.title}
                   fill
-                  className="object-cover rounded-full group-hover:scale-105 transition-transform duration-200"
-                  sizes="72px"
+                  className="object-cover rounded-full group-hover:scale-110 transition-transform duration-300"
+                  sizes="56px"
                 />
               </div>
             </div>
-            <h3 className="text-black text-center font-medium leading-tight text-sm line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+            <span className="text-[11px] text-[#7A6E62] text-center font-medium leading-tight w-16 line-clamp-2 group-hover:text-[#C9A84C] transition-colors duration-200">
               {collection.node.title}
-            </h3>
-          </button>
+            </span>
+          </Link>
         ))}
       </div>
-
-      {/* Desktop: Horizontal scrollable or centered flex */}
-      <div className="hidden md:block">
-        {data?.collections.edges && data.collections.edges.length <= 6 ? (
-          // If 6 or fewer collections, center them
-          <div className="flex justify-center items-center gap-8 px-4">
-            {data.collections.edges.map((collection) => (
-              <button
-                key={collection.node.id}
-                onClick={() =>
-                  router.push(`/collections/${collection.node.handle}`)
-                }
-                className="flex flex-col items-center group min-w-0"
-              >
-                <div className="relative w-20 h-20 mb-3">
-                  <div className="w-full h-full overflow-hidden bg-white shadow-sm rounded-full border border-gray-200 group-hover:shadow-lg transition-shadow duration-300">
-                    <Image
-                      src={collection.node.image?.url ?? "/placeholder.png"}
-                      alt={
-                        collection.node.image?.altText ?? collection.node.title
-                      }
-                      fill
-                      className="object-cover rounded-full group-hover:scale-110 transition-transform duration-300"
-                      sizes="80px"
-                    />
-                  </div>
-                </div>
-                <h3 className="text-black text-center font-medium leading-tight text-sm max-w-20 line-clamp-2 group-hover:text-blue-600 transition-colors duration-300">
-                  {collection.node.title}
-                </h3>
-              </button>
-            ))}
-          </div>
-        ) : (
-          // If more than 6 collections, make it scrollable
-          <div className="overflow-x-auto">
-            <div
-              className="flex gap-8 px-4 pb-2"
-              style={{ minWidth: "max-content" }}
-            >
-              {data?.collections?.edges.map((collection) => (
-                <button
-                  key={collection.node.id}
-                  onClick={() =>
-                    router.push(`/collections/${collection.node.handle}`)
-                  }
-                  className="flex flex-col items-center group flex-shrink-0"
-                >
-                  <div className="relative w-20 h-20 mb-3">
-                    <div className="w-full h-full overflow-hidden bg-white shadow-sm rounded-full border border-gray-200 group-hover:shadow-lg transition-shadow duration-300">
-                      <Image
-                        src={collection.node.image?.url ?? "/placeholder.png"}
-                        alt={
-                          collection.node.image?.altText ??
-                          collection.node.title
-                        }
-                        fill
-                        className="object-cover rounded-full group-hover:scale-110 transition-transform duration-300"
-                        sizes="80px"
-                      />
-                    </div>
-                  </div>
-                  <h3 className="text-black text-center font-medium leading-tight text-sm w-20 line-clamp-2 group-hover:text-blue-600 transition-colors duration-300">
-                    {collection.node.title}
-                  </h3>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Show all collections link removed since mobile now shows all */}
     </div>
   );
 };

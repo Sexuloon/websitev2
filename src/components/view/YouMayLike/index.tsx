@@ -32,7 +32,9 @@ function ProductCard({ product }: { product: RelatedProduct }) {
   const [selectedVariant, setSelectedVariant] = useState<Variant>(variants[0]);
   const [isAdded, setIsAdded] = useState(false);
 
-  const price = parseFloat(selectedVariant?.price?.amount ?? product.priceRange.minVariantPrice.amount);
+  const price = parseFloat(
+    selectedVariant?.price?.amount ?? product.priceRange.minVariantPrice.amount
+  );
   const compare = selectedVariant?.compareAtPrice?.amount
     ? parseFloat(selectedVariant.compareAtPrice.amount)
     : product.compareAtPriceRange?.minVariantPrice?.amount
@@ -55,16 +57,23 @@ function ProductCard({ product }: { product: RelatedProduct }) {
   };
 
   return (
-    <div className="group flex flex-col bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-md hover:border-gray-200 transition-all duration-200">
-      {/* Image area */}
+    <div className="group flex flex-col bg-[#111111] rounded-2xl border border-[#262626] overflow-hidden hover:border-[#C9A84C]/30 hover:shadow-[0_0_20px_rgba(201,168,76,0.08)] transition-all duration-300">
+      {/* Image */}
       <Link href={`/product/${product.handle}`} className="block relative">
-        {/* Rating badge — top left */}
-        <div className="absolute top-3 left-3 z-10 flex items-center gap-1 bg-white/90 backdrop-blur-sm rounded-full px-2 py-0.5 shadow-sm">
-          <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-          <span className="text-xs font-semibold text-gray-700">4.8</span>
+        {/* Rating badge */}
+        <div className="absolute top-3 left-3 z-10 flex items-center gap-1 bg-[#080808]/80 backdrop-blur-sm rounded-full px-2.5 py-1 border border-[#262626]">
+          <Star className="w-3 h-3 fill-[#C9A84C] text-[#C9A84C]" />
+          <span className="text-xs font-bold text-white font-mono-num">4.8</span>
         </div>
 
-        <div className="aspect-square bg-gray-50 overflow-hidden">
+        {/* Discount badge */}
+        {discount && (
+          <div className="absolute top-3 right-3 z-10 bg-[#1a4731] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+            {discount}% off
+          </div>
+        )}
+
+        <div className="aspect-square bg-[#1a1a1a] overflow-hidden">
           {product.featuredImage?.url ? (
             <Image
               src={product.featuredImage.url}
@@ -74,32 +83,31 @@ function ProductCard({ product }: { product: RelatedProduct }) {
               className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
-            <div className="w-full h-full bg-gray-100" />
+            <div className="w-full h-full bg-[#1e1e1e]" />
           )}
         </div>
       </Link>
 
       {/* Content */}
       <div className="flex flex-col gap-3 p-4 flex-1">
-        {/* Title */}
         <Link href={`/product/${product.handle}`}>
-          <h3 className="text-sm font-semibold text-gray-900 leading-snug line-clamp-2 group-hover:text-[#1a4731] transition-colors">
+          <h3 className="text-sm font-semibold text-[#F5F0E8] leading-snug line-clamp-2 group-hover:text-[#E8C87A] transition-colors">
             {product.title}
           </h3>
         </Link>
 
-        {/* Pack Selector */}
+        {/* Pack selector */}
         {variants.length > 1 && (
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-xs text-gray-500">Pack</span>
+            <span className="text-xs text-[#7A6E62]">Pack</span>
             {variants.map((v, i) => (
               <button
                 key={v.id}
                 onClick={() => setSelectedVariant(v)}
-                className={`w-7 h-7 rounded-md text-xs font-bold transition-all border ${
+                className={`w-7 h-7 rounded-lg text-xs font-bold transition-all border ${
                   selectedVariant?.id === v.id
                     ? "bg-[#1a4731] text-white border-[#1a4731]"
-                    : "text-gray-600 border-gray-200 hover:border-gray-400"
+                    : "bg-[#1a1a1a] text-[#B8A99A] border-[#262626] hover:border-[#C9A84C]/40"
                 }`}
               >
                 {packLabel(v.title, i)}
@@ -110,12 +118,14 @@ function ProductCard({ product }: { product: RelatedProduct }) {
 
         {/* Price */}
         <div className="mt-auto">
-          <p className="text-lg font-bold text-gray-900">₹{price.toFixed(0)}</p>
+          <p className="text-lg font-bold text-white font-mono-num">₹{price.toFixed(0)}</p>
           {compare && (
             <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-400 line-through">₹{compare.toFixed(0)}</span>
+              <span className="text-xs text-[#7A6E62] line-through font-mono-num">
+                ₹{compare.toFixed(0)}
+              </span>
               {discount && (
-                <span className="text-xs font-semibold text-[#1a4731]">{discount}% off</span>
+                <span className="text-xs font-bold text-[#C9A84C]">{discount}% off</span>
               )}
             </div>
           )}
@@ -125,7 +135,7 @@ function ProductCard({ product }: { product: RelatedProduct }) {
         <button
           onClick={handleAdd}
           disabled={!selectedVariant?.availableForSale}
-          className="w-full h-11 rounded-xl bg-[#1a4731] text-white text-sm font-semibold hover:bg-[#143828] active:scale-[0.98] transition-all disabled:opacity-40"
+          className="w-full h-11 rounded-xl bg-[#1a4731] text-white text-sm font-bold hover:bg-[#143828] active:scale-[0.98] transition-all disabled:opacity-40"
         >
           {isAdded ? "Added ✓" : "Add to Cart"}
         </button>
@@ -151,29 +161,36 @@ export default function YouMayLike({ currentHandle }: { currentHandle: string })
 
   const scroll = (dir: "left" | "right") => {
     if (!scrollRef.current) return;
-    scrollRef.current.scrollBy({ left: dir === "left" ? -320 : 320, behavior: "smooth" });
+    scrollRef.current.scrollBy({ left: dir === "left" ? -300 : 300, behavior: "smooth" });
   };
 
   if (isLoading || products.length === 0) return null;
 
   return (
-    <section className="py-16 bg-white border-t border-gray-100">
-      <div className="max-w-6xl mx-auto px-6 lg:px-8">
+    <section className="py-16 bg-[#080808] border-t border-[#1e1e1e]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-bold text-gray-900">You may also like</h2>
+          <div>
+            <p className="text-[11px] font-bold tracking-widest text-[#C9A84C] uppercase mb-2">
+              Explore More
+            </p>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-white">
+              You May Also Like
+            </h2>
+          </div>
           <div className="flex gap-2">
             <button
               onClick={() => scroll("left")}
-              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 hover:border-gray-300 transition-all"
+              className="w-10 h-10 rounded-full border border-[#262626] bg-[#111111] flex items-center justify-center hover:border-[#C9A84C]/50 text-[#7A6E62] hover:text-[#C9A84C] transition-all"
             >
-              <ChevronLeft className="w-4 h-4 text-gray-600" />
+              <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 hover:border-gray-300 transition-all"
+              className="w-10 h-10 rounded-full border border-[#262626] bg-[#111111] flex items-center justify-center hover:border-[#C9A84C]/50 text-[#7A6E62] hover:text-[#C9A84C] transition-all"
             >
-              <ChevronRight className="w-4 h-4 text-gray-600" />
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -184,7 +201,7 @@ export default function YouMayLike({ currentHandle }: { currentHandle: string })
           className="flex gap-4 overflow-x-auto pb-2 no-scrollbar scroll-smooth"
         >
           {products.map((product) => (
-            <div key={product.id} className="flex-shrink-0 w-60 sm:w-64">
+            <div key={product.id} className="flex-shrink-0 w-56 sm:w-64">
               <ProductCard product={product} />
             </div>
           ))}
