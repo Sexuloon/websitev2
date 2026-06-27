@@ -84,7 +84,7 @@ export default function RootLayout({
           />
           <meta name="twitter:image" content="/seo-banner.png" />
         </head>
-        <body className="antialiased bg-[#080808] text-[#F5F0E8]">
+        <body className="antialiased bg-gray-50 text-gray-900 dark:bg-[#080808] dark:text-[#F5F0E8] transition-colors duration-300">
           <PostHogProvider>
             <Providers>
               <InfiniteScrollingText />

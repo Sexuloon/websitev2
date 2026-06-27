@@ -8,6 +8,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -49,6 +50,8 @@ export default function Providers({ children }: ProvidersProps) {
   const queryClient = getQueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <NextThemesProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </NextThemesProvider>
   );
 }

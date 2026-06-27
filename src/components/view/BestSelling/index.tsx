@@ -46,10 +46,10 @@ const CollectionPage = ({ category }: { category: string }) => {
   if (isLoading) {
     return (
       <div className="my-10 flex flex-col gap-y-6 px-4 sm:px-6 lg:px-10">
-        <Skeleton className="h-[50px] w-full bg-[#1a1a1a]" />
+        <Skeleton className="h-[50px] w-full bg-gray-200 dark:bg-[#1a1a1a]" />
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {Array.from({ length: 12 }).map((_, index) => (
-            <Skeleton key={index} className="h-[250px] sm:h-[300px] w-full bg-[#1a1a1a] rounded-2xl" />
+            <Skeleton key={index} className="h-[250px] sm:h-[300px] w-full bg-gray-200 dark:bg-[#1a1a1a] rounded-2xl" />
           ))}
         </div>
       </div>
@@ -72,7 +72,7 @@ const CollectionPage = ({ category }: { category: string }) => {
 
       {data?.collection?.products?.edges?.length === 0 && (
         <div className="text-center py-16">
-          <p className="text-[#7A6E62] text-sm">No products found in this collection.</p>
+          <p className="text-gray-600 dark:text-[#7A6E62] text-sm">No products found in this collection.</p>
         </div>
       )}
     </div>

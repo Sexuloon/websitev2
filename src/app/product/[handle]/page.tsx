@@ -91,24 +91,24 @@ const Product = () => {
   // ── Loading skeleton ────────────────────────────────────────
   if (isLoading)
     return (
-      <div className="bg-[#080808] min-h-screen">
+      <div className="bg-white dark:bg-[#080808] min-h-screen transition-colors duration-300">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
             <div className="space-y-3">
-              <Skeleton className="h-[480px] w-full rounded-2xl bg-[#1a1a1a]" />
+              <Skeleton className="h-[480px] w-full rounded-2xl bg-gray-200 dark:bg-[#1a1a1a]" />
               <div className="flex gap-2">
                 {[...Array(4)].map((_, i) => (
-                  <Skeleton key={i} className="h-16 w-16 rounded-xl bg-[#1a1a1a]" />
+                  <Skeleton key={i} className="h-16 w-16 rounded-xl bg-gray-200 dark:bg-[#1a1a1a]" />
                 ))}
               </div>
             </div>
             <div className="space-y-6 pt-4">
-              <Skeleton className="h-10 w-4/5 bg-[#1a1a1a]" />
-              <Skeleton className="h-4 w-full bg-[#1a1a1a]" />
-              <Skeleton className="h-4 w-3/4 bg-[#1a1a1a]" />
-              <Skeleton className="h-8 w-32 bg-[#1a1a1a]" />
-              <Skeleton className="h-40 w-full rounded-2xl bg-[#1a1a1a]" />
-              <Skeleton className="h-14 w-full rounded-xl bg-[#1a1a1a]" />
+              <Skeleton className="h-10 w-4/5 bg-gray-200 dark:bg-[#1a1a1a]" />
+              <Skeleton className="h-4 w-full bg-gray-200 dark:bg-[#1a1a1a]" />
+              <Skeleton className="h-4 w-3/4 bg-gray-200 dark:bg-[#1a1a1a]" />
+              <Skeleton className="h-8 w-32 bg-gray-200 dark:bg-[#1a1a1a]" />
+              <Skeleton className="h-40 w-full rounded-2xl bg-gray-200 dark:bg-[#1a1a1a]" />
+              <Skeleton className="h-14 w-full rounded-xl bg-gray-200 dark:bg-[#1a1a1a]" />
             </div>
           </div>
         </div>
@@ -139,7 +139,7 @@ const Product = () => {
   const aplusClosing = aplusImages.slice(4);      // after reviews / before FAQ
 
   return (
-    <div className="bg-[#080808] min-h-screen text-[#F5F0E8]">
+    <div className="bg-white dark:bg-[#080808] min-h-screen text-gray-900 dark:text-[#F5F0E8] transition-colors duration-300">
 
       {/* ── HERO ──────────────────────────────────────────────── */}
       <div ref={heroRef} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
@@ -155,12 +155,12 @@ const Product = () => {
 
             {/* Title */}
             <div className="space-y-2.5">
-              <h1 className="font-display text-3xl sm:text-4xl font-bold text-white leading-tight">
+              <h1 className="font-display text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white leading-tight">
                 {data?.product?.title}
               </h1>
               {data?.product?.descriptionHtml && (
                 <div
-                  className="text-[#B8A99A] text-sm leading-relaxed"
+                  className="text-gray-600 dark:text-[#B8A99A] text-sm leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: data.product.descriptionHtml }}
                 />
               )}
@@ -175,39 +175,39 @@ const Product = () => {
                     className={`w-4 h-4 ${
                       i < Math.floor(rating)
                         ? "fill-[#C9A84C] text-[#C9A84C]"
-                        : "fill-[#2a2a2a] text-[#2a2a2a]"
+                        : "fill-gray-200 text-gray-200 dark:fill-[#2a2a2a] dark:text-[#2a2a2a]"
                     }`}
                   />
                 ))}
               </div>
-              <span className="text-sm font-bold text-white font-mono-num">{rating}</span>
-              <span className="text-sm text-[#7A6E62]">({reviewCount} reviews)</span>
+              <span className="text-sm font-bold text-gray-900 dark:text-white font-mono-num">{rating}</span>
+              <span className="text-sm text-gray-500 dark:text-[#7A6E62]">({reviewCount} reviews)</span>
             </div>
 
             {/* Price block */}
             {currentPrice !== null && (
-              <div className="rounded-2xl bg-[#111111] border border-[#262626] p-4 space-y-1.5">
+              <div className="rounded-2xl bg-gray-50 dark:bg-[#111111] border border-gray-200 dark:border-[#262626] p-4 space-y-1.5">
                 <div className="flex items-baseline gap-3 flex-wrap">
                   {discountPercent && (
-                    <span className="text-xs font-bold text-[#080808] bg-[#C9A84C] px-2.5 py-1 rounded-md">
+                    <span className="text-xs font-bold text-white bg-blue-600 dark:text-[#080808] dark:bg-[#C9A84C] px-2.5 py-1 rounded-md">
                       {discountPercent}% OFF
                     </span>
                   )}
-                  <span className="text-3xl font-bold text-white font-mono-num">
+                  <span className="text-3xl font-bold text-gray-900 dark:text-white font-mono-num">
                     ₹{currentPrice.toFixed(0)}
                   </span>
                   {comparePrice && (
-                    <span className="text-base text-[#7A6E62] line-through font-mono-num">
+                    <span className="text-base text-gray-500 dark:text-[#7A6E62] line-through font-mono-num">
                       ₹{comparePrice.toFixed(0)}
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-[#7A6E62]">Inclusive of all taxes</p>
+                <p className="text-xs text-gray-500 dark:text-[#7A6E62]">Inclusive of all taxes</p>
               </div>
             )}
 
             {/* Divider */}
-            <div className="h-px bg-[#1e1e1e]" />
+            <div className="h-px bg-gray-200 dark:bg-[#1e1e1e]" />
 
             {/* Pack selector */}
             <ProductOptions
@@ -226,28 +226,28 @@ const Product = () => {
             )}
 
             {/* Divider */}
-            <div className="h-px bg-[#1e1e1e]" />
+            <div className="h-px bg-gray-200 dark:bg-[#1e1e1e]" />
 
             {/* Quantity + Add to Cart + Buy Now */}
             <div className="space-y-3">
-              <p className="text-[11px] font-semibold tracking-widest text-[#7A6E62] uppercase">
+              <p className="text-[11px] font-semibold tracking-widest text-gray-500 dark:text-[#7A6E62] uppercase">
                 Quantity
               </p>
               <div className="flex items-center gap-3">
                 {/* Quantity stepper */}
-                <div className="flex items-center rounded-xl border border-[#262626] bg-[#111111] h-13 overflow-hidden shrink-0">
+                <div className="flex items-center rounded-xl border border-gray-200 dark:border-[#262626] bg-gray-50 dark:bg-[#111111] h-13 overflow-hidden shrink-0">
                   <button
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="w-12 h-13 flex items-center justify-center text-[#B8A99A] hover:text-white hover:bg-[#1a1a1a] transition-colors"
+                    className="w-12 h-13 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
                   >
                     <Minus className="w-3.5 h-3.5" />
                   </button>
-                  <span className="w-9 text-center text-sm font-bold text-white select-none font-mono-num">
+                  <span className="w-9 text-center text-sm font-bold text-gray-900 dark:text-white select-none font-mono-num">
                     {quantity}
                   </span>
                   <button
                     onClick={() => setQuantity((q) => q + 1)}
-                    className="w-12 h-13 flex items-center justify-center text-[#B8A99A] hover:text-white hover:bg-[#1a1a1a] transition-colors"
+                    className="w-12 h-13 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
                   >
                     <Plus className="w-3.5 h-3.5" />
                   </button>
@@ -257,7 +257,7 @@ const Product = () => {
                 <button
                   onClick={handleAddtoCart}
                   disabled={!selectedVariant}
-                  className="flex-1 h-13 rounded-xl border border-[#1a4731] text-[#1a4731] bg-transparent text-sm font-bold tracking-wide hover:bg-[#1a4731]/10 active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="flex-1 h-13 rounded-xl border border-blue-600 text-blue-600 hover:bg-blue-50 dark:border-[#1a4731] dark:text-[#1a4731] bg-transparent text-sm font-bold tracking-wide dark:hover:bg-[#1a4731]/10 active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   {isAdded ? "Added to Cart ✓" : "ADD TO CART"}
                 </button>
@@ -266,7 +266,7 @@ const Product = () => {
                 <button
                   onClick={handleBuyNow}
                   disabled={!selectedVariant}
-                  className="flex-1 h-13 rounded-xl bg-[#1a4731] text-white text-sm font-bold tracking-wide hover:bg-[#143828] active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(26,71,49,0.35)]"
+                  className="flex-1 h-13 rounded-xl bg-blue-600 text-white hover:bg-blue-700 shadow-[0_0_20px_rgba(37,99,235,0.35)] dark:bg-[#1a4731] dark:hover:bg-[#143828] text-sm font-bold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed dark:shadow-[0_0_20px_rgba(26,71,49,0.35)]"
                 >
                   BUY NOW
                 </button>
@@ -277,8 +277,8 @@ const Product = () => {
             <div className="flex items-center gap-6 pt-1 flex-wrap">
               {TRUST_SIGNALS.map(({ icon: Icon, label }) => (
                 <div key={label} className="flex items-center gap-2">
-                  <Icon className="w-3.5 h-3.5 text-[#C9A84C]" />
-                  <span className="text-xs text-[#7A6E62] font-medium">{label}</span>
+                  <Icon className="w-3.5 h-3.5 text-blue-600 dark:text-[#C9A84C]" />
+                  <span className="text-xs text-gray-500 dark:text-[#7A6E62] font-medium">{label}</span>
                 </div>
               ))}
             </div>

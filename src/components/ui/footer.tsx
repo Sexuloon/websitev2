@@ -52,23 +52,22 @@ const Footer = () => {
     setOpenMenu((prev) => ({ ...prev, [key]: !prev[key] }));
 
   return (
-    <footer className="bg-[#080808] border-t border-[#1e1e1e] text-[#F5F0E8] w-full">
+    <footer className="bg-gray-50 dark:bg-[#080808] border-t border-gray-200 dark:border-[#1e1e1e] text-gray-900 dark:text-[#F5F0E8] w-full transition-colors duration-300">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
 
         {/* ── Mobile accordion ────────────────────────────── */}
         <div className="md:hidden space-y-5">
           {/* Logo */}
-          <div className="flex flex-col gap-3 pb-6 border-b border-[#1e1e1e]">
+          <div className="flex flex-col gap-3 pb-6 border-b border-gray-200 dark:border-[#1e1e1e]">
             <div className="relative w-28 h-10">
               <Image
                 src="/Web_Icon-removebg-preview.png"
                 alt="Sexuloon Logo"
                 fill
-                className="object-contain"
-                style={{ filter: "brightness(0) invert(1)" }}
+                className="object-contain dark:brightness-0 dark:invert"
               />
             </div>
-            <p className="text-[#7A6E62] text-sm leading-relaxed max-w-xs">
+            <p className="text-gray-600 dark:text-[#7A6E62] text-sm leading-relaxed max-w-xs">
               Empowering men&apos;s sexual health with natural Unani formulations
               and personalized care.
             </p>
@@ -77,11 +76,11 @@ const Footer = () => {
           {sections.map(({ key, title, links }) => (
             <div
               key={key}
-              className="border border-[#1e1e1e] rounded-xl overflow-hidden"
+              className="border border-gray-200 dark:border-[#1e1e1e] rounded-xl overflow-hidden shadow-sm dark:shadow-none"
             >
               <button
                 onClick={() => toggle(key)}
-                className="w-full flex items-center justify-between px-4 py-3.5 font-semibold text-[#F5F0E8] text-sm bg-[#111111] hover:bg-[#181818] transition-colors"
+                className="w-full flex items-center justify-between px-4 py-3.5 font-semibold text-gray-900 dark:text-[#F5F0E8] text-sm bg-white dark:bg-[#111111] hover:bg-gray-100 dark:hover:bg-[#181818] transition-colors"
               >
                 {title}
                 <ChevronDown
@@ -91,12 +90,12 @@ const Footer = () => {
                 />
               </button>
               {openMenu[key] && (
-                <ul className="px-4 py-3 space-y-2.5 bg-[#0d0d0d]">
+                <ul className="px-4 py-3 space-y-2.5 bg-gray-50 dark:bg-[#0d0d0d]">
                   {links.map(({ href, label }) => (
                     <li key={label}>
                       <Link
                         href={href}
-                        className="text-[#7A6E62] text-sm hover:text-[#C9A84C] transition-colors block"
+                        className="text-gray-600 dark:text-[#7A6E62] text-sm hover:text-black dark:hover:text-[#C9A84C] transition-colors block"
                       >
                         {label}
                       </Link>
@@ -117,11 +116,10 @@ const Footer = () => {
                 src="/Web_Icon-removebg-preview.png"
                 alt="Sexuloon Logo"
                 fill
-                className="object-contain"
-                style={{ filter: "brightness(0) invert(1)" }}
+                className="object-contain dark:brightness-0 dark:invert"
               />
             </div>
-            <p className="text-[#7A6E62] text-sm leading-relaxed">
+            <p className="text-gray-600 dark:text-[#7A6E62] text-sm leading-relaxed">
               Empowering men&apos;s sexual health with natural Unani
               formulations and personalized care.
             </p>
@@ -131,7 +129,7 @@ const Footer = () => {
 
           {sections.map(({ key, title, links }) => (
             <div key={key}>
-              <h3 className="text-sm font-bold tracking-wider text-[#C9A84C] uppercase mb-5">
+              <h3 className="text-sm font-bold tracking-wider text-black dark:text-[#C9A84C] uppercase mb-5">
                 {title}
               </h3>
               <ul className="space-y-3">
@@ -139,7 +137,7 @@ const Footer = () => {
                   <li key={label}>
                     <Link
                       href={href}
-                      className="text-sm text-[#7A6E62] hover:text-[#E8C87A] transition-colors"
+                      className="text-sm text-gray-600 dark:text-[#7A6E62] hover:text-black dark:hover:text-[#E8C87A] transition-colors"
                     >
                       {label}
                     </Link>
@@ -151,11 +149,11 @@ const Footer = () => {
         </div>
 
         {/* ── Bottom bar ───────────────────────────────────── */}
-        <div className="mt-12 pt-6 border-t border-[#1e1e1e] flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-[#7A6E62]">
+        <div className="mt-12 pt-6 border-t border-gray-200 dark:border-[#1e1e1e] flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-gray-500 dark:text-[#7A6E62]">
             © {new Date().getFullYear()} Sexuloon. All rights reserved.
           </p>
-          <p className="text-xs text-[#7A6E62]">
+          <p className="text-xs text-gray-500 dark:text-[#7A6E62]">
             Made with ❤️ for men&apos;s wellness
           </p>
         </div>

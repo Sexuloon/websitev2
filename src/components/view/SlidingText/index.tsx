@@ -24,7 +24,7 @@ const InfiniteScrollingText = () => {
     ];
     if (index !== array.length - 1) {
       elements.push(
-        <span key={`star-${index}`} className="text-white text-sm">
+        <span key={`star-${index}`} className="text-gray-900 dark:text-white text-sm">
           ✦
         </span>
       );
@@ -33,7 +33,7 @@ const InfiniteScrollingText = () => {
   });
 
   return (
-    <div className="w-full bg-[#0d0d0d] text-[#B8A99A] py-1.5 overflow-hidden whitespace-nowrap border-b border-[#1e1e1e]">
+    <div className="w-full bg-white dark:bg-[#0d0d0d] text-gray-700 dark:text-[#B8A99A] py-1.5 overflow-hidden whitespace-nowrap border-b border-gray-100 dark:border-[#1e1e1e] transition-colors duration-300">
       <div className="animate-marquee flex gap-2 text-[10px] sm:text-xs font-medium tracking-wide">
         {duplicatedTexts}
       </div>
