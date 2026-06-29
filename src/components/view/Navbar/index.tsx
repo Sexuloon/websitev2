@@ -5,15 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import CartView from "../Cart/CartView";
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
-import { X, Menu, ChevronDown, Sun, Moon } from "lucide-react";
-import { useTheme } from "next-themes";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import { X, Menu, ChevronDown } from "lucide-react";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -26,23 +19,6 @@ const MORE_LINKS = [
   { href: "/faq", label: "FAQ" },
   { href: "/aboutus", label: "About Us" },
 ];
-
-function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  if (!mounted) return <div className="w-9 h-9" />;
-
-  return (
-    <button
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="p-2 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-all"
-      aria-label="Toggle theme"
-    >
-      {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-    </button>
-  );
-}
 
 function Navbar() {
   const { cart, initializeCart } = useCartActions();
@@ -117,7 +93,6 @@ function Navbar() {
 
         {/* Actions */}
         <div className="flex items-center gap-3">
-          <ThemeToggle />
           <CartView />
 
           <SignedOut>
@@ -127,7 +102,7 @@ function Navbar() {
               </button>
             </SignInButton>
             <SignUpButton mode="modal">
-              <button className="flex items-center justify-center bg-black text-white hover:bg-gray-800 dark:bg-[#1a4731] dark:hover:bg-[#143828] rounded-full font-semibold text-sm h-10 px-5 transition-all duration-200 cursor-pointer">
+              <button className="hidden sm:flex items-center justify-center bg-black text-white hover:bg-gray-800 dark:bg-[#1a4731] dark:hover:bg-[#143828] rounded-full font-semibold text-sm h-10 px-5 transition-all duration-200 cursor-pointer">
                 Sign Up
               </button>
             </SignUpButton>

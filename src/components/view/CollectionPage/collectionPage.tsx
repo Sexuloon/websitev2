@@ -12,7 +12,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import {  useState } from "react";
+import {  useState, useEffect } from "react";
 
 const CollectionPage = ({ handle }: { handle: string }) => {
   // Pagination
@@ -31,6 +31,25 @@ const CollectionPage = ({ handle }: { handle: string }) => {
       },
     }
   );
+
+  // KwikPass Collection Page View Event tracking
+  useEffect(() => {
+    if (data?.collection) {
+      const event = new CustomEvent("page_view_kp", {
+        detail: {
+          type: "collection",
+          data: {
+            cart_id: "",
+            collection_id: data.collection.id,
+            name: data.collection.title,
+            image_url: data.collection.image?.url || "",
+            handle: handle,
+          },
+        },
+      });
+      window.dispatchEvent(event);
+    }
+  }, [data?.collection?.id, handle]);
 
   
 

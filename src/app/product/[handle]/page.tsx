@@ -59,6 +59,28 @@ const Product = () => {
     setSelectedOptions(initialOptions);
   }, [data]);
 
+  // KwikPass Page View Event tracking
+  useEffect(() => {
+    if (data?.product) {
+      const activeVariant = data.product.variants.edges?.[0]?.node;
+      const event = new CustomEvent("page_view_kp", {
+        detail: {
+          type: "product",
+          data: {
+            cart_id: cart?.id || "",
+            product_id: data.product.id,
+            variant_id: activeVariant?.id || "",
+            image_url: data.product.images?.edges?.[0]?.node?.url || "",
+            name: data.product.title,
+            price: activeVariant?.price?.amount ? parseFloat(activeVariant.price.amount) : 0,
+            handle: params.handle,
+          },
+        },
+      });
+      window.dispatchEvent(event);
+    }
+  }, [data?.product?.id]); // Fire only once per product load
+
   const handleSelectOptions = (options: Record<string, string>) => {
     const variant = data?.product?.variants?.edges.find((variant) =>
       Object.keys(options).every((key) =>
@@ -189,7 +211,7 @@ const Product = () => {
               <div className="rounded-2xl bg-gray-50 dark:bg-[#111111] border border-gray-200 dark:border-[#262626] p-4 space-y-1.5">
                 <div className="flex items-baseline gap-3 flex-wrap">
                   {discountPercent && (
-                    <span className="text-xs font-bold text-white bg-blue-600 dark:text-[#080808] dark:bg-[#C9A84C] px-2.5 py-1 rounded-md">
+                    <span className="text-xs font-bold text-white bg-emerald-700 dark:text-[#080808] dark:bg-[#C9A84C] px-2.5 py-1 rounded-md">
                       {discountPercent}% OFF
                     </span>
                   )}
@@ -235,21 +257,21 @@ const Product = () => {
               </p>
               <div className="flex items-center gap-3">
                 {/* Quantity stepper */}
-                <div className="flex items-center rounded-xl border border-gray-200 dark:border-[#262626] bg-gray-50 dark:bg-[#111111] h-13 overflow-hidden shrink-0">
+                <div className="flex items-center rounded-xl border border-gray-200 dark:border-[#262626] bg-gray-50 dark:bg-[#111111] h-14 overflow-hidden shrink-0 shadow-sm">
                   <button
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="w-12 h-13 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
+                    className="w-12 h-14 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
                   >
-                    <Minus className="w-3.5 h-3.5" />
+                    <Minus className="w-4 h-4" />
                   </button>
-                  <span className="w-9 text-center text-sm font-bold text-gray-900 dark:text-white select-none font-mono-num">
+                  <span className="w-10 text-center text-base font-bold text-gray-900 dark:text-white select-none font-mono-num">
                     {quantity}
                   </span>
                   <button
                     onClick={() => setQuantity((q) => q + 1)}
-                    className="w-12 h-13 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
+                    className="w-12 h-14 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
                   >
-                    <Plus className="w-3.5 h-3.5" />
+                    <Plus className="w-4 h-4" />
                   </button>
                 </div>
 
@@ -257,7 +279,7 @@ const Product = () => {
                 <button
                   onClick={handleAddtoCart}
                   disabled={!selectedVariant}
-                  className="flex-1 h-13 rounded-xl border border-blue-600 text-blue-600 hover:bg-blue-50 dark:border-[#1a4731] dark:text-[#1a4731] bg-transparent text-sm font-bold tracking-wide dark:hover:bg-[#1a4731]/10 active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="flex-1 h-14 rounded-xl bg-gray-100 text-gray-800 hover:bg-gray-200 hover:text-gray-900 shadow-sm dark:bg-[#1a1a1a] dark:text-[#B8A99A] dark:hover:bg-[#262626] dark:hover:text-white text-sm sm:text-base font-bold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed border border-gray-200 dark:border-[#333]"
                 >
                   {isAdded ? "Added to Cart ✓" : "ADD TO CART"}
                 </button>
@@ -266,7 +288,7 @@ const Product = () => {
                 <button
                   onClick={handleBuyNow}
                   disabled={!selectedVariant}
-                  className="flex-1 h-13 rounded-xl bg-blue-600 text-white hover:bg-blue-700 shadow-[0_0_20px_rgba(37,99,235,0.35)] dark:bg-[#1a4731] dark:hover:bg-[#143828] text-sm font-bold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed dark:shadow-[0_0_20px_rgba(26,71,49,0.35)]"
+                  className="flex-1 h-14 rounded-xl bg-gradient-to-r from-emerald-700 to-emerald-800 text-white hover:from-emerald-800 hover:to-emerald-900 shadow-[0_4px_14px_0_rgba(4,120,87,0.39)] dark:from-[#C9A84C] dark:to-[#B3933C] dark:text-[#080808] dark:hover:from-[#E8C87A] dark:hover:to-[#C9A84C] dark:shadow-[0_4px_14px_0_rgba(201,168,76,0.39)] text-sm sm:text-base font-bold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   BUY NOW
                 </button>
@@ -277,7 +299,7 @@ const Product = () => {
             <div className="flex items-center gap-6 pt-1 flex-wrap">
               {TRUST_SIGNALS.map(({ icon: Icon, label }) => (
                 <div key={label} className="flex items-center gap-2">
-                  <Icon className="w-3.5 h-3.5 text-blue-600 dark:text-[#C9A84C]" />
+                  <Icon className="w-3.5 h-3.5 text-emerald-700 dark:text-[#C9A84C]" />
                   <span className="text-xs text-gray-500 dark:text-[#7A6E62] font-medium">{label}</span>
                 </div>
               ))}

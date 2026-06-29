@@ -3,8 +3,8 @@ import { Toaster } from "@/components/ui/sonner";
 import Navbar from "@/components/view/Navbar";
 import InfiniteScrollingText from "@/components/view/SlidingText";
 import Providers from "@/providers";
-import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import React from "react";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -50,7 +50,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <head>
           {/* Basic Meta */}
           <meta charSet="UTF-8" />
@@ -94,10 +94,9 @@ export default function RootLayout({
               <Footer />
             </Providers>
           </PostHogProvider>
+          {/* Google Analytics */}
+          <GoogleAnalytics gaId="G-NP9WZN9MK4" />
         </body>
-
-        {/* Google Analytics */}
-        <GoogleAnalytics gaId="G-NP9WZN9MK4" />
       </html>
     </ClerkProvider>
   );

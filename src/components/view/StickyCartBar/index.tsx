@@ -64,21 +64,21 @@ export default function StickyCartBar({
       {/* Action bar */}
       <div className="bg-white/95 dark:bg-[#080808]/95 backdrop-blur-md border-t border-gray-200 dark:border-[#262626] px-4 py-3 flex items-center gap-3 transition-colors duration-300">
         {/* Quantity stepper */}
-        <div className="flex items-center rounded-xl border border-gray-200 dark:border-[#262626] bg-gray-50 dark:bg-[#111111] overflow-hidden shrink-0 h-12">
+        <div className="flex items-center rounded-xl border border-gray-200 dark:border-[#262626] bg-gray-50 dark:bg-[#111111] overflow-hidden shrink-0 h-14 shadow-sm">
           <button
             onClick={() => onQuantityChange(Math.max(1, quantity - 1))}
-            className="w-11 h-full flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
+            className="w-12 h-full flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
           >
-            <Minus className="w-3.5 h-3.5" />
+            <Minus className="w-4 h-4" />
           </button>
-          <span className="w-8 text-center text-sm font-bold text-gray-900 dark:text-white select-none font-mono-num">
+          <span className="w-10 text-center text-base font-bold text-gray-900 dark:text-white select-none font-mono-num">
             {quantity}
           </span>
           <button
             onClick={() => onQuantityChange(quantity + 1)}
-            className="w-11 h-full flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
+            className="w-12 h-full flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
           >
-            <Plus className="w-3.5 h-3.5" />
+            <Plus className="w-4 h-4" />
           </button>
         </div>
 
@@ -86,7 +86,7 @@ export default function StickyCartBar({
         <button
           onClick={onAddToCart}
           disabled={isDisabled}
-          className="flex-1 h-12 rounded-xl border border-blue-600 text-blue-600 hover:bg-blue-50 dark:border-[#1a4731] dark:text-[#1a4731] bg-transparent text-sm font-bold tracking-wide dark:hover:bg-[#1a4731]/10 active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex-1 h-14 rounded-xl bg-gray-100 text-gray-800 hover:bg-gray-200 hover:text-gray-900 shadow-sm dark:bg-[#1a1a1a] dark:text-[#B8A99A] dark:hover:bg-[#262626] dark:hover:text-white text-sm sm:text-base font-bold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed border border-gray-200 dark:border-[#333]"
         >
           {isAdded ? "Added ✓" : "ADD TO CART"}
         </button>
@@ -95,7 +95,7 @@ export default function StickyCartBar({
         <button
           onClick={onBuyNow}
           disabled={isDisabled}
-          className="flex-1 h-12 rounded-xl bg-blue-600 text-white hover:bg-blue-700 shadow-[0_0_16px_rgba(37,99,235,0.4)] dark:bg-[#1a4731] dark:hover:bg-[#143828] text-sm font-bold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed dark:shadow-[0_0_16px_rgba(26,71,49,0.4)]"
+          className="flex-1 h-14 rounded-xl bg-gradient-to-r from-emerald-700 to-emerald-800 text-white hover:from-emerald-800 hover:to-emerald-900 shadow-[0_4px_14px_0_rgba(4,120,87,0.39)] dark:from-[#C9A84C] dark:to-[#B3933C] dark:text-[#080808] dark:hover:from-[#E8C87A] dark:hover:to-[#C9A84C] dark:shadow-[0_4px_14px_0_rgba(201,168,76,0.39)] text-sm sm:text-base font-bold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
         >
           BUY NOW
         </button>
