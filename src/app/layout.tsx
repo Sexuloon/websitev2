@@ -12,6 +12,7 @@ import { PostHogProvider } from "@/posthog/posthog-provider";
 
 // ✅ Site Metadata for Next.js (used for SSG/SSR)
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.sexuloon.in"),
   title: "Sexuloon",
   description: "India’s Most Trusted Sexual Wellness Brand",
   icons: {
@@ -56,6 +57,24 @@ export default function RootLayout({
           <meta charSet="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="robots" content="index, follow" />
+
+          {/* JSON-LD Organization Schema */}
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                name: "Sexuloon",
+                url: "https://www.sexuloon.in",
+                logo: "https://www.sexuloon.in/Web_Icon-removebg-preview.png",
+                sameAs: [
+                  "https://www.instagram.com/sexuloon",
+                  "https://www.facebook.com/sexuloon"
+                ],
+              }),
+            }}
+          />
 
           {/* Canonical (Optional but Good) */}
           <link rel="canonical" href="https://www.sexuloon.in" />

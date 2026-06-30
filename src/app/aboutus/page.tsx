@@ -1,4 +1,9 @@
-"use client";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us | Sexuloon",
+  description: "Learn about Sexuloon, India's most trusted platform for men's sexual health and wellness.",
+};
 
 const AboutUs = () => {
   return (
