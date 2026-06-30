@@ -5,7 +5,7 @@ import { GET_COLLECTIONS_QUERY } from '@/graphql/collections'
 import { GetAllProductsQuery, GetCollectionsQuery } from '@/types/shopify-graphql'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://www.sexuloon.in'
+  const baseUrl = 'https://www.sexuloon.com'
 
   let products: any[] = []
   try {
@@ -47,9 +47,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/aboutus',
     '/contactus',
     '/faq',
-    '/privacy&policy',
+    '/privacy%26policy',
     '/refundpolicy',
-    '/terms&conditions'
+    '/terms%26conditions'
   ].map((route) => ({
     url: `${baseUrl}${route}`,
     lastModified: new Date(),

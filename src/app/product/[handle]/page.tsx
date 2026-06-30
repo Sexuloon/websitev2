@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       images: ogImage ? [ogImage] : [],
-      url: `https://www.sexuloon.in/product/${handle}`,
+      url: `https://www.sexuloon.com/product/${handle}`,
       type: "website",
     },
     twitter: {
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ogImage ? [ogImage] : [],
     },
     alternates: {
-      canonical: `https://www.sexuloon.in/product/${handle}`,
+      canonical: `https://www.sexuloon.com/product/${handle}`,
     },
   };
 }
@@ -77,7 +77,7 @@ export default async function ProductPage({ params }: Props) {
     },
     offers: {
       "@type": "Offer",
-      url: `https://www.sexuloon.in/product/${handle}`,
+      url: `https://www.sexuloon.com/product/${handle}`,
       priceCurrency: "INR",
       price: product.priceRange?.minVariantPrice?.amount || "0",
       itemCondition: "https://schema.org/NewCondition",

@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title,
       description,
-      url: `https://www.sexuloon.in/collections/${handle}`,
+      url: `https://www.sexuloon.com/collections/${handle}`,
       type: "website",
     },
     twitter: {
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
     },
     alternates: {
-      canonical: `https://www.sexuloon.in/collections/${handle}`,
+      canonical: `https://www.sexuloon.com/collections/${handle}`,
     },
   };
 }
@@ -65,7 +65,7 @@ export default async function Page({ params }: Props) {
     "@type": "CollectionPage",
     name: collection.title,
     description: collection.description || collection.descriptionHtml?.replace(/<[^>]+>/g, '').slice(0, 160),
-    url: `https://www.sexuloon.in/collections/${handle}`,
+    url: `https://www.sexuloon.com/collections/${handle}`,
   } : null;
 
   return (

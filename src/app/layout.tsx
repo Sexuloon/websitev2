@@ -12,7 +12,7 @@ import { PostHogProvider } from "@/posthog/posthog-provider";
 
 // ✅ Site Metadata for Next.js (used for SSG/SSR)
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.sexuloon.in"),
+  metadataBase: new URL("https://www.sexuloon.com"),
   title: "Sexuloon",
   description: "India’s Most Trusted Sexual Wellness Brand",
   icons: {
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Sexuloon",
     description: "India’s Most Trusted Sexual Wellness Brand",
-    url: "https://www.sexuloon.in", // ✅ Replace with actual URL
+    url: "https://www.sexuloon.com", // ✅ Replace with actual URL
     siteName: "Sexuloon",
     type: "website",
     images: [
@@ -66,8 +66,8 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "Organization",
                 name: "Sexuloon",
-                url: "https://www.sexuloon.in",
-                logo: "https://www.sexuloon.in/Web_Icon-removebg-preview.png",
+                url: "https://www.sexuloon.com",
+                logo: "https://www.sexuloon.com/Web_Icon-removebg-preview.png",
                 sameAs: [
                   "https://www.instagram.com/sexuloon",
                   "https://www.facebook.com/sexuloon"
@@ -77,7 +77,7 @@ export default function RootLayout({
           />
 
           {/* Canonical (Optional but Good) */}
-          <link rel="canonical" href="https://www.sexuloon.in" />
+          <link rel="canonical" href="https://www.sexuloon.com" />
 
           {/* Favicon */}
           <link rel="icon" href="/Web_Icon-removebg-preview.ico" />
@@ -91,7 +91,7 @@ export default function RootLayout({
             content="India’s Most Trusted Sexual Wellness Brand"
           />
           <meta property="og:image" content="/seo-banner.png" />
-          <meta property="og:url" content="https://www.sexuloon.in" />
+          <meta property="og:url" content="https://www.sexuloon.com" />
           <meta property="og:type" content="website" />
 
           {/* Twitter Cards */}
