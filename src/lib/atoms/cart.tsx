@@ -11,6 +11,17 @@ import {
 } from "@/graphql/cart";
 import { CartLineInput, CartLineUpdateInput } from "@/types/shopify-graphql";
 
+// ─── Types ──────────────────────────────────────────────────────────────────
+
+type PackVariantNode = {
+  id: string;
+  title: string;
+  availableForSale: boolean;
+  price: { amount: string; currencyCode: string };
+  compareAtPrice?: { amount: string; currencyCode: string } | null;
+  selectedOptions: Array<{ name: string; value: string }>;
+};
+
 export type CartState = {
   id: string;
   checkoutUrl: string;
@@ -41,12 +52,16 @@ export type CartState = {
         id: string;
         quantity: number;
         merchandise: {
-          selectedOptions: Record<string, string>;
+          selectedOptions: Array<{ name: string; value: string }>;
           id: string;
           price: {
             amount: string;
             currencyCode: string;
           };
+          compareAtPrice?: {
+            amount: string;
+            currencyCode: string;
+          } | null;
           title: string;
           product: {
             description: string;
@@ -64,6 +79,11 @@ export type CartState = {
                 };
               }>;
             };
+            variants: {
+              edges: Array<{
+                node: PackVariantNode;
+              }>;
+            };
           };
         };
       };
@@ -72,30 +92,31 @@ export type CartState = {
   totalQuantity: number;
 };
 
+// ─── Atoms ──────────────────────────────────────────────────────────────────
+
 const initialCartState: CartState = {
   id: "",
   checkoutUrl: "",
   note: "",
   cost: {
-    subtotalAmount: {
-      amount: "0.0",
-      currencyCode: "XXX",
-    },
-    totalAmount: {
-      amount: "0.0",
-      currencyCode: "XXX",
-    },
+    subtotalAmount: { amount: "0.0", currencyCode: "XXX" },
+    totalAmount: { amount: "0.0", currencyCode: "XXX" },
     totalTaxAmount: null,
   },
-  lines: {
-    edges: [],
-  },
+  lines: { edges: [] },
   totalQuantity: 0,
 };
 
 const cartAtom = atom<CartState>(initialCartState);
 
-// Helper function to calculate line item cost
+/** Controls whether the cart drawer is open. Set to true to open it from anywhere. */
+export const cartDrawerOpenAtom = atom<boolean>(false);
+
+/** True while a brand-new item (not yet in cart) is being added via the API. */
+export const cartDrawerLoadingAtom = atom<boolean>(false);
+
+// ─── Helpers ────────────────────────────────────────────────────────────────
+
 function calculateLineItemCost(
   price: number,
   quantity: number,
@@ -107,30 +128,17 @@ function calculateLineItemCost(
   };
 }
 
-// Helper function to calculate cart totals
 function calculateCartTotals(lines: CartState["lines"]) {
-  // Initialize running totals for the entire cart
   let subtotal = 0;
   let totalQuantity = 0;
-
-  // Get currency code from first line item, default to USD if cart is empty
   const currencyCode =
     lines.edges[0]?.node.merchandise.price.currencyCode || "USD";
 
-  // Map over each line item to:
-  // 1. Calculate per-line costs
-  // 2. Update running cart totals
-  // 3. Return updated line items with costs
   const updatedEdges = lines.edges.map(({ node }) => {
-    // Get price and quantity for this line
     const price = parseFloat(node.merchandise.price.amount);
     const quantity = node.quantity;
-
-    // Add to cart running totals
     subtotal += price * quantity;
     totalQuantity += quantity;
-
-    // Return line with calculated cost
     return {
       node: {
         ...node,
@@ -145,25 +153,17 @@ function calculateCartTotals(lines: CartState["lines"]) {
     };
   });
 
-  // Assuming no tax or additional fees for simplicity
-  const total = subtotal;
-
   return {
-    subtotalAmount: {
-      amount: subtotal.toFixed(2),
-      currencyCode,
-    },
-    totalAmount: {
-      amount: total.toFixed(2),
-      currencyCode,
-    },
+    subtotalAmount: { amount: subtotal.toFixed(2), currencyCode },
+    totalAmount: { amount: subtotal.toFixed(2), currencyCode },
     totalTaxAmount: null,
     totalQuantity,
     updatedEdges,
   };
 }
 
-// Helper functions to interact with the API
+// ─── API Helpers ────────────────────────────────────────────────────────────
+
 async function addToCart(cartId: string, lines: CartLineInput[]) {
   try {
     await fetchGraphQL(ADD_TO_CART, { cartId, lines });
@@ -188,7 +188,6 @@ async function removeFromCart(cartId: string, lineIds: string[]) {
   }
 }
 
-// Helper function to create a new cart
 async function createCart() {
   try {
     const response = await fetchGraphQL(CREATE_CART, { lineItems: [] });
@@ -199,16 +198,23 @@ async function createCart() {
   }
 }
 
-// Cart actions
+// ─── Hook ───────────────────────────────────────────────────────────────────
+
 export const useCartActions = () => {
   const [cart, setCart] = useAtom(cartAtom);
+  const [, setCartDrawerOpen] = useAtom(cartDrawerOpenAtom);
+  const [, setCartDrawerLoading] = useAtom(cartDrawerLoadingAtom);
 
   const addItem = async (merchandiseId: string, quantity: number) => {
-    const existingLineItem =  cart.lines.edges.findIndex(
+    // Auto-open the cart drawer the instant an item is added
+    setCartDrawerOpen(true);
+
+    const existingLineItem = cart.lines.edges.findIndex(
       (edge) => edge.node.merchandise.id === merchandiseId
     );
 
     if (existingLineItem >= 0) {
+      // Existing item — optimistic update, instant UI
       const existingLine = cart.lines.edges[existingLineItem];
       const updatedEdges = cart.lines.edges.map((edge, index) =>
         index === existingLineItem
@@ -235,26 +241,28 @@ export const useCartActions = () => {
         totalTaxAmount,
         totalQuantity,
         updatedEdges: edgesWithCost,
-      } = calculateCartTotals({
-        edges: updatedEdges,
-      });
+      } = calculateCartTotals({ edges: updatedEdges });
 
       setCart({
         ...cart,
         lines: { edges: edgesWithCost },
-        cost: {
-          subtotalAmount,
-          totalAmount,
-          totalTaxAmount,
-        },
+        cost: { subtotalAmount, totalAmount, totalTaxAmount },
         totalQuantity,
       });
     } else {
-      await addToCart(cart.id, [{ merchandiseId, quantity }]);
-      const { cart: updatedCart } = await fetchGraphQL(GET_CART, {
-        cartId: cart.id,
-      });
-      setCart(updatedCart);
+      // Brand-new item — show loading state while round-tripping Shopify
+      setCartDrawerLoading(true);
+      try {
+        await addToCart(cart.id, [{ merchandiseId, quantity }]);
+        const { cart: updatedCart } = await fetchGraphQL(GET_CART, {
+          cartId: cart.id,
+        });
+        if (updatedCart) setCart(updatedCart);
+      } catch (err) {
+        console.error("Error adding new item to cart:", err);
+      } finally {
+        setCartDrawerLoading(false);
+      }
     }
   };
 
@@ -275,18 +283,12 @@ export const useCartActions = () => {
           totalTaxAmount,
           totalQuantity,
           updatedEdges: edgesWithCost,
-        } = calculateCartTotals({
-          edges: updatedEdges,
-        });
+        } = calculateCartTotals({ edges: updatedEdges });
 
         setCart({
           ...cart,
           lines: { edges: edgesWithCost },
-          cost: {
-            subtotalAmount,
-            totalAmount,
-            totalTaxAmount,
-          },
+          cost: { subtotalAmount, totalAmount, totalTaxAmount },
           totalQuantity,
         });
       }
@@ -299,22 +301,11 @@ export const useCartActions = () => {
     if (lineToUpdate) {
       const updatedEdges = cart.lines.edges.map((edge) =>
         edge.node.merchandise.id === merchandiseId
-          ? {
-              ...edge,
-              node: {
-                ...edge.node,
-                quantity,
-              },
-            }
+          ? { ...edge, node: { ...edge.node, quantity } }
           : edge
       );
 
-      await updateCartItems(cart.id, [
-        {
-          id: lineToUpdate.node.id,
-          quantity,
-        },
-      ]);
+      await updateCartItems(cart.id, [{ id: lineToUpdate.node.id, quantity }]);
 
       const {
         subtotalAmount,
@@ -322,18 +313,12 @@ export const useCartActions = () => {
         totalTaxAmount,
         totalQuantity,
         updatedEdges: edgesWithCost,
-      } = calculateCartTotals({
-        edges: updatedEdges,
-      });
+      } = calculateCartTotals({ edges: updatedEdges });
 
       setCart({
         ...cart,
         lines: { edges: edgesWithCost },
-        cost: {
-          subtotalAmount,
-          totalAmount,
-          totalTaxAmount,
-        },
+        cost: { subtotalAmount, totalAmount, totalTaxAmount },
         totalQuantity,
       });
     }
@@ -355,21 +340,41 @@ export const useCartActions = () => {
         totalTaxAmount,
         totalQuantity,
         updatedEdges: edgesWithCost,
-      } = calculateCartTotals({
-        edges: updatedEdges,
-      });
+      } = calculateCartTotals({ edges: updatedEdges });
 
       setCart({
         ...cart,
         lines: { edges: edgesWithCost },
-        cost: {
-          subtotalAmount,
-          totalAmount,
-          totalTaxAmount,
-        },
+        cost: { subtotalAmount, totalAmount, totalTaxAmount },
         totalQuantity,
       });
     }
+  };
+
+  /**
+   * Swaps the variant of a cart line item (e.g. 1-pack → 3-pack).
+   * Removes the existing line and re-adds with the new variant, same quantity.
+   */
+  const swapVariant = async (
+    oldMerchandiseId: string,
+    newMerchandiseId: string
+  ) => {
+    const lineToReplace = cart.lines.edges.find(
+      (edge) => edge.node.merchandise.id === oldMerchandiseId
+    );
+    if (!lineToReplace) return;
+
+    const quantity = lineToReplace.node.quantity;
+
+    // Remove old line, then add the new variant
+    await removeFromCart(cart.id, [lineToReplace.node.id]);
+    await addToCart(cart.id, [{ merchandiseId: newMerchandiseId, quantity }]);
+
+    // Refetch full cart so we get accurate variant data / prices from Shopify
+    const { cart: updatedCart } = await fetchGraphQL(GET_CART, {
+      cartId: cart.id,
+    });
+    setCart(updatedCart);
   };
 
   const initializeCart = async () => {
@@ -378,12 +383,8 @@ export const useCartActions = () => {
       if (!cartId) {
         const newCart = await createCart();
         cartId = newCart.id;
-
-        if (cartId) {
-          localStorage.setItem("cartId", cartId);
-        }
+        if (cartId) localStorage.setItem("cartId", cartId);
       }
-
       const { cart: fetchedCart } = await fetchGraphQL(GET_CART, { cartId });
       setCart(fetchedCart);
     } catch (error) {
@@ -396,6 +397,7 @@ export const useCartActions = () => {
     addItem,
     updateItem,
     removeItem,
+    swapVariant,
     initializeCart,
   };
 };

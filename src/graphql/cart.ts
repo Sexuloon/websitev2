@@ -17,6 +17,27 @@ const PRODUCT_FRAGMENT = gql`
         }
       }
     }
+    variants(first: 3) {
+      edges {
+        node {
+          id
+          title
+          availableForSale
+          price {
+            amount
+            currencyCode
+          }
+          compareAtPrice {
+            amount
+            currencyCode
+          }
+          selectedOptions {
+            name
+            value
+          }
+        }
+      }
+    }
   }
 `;
 
