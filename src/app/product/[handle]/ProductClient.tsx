@@ -16,26 +16,26 @@ import {
   ProductOption,
   ProductVariant,
 } from "@/types/shopify-graphql";
-import { Minus, Plus, ShieldCheck, Truck, Zap, Star } from "lucide-react";
+import { Minus, Plus, Star } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { dynamicComponent } from "@/lib/dynamicComponent";
 
-const TRUST_SIGNALS = [
-  { icon: Truck,       label: "Free Delivery" },
-  { icon: ShieldCheck, label: "100% Natural" },
-  { icon: Zap,         label: "Fast Results" },
-];
 
 const Product = () => {
   const params = useParams();
   const { addItem, cart } = useCartActions();
-  const heroRef = useRef<HTMLDivElement>(null);
+
+  // ctaRef → the desktop inline buy-button section.
+  // When it scrolls out of viewport the StickyCartBar slides in.
+  const ctaRef = useRef<HTMLDivElement>(null);
 
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>();
   const [isAdded, setIsAdded] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  // Description HTML cleaned client-side with DOMParser (handles nested Shopify HTML)
+  const [cleanDesc, setCleanDesc] = useState('');
   const productData = dynamicComponent(params.handle as string);
 
   const { data, isLoading } = useStorefrontQuery<GetProductByHandleQuery>(
@@ -45,6 +45,53 @@ const Product = () => {
       variables: { handle: params.handle },
     }
   );
+
+  // DOMParser-based sanitization: runs client-side after hydration.
+  // Starts as '' so SSR renders nothing for description (no hydration mismatch).
+  useEffect(() => {
+    const raw = data?.product?.descriptionHtml;
+    if (!raw) { setCleanDesc(''); return; }
+    try {
+      const doc = new DOMParser().parseFromString(`<div>${raw}</div>`, 'text/html');
+      const root = doc.body.firstElementChild as HTMLElement;
+      if (!root) { setCleanDesc(raw); return; }
+
+      const JUNK = [
+        /₹/, /MRP/i, /[Ii]nclusive/, /[Rr]eview/,
+        /\d+%\s*[Oo]ff/, /[★☆⭐]/, /\d+\.\d+\s*\(/,
+      ];
+      const isJunk = (t: string) => JUNK.some(p => p.test(t));
+
+      // Pass 1: iteratively remove leaf nodes that are junk, prune empty parents
+      let changed = true;
+      while (changed) {
+        changed = false;
+        root.querySelectorAll('*').forEach(el => {
+          if (el.children.length === 0) {
+            const text = el.textContent?.trim() ?? '';
+            if (isJunk(text)) {
+              const parent = el.parentElement;
+              el.remove();
+              if (parent && parent !== root && !(parent.textContent?.trim())) {
+                parent.remove();
+              }
+              changed = true;
+            }
+          }
+        });
+      }
+
+      // Pass 2: remove any remaining direct children that are empty or still contain junk
+      Array.from(root.children).forEach(child => {
+        const text = child.textContent?.trim() ?? '';
+        if (!text || isJunk(text)) child.remove();
+      });
+
+      setCleanDesc(root.innerHTML);
+    } catch {
+      setCleanDesc(data?.product?.descriptionHtml ?? '');
+    }
+  }, [data?.product?.descriptionHtml]);
 
   // Auto-select first available variant
   useEffect(() => {
@@ -79,7 +126,7 @@ const Product = () => {
       });
       window.dispatchEvent(event);
     }
-  }, [data?.product?.id]); // Fire only once per product load
+  }, [data?.product?.id]);
 
   const handleSelectOptions = (options: Record<string, string>) => {
     const variant = data?.product?.variants?.edges.find((variant) =>
@@ -104,7 +151,6 @@ const Product = () => {
   const handleBuyNow = () => {
     if (!selectedVariant) return;
     addItem(selectedVariant.id, quantity);
-    // Navigate to checkout URL from cart state
     if (cart?.checkoutUrl) {
       window.location.href = cart.checkoutUrl;
     }
@@ -154,17 +200,19 @@ const Product = () => {
   const rating = 4.8;
   const reviewCount = 191;
 
-  // A+ image split: first 2 after hero, rest after testimonials
+  const cleanDescHtml = cleanDesc;
+
+  // A+ image split
   const aplusImages: string[] = productData.aplusImages ?? [];
-  const aplusHero    = aplusImages.slice(0, 2);  // after hero / before frequently bought
-  const aplusMiddle  = aplusImages.slice(2, 4);  // after testimonials / before reviews
-  const aplusClosing = aplusImages.slice(4);      // after reviews / before FAQ
+  const aplusHero    = aplusImages.slice(0, 2);
+  const aplusMiddle  = aplusImages.slice(2, 4);
+  const aplusClosing = aplusImages.slice(4);
 
   return (
-    <div className="bg-white dark:bg-[#080808] min-h-screen text-gray-900 dark:text-[#F5F0E8] transition-colors duration-300">
+    <div className="bg-white dark:bg-[#080808] min-h-screen text-gray-900 dark:text-[#F5F0E8] transition-colors duration-300 pb-24 lg:pb-16">
 
       {/* ── HERO ──────────────────────────────────────────────── */}
-      <div ref={heroRef} className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
 
           {/* Left: Gallery */}
@@ -173,23 +221,10 @@ const Product = () => {
           </div>
 
           {/* Right: Product Info */}
-          <div className="flex flex-col gap-6 pt-1">
+          <div className="flex flex-col gap-5 pt-1">
 
-            {/* Title */}
-            <div className="space-y-2.5">
-              <h1 className="font-display text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white leading-tight">
-                {data?.product?.title}
-              </h1>
-              {data?.product?.descriptionHtml && (
-                <div
-                  className="text-gray-600 dark:text-[#B8A99A] text-sm leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: data.product.descriptionHtml }}
-                />
-              )}
-            </div>
-
-            {/* Rating row */}
-            <div className="flex items-center gap-2.5">
+            {/* Review badge */}
+            <div className="flex items-center gap-2">
               <div className="flex">
                 {[...Array(5)].map((_, i) => (
                   <Star
@@ -202,34 +237,14 @@ const Product = () => {
                   />
                 ))}
               </div>
-              <span className="text-sm font-bold text-gray-900 dark:text-white font-mono-num">{rating}</span>
-              <span className="text-sm text-gray-500 dark:text-[#7A6E62]">({reviewCount} reviews)</span>
+              <span className="text-sm font-semibold text-gray-800 dark:text-white">{rating}/5</span>
+              <span className="text-sm text-gray-400 dark:text-[#7A6E62]">· {reviewCount} reviews</span>
             </div>
 
-            {/* Price block */}
-            {currentPrice !== null && (
-              <div className="rounded-2xl bg-gray-50 dark:bg-[#111111] border border-gray-200 dark:border-[#262626] p-4 space-y-1.5">
-                <div className="flex items-baseline gap-3 flex-wrap">
-                  {discountPercent && (
-                    <span className="text-xs font-bold text-white bg-emerald-700 dark:text-[#080808] dark:bg-[#C9A84C] px-2.5 py-1 rounded-md">
-                      {discountPercent}% OFF
-                    </span>
-                  )}
-                  <span className="text-3xl font-bold text-gray-900 dark:text-white font-mono-num">
-                    ₹{currentPrice.toFixed(0)}
-                  </span>
-                  {comparePrice && (
-                    <span className="text-base text-gray-500 dark:text-[#7A6E62] line-through font-mono-num">
-                      ₹{comparePrice.toFixed(0)}
-                    </span>
-                  )}
-                </div>
-                <p className="text-xs text-gray-500 dark:text-[#7A6E62]">Inclusive of all taxes</p>
-              </div>
-            )}
-
-            {/* Divider */}
-            <div className="h-px bg-gray-200 dark:bg-[#1e1e1e]" />
+            {/* Title */}
+            <h1 className="font-display text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white leading-tight">
+              {data?.product?.title}
+            </h1>
 
             {/* Pack selector */}
             <ProductOptions
@@ -239,7 +254,75 @@ const Product = () => {
               options={data?.product?.options as ProductOption[]}
             />
 
-            {/* Satisfaction stats (inline) */}
+            {/* ── Desktop CTA (inline) — triggers sticky bar when scrolled out ── */}
+            <div ref={ctaRef} className="hidden lg:block">
+              {/* Price row */}
+              <div className="flex items-baseline gap-3 mb-4">
+                {discountPercent && (
+                  <span className="text-xs font-bold text-white bg-emerald-700 dark:bg-[#C9A84C] dark:text-[#080808] px-2 py-0.5 rounded">
+                    {discountPercent}% OFF
+                  </span>
+                )}
+                {currentPrice !== null && (
+                  <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                    ₹{currentPrice.toFixed(0)}
+                  </span>
+                )}
+                {comparePrice && (
+                  <span className="text-sm text-gray-400 line-through">
+                    ₹{comparePrice.toFixed(0)}
+                  </span>
+                )}
+                <span className="text-xs text-gray-400">Incl. all taxes</span>
+              </div>
+
+              {/* Qty + buttons */}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center rounded-lg border border-gray-200 dark:border-[#262626] bg-gray-50 dark:bg-[#111] h-12 overflow-hidden shrink-0">
+                  <button
+                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                    className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors"
+                  >
+                    <Minus className="w-3.5 h-3.5" />
+                  </button>
+                  <span className="w-9 text-center text-sm font-semibold text-gray-900 dark:text-white select-none">
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={() => setQuantity((q) => q + 1)}
+                    className="w-10 h-full flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-[#1a1a1a] transition-colors"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                <button
+                  onClick={handleAddtoCart}
+                  disabled={!selectedVariant}
+                  className="flex-1 h-12 rounded-lg border border-gray-300 dark:border-[#333] bg-white dark:bg-transparent text-gray-800 dark:text-[#B8A99A] hover:border-gray-500 dark:hover:border-[#555] text-sm font-semibold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  {isAdded ? "Added to Cart ✓" : "Add to Cart"}
+                </button>
+
+                <button
+                  onClick={handleBuyNow}
+                  disabled={!selectedVariant}
+                  className="flex-1 h-12 rounded-lg bg-[#1a4731] dark:bg-[#C9A84C] text-white dark:text-[#080808] hover:bg-[#0f3321] dark:hover:bg-[#E8C87A] text-sm font-semibold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-sm"
+                >
+                  Buy Now
+                </button>
+              </div>
+            </div>
+
+            {/* Description — sanitised client-side with DOMParser */}
+            {cleanDescHtml && (
+              <div
+                className="product-description"
+                dangerouslySetInnerHTML={{ __html: cleanDescHtml }}
+              />
+            )}
+
+            {/* Satisfaction stats */}
             {productData.offer && (
               <productData.offer
                 offers={productData.offerProps}
@@ -247,63 +330,6 @@ const Product = () => {
               />
             )}
 
-            {/* Divider */}
-            <div className="h-px bg-gray-200 dark:bg-[#1e1e1e]" />
-
-            {/* Quantity + Add to Cart + Buy Now */}
-            <div className="space-y-3">
-              <p className="text-[11px] font-semibold tracking-widest text-gray-500 dark:text-[#7A6E62] uppercase">
-                Quantity
-              </p>
-              <div className="flex items-center gap-3">
-                {/* Quantity stepper */}
-                <div className="flex items-center rounded-xl border border-gray-200 dark:border-[#262626] bg-gray-50 dark:bg-[#111111] h-14 overflow-hidden shrink-0 shadow-sm">
-                  <button
-                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                    className="w-12 h-14 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <span className="w-10 text-center text-base font-bold text-gray-900 dark:text-white select-none font-mono-num">
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => setQuantity((q) => q + 1)}
-                    className="w-12 h-14 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-
-                {/* Add to Cart */}
-                <button
-                  onClick={handleAddtoCart}
-                  disabled={!selectedVariant}
-                  className="flex-1 h-14 rounded-xl bg-gray-100 text-gray-800 hover:bg-gray-200 hover:text-gray-900 shadow-sm dark:bg-[#1a1a1a] dark:text-[#B8A99A] dark:hover:bg-[#262626] dark:hover:text-white text-sm sm:text-base font-bold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed border border-gray-200 dark:border-[#333]"
-                >
-                  {isAdded ? "Added to Cart ✓" : "ADD TO CART"}
-                </button>
-
-                {/* Buy Now */}
-                <button
-                  onClick={handleBuyNow}
-                  disabled={!selectedVariant}
-                  className="flex-1 h-14 rounded-xl bg-gradient-to-r from-emerald-700 to-emerald-800 text-white hover:from-emerald-800 hover:to-emerald-900 shadow-[0_4px_14px_0_rgba(4,120,87,0.39)] dark:from-[#C9A84C] dark:to-[#B3933C] dark:text-[#080808] dark:hover:from-[#E8C87A] dark:hover:to-[#C9A84C] dark:shadow-[0_4px_14px_0_rgba(201,168,76,0.39)] text-sm sm:text-base font-bold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  BUY NOW
-                </button>
-              </div>
-            </div>
-
-            {/* Trust signals */}
-            <div className="flex items-center gap-6 pt-1 flex-wrap">
-              {TRUST_SIGNALS.map(({ icon: Icon, label }) => (
-                <div key={label} className="flex items-center gap-2">
-                  <Icon className="w-3.5 h-3.5 text-emerald-700 dark:text-[#C9A84C]" />
-                  <span className="text-xs text-gray-500 dark:text-[#7A6E62] font-medium">{label}</span>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>
@@ -359,9 +385,7 @@ const Product = () => {
         isDisabled={!selectedVariant}
         quantity={quantity}
         onQuantityChange={setQuantity}
-        heroRef={heroRef}
-        productTitle={data?.product?.title}
-        currentPrice={currentPrice}
+        triggerRef={ctaRef}
       />
     </div>
   );

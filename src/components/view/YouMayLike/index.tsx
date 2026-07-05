@@ -57,18 +57,18 @@ function ProductCard({ product }: { product: RelatedProduct }) {
   };
 
   return (
-    <div className="group flex flex-col bg-white dark:bg-[#111111] rounded-2xl border border-gray-200 dark:border-[#262626] overflow-hidden hover:border-blue-300 dark:hover:border-[#C9A84C]/30 shadow-sm dark:shadow-none hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(201,168,76,0.08)] transition-all duration-300">
+    <div className="group flex flex-col bg-white dark:bg-[#111111] rounded-2xl border border-gray-200 dark:border-[#262626] overflow-hidden hover:border-emerald-300 dark:hover:border-[#C9A84C]/30 shadow-sm dark:shadow-none hover:shadow-[0_4px_20px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_20px_rgba(201,168,76,0.08)] transition-all duration-300">
       {/* Image */}
       <Link href={`/product/${product.handle}`} className="block relative">
         {/* Rating badge */}
         <div className="absolute top-3 left-3 z-10 flex items-center gap-1 bg-white/80 dark:bg-[#080808]/80 backdrop-blur-sm rounded-full px-2.5 py-1 border border-gray-200 dark:border-[#262626]">
-          <Star className="w-3 h-3 fill-blue-600 text-blue-600 dark:fill-[#C9A84C] dark:text-[#C9A84C]" />
+          <Star className="w-3 h-3 fill-emerald-600 text-emerald-600 dark:fill-[#C9A84C] dark:text-[#C9A84C]" />
           <span className="text-xs font-bold text-gray-900 dark:text-white font-mono-num">4.8</span>
         </div>
 
         {/* Discount badge */}
         {discount && (
-          <div className="absolute top-3 right-3 z-10 bg-blue-600 dark:bg-[#1a4731] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+          <div className="absolute top-3 right-3 z-10 bg-[#1a4731] dark:bg-[#1a4731] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
             {discount}% off
           </div>
         )}
@@ -91,7 +91,7 @@ function ProductCard({ product }: { product: RelatedProduct }) {
       {/* Content */}
       <div className="flex flex-col gap-3 p-4 flex-1">
         <Link href={`/product/${product.handle}`}>
-          <h3 className="text-sm font-semibold text-gray-900 dark:text-[#F5F0E8] leading-snug line-clamp-2 group-hover:text-blue-700 dark:group-hover:text-[#E8C87A] transition-colors">
+          <h3 className="text-sm font-semibold text-gray-900 dark:text-[#F5F0E8] leading-snug line-clamp-2 group-hover:text-emerald-700 dark:group-hover:text-[#E8C87A] transition-colors">
             {product.title}
           </h3>
         </Link>
@@ -106,8 +106,8 @@ function ProductCard({ product }: { product: RelatedProduct }) {
                 onClick={() => setSelectedVariant(v)}
                 className={`w-7 h-7 rounded-lg text-xs font-bold transition-all border ${
                   selectedVariant?.id === v.id
-                    ? "bg-blue-600 text-white border-blue-600 dark:bg-[#1a4731] dark:border-[#1a4731]"
-                    : "bg-gray-50 text-gray-500 border-gray-200 hover:border-blue-300 dark:bg-[#1a1a1a] dark:text-[#B8A99A] dark:border-[#262626] dark:hover:border-[#C9A84C]/40"
+                    ? "bg-[#1a4731] text-white border-[#1a4731]"
+                    : "bg-gray-50 text-gray-500 border-gray-200 hover:border-emerald-400 dark:bg-[#1a1a1a] dark:text-[#B8A99A] dark:border-[#262626] dark:hover:border-[#C9A84C]/40"
                 }`}
               >
                 {packLabel(v.title, i)}
@@ -125,7 +125,7 @@ function ProductCard({ product }: { product: RelatedProduct }) {
                 ₹{compare.toFixed(0)}
               </span>
               {discount && (
-                <span className="text-xs font-bold text-blue-600 dark:text-[#C9A84C]">{discount}% off</span>
+                <span className="text-xs font-bold text-emerald-700 dark:text-[#C9A84C]">{discount}% off</span>
               )}
             </div>
           )}
@@ -135,7 +135,7 @@ function ProductCard({ product }: { product: RelatedProduct }) {
         <button
           onClick={handleAdd}
           disabled={!selectedVariant?.availableForSale}
-          className="w-full h-11 rounded-xl bg-blue-600 text-white text-sm font-bold hover:bg-blue-700 dark:bg-[#1a4731] dark:hover:bg-[#143828] active:scale-[0.98] transition-all disabled:opacity-40"
+          className="w-full h-11 rounded-xl bg-[#1a4731] text-white text-sm font-bold hover:bg-[#0f3321] dark:bg-[#1a4731] dark:hover:bg-[#143828] active:scale-[0.98] transition-all disabled:opacity-40"
         >
           {isAdded ? "Added ✓" : "Add to Cart"}
         </button>
@@ -172,7 +172,7 @@ export default function YouMayLike({ currentHandle }: { currentHandle: string })
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <p className="text-[11px] font-bold tracking-widest text-blue-600 dark:text-[#C9A84C] uppercase mb-2">
+            <p className="text-[11px] font-bold tracking-widest text-emerald-700 dark:text-[#C9A84C] uppercase mb-2">
               Explore More
             </p>
             <h2 className="font-display text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
@@ -182,13 +182,13 @@ export default function YouMayLike({ currentHandle }: { currentHandle: string })
           <div className="flex gap-2">
             <button
               onClick={() => scroll("left")}
-              className="w-10 h-10 rounded-full border border-gray-200 dark:border-[#262626] bg-white dark:bg-[#111111] flex items-center justify-center hover:border-blue-300 dark:hover:border-[#C9A84C]/50 text-gray-500 hover:text-blue-600 dark:text-[#7A6E62] dark:hover:text-[#C9A84C] transition-all"
+              className="w-10 h-10 rounded-full border border-gray-200 dark:border-[#262626] bg-white dark:bg-[#111111] flex items-center justify-center hover:border-emerald-400 dark:hover:border-[#C9A84C]/50 text-gray-500 hover:text-emerald-700 dark:text-[#7A6E62] dark:hover:text-[#C9A84C] transition-all"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="w-10 h-10 rounded-full border border-gray-200 dark:border-[#262626] bg-white dark:bg-[#111111] flex items-center justify-center hover:border-blue-300 dark:hover:border-[#C9A84C]/50 text-gray-500 hover:text-blue-600 dark:text-[#7A6E62] dark:hover:text-[#C9A84C] transition-all"
+              className="w-10 h-10 rounded-full border border-gray-200 dark:border-[#262626] bg-white dark:bg-[#111111] flex items-center justify-center hover:border-emerald-400 dark:hover:border-[#C9A84C]/50 text-gray-500 hover:text-emerald-700 dark:text-[#7A6E62] dark:hover:text-[#C9A84C] transition-all"
             >
               <ChevronRight className="w-4 h-4" />
             </button>

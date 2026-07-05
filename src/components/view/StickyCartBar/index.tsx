@@ -10,9 +10,8 @@ type StickyCartBarProps = {
   isDisabled: boolean;
   quantity: number;
   onQuantityChange: (qty: number) => void;
-  heroRef?: RefObject<HTMLDivElement | null>;
-  productTitle?: string;
-  currentPrice?: number | null;
+  /** Ref pointing to the desktop inline CTA block. When it leaves the viewport the bar slides in. */
+  triggerRef?: RefObject<HTMLDivElement | null>;
 };
 
 export default function StickyCartBar({
@@ -22,22 +21,33 @@ export default function StickyCartBar({
   isDisabled,
   quantity,
   onQuantityChange,
-  heroRef,
-  productTitle,
-  currentPrice,
+  triggerRef,
 }: StickyCartBarProps) {
-  const [visible, setVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [scrolledPast, setScrolledPast] = useState(false);
 
+  // Detect mobile on mount and on resize
   useEffect(() => {
-    const target = heroRef?.current;
+    const check = () => setIsMobile(window.innerWidth < 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // Desktop: observe the inline CTA block; show sticky when it leaves viewport
+  useEffect(() => {
+    const target = triggerRef?.current;
     if (!target) return;
     const observer = new IntersectionObserver(
-      ([entry]) => setVisible(!entry.isIntersecting),
+      ([entry]) => setScrolledPast(!entry.isIntersecting),
       { threshold: 0 }
     );
     observer.observe(target);
     return () => observer.disconnect();
-  }, [heroRef]);
+  }, [triggerRef]);
+
+  // Mobile → always visible. Desktop → only after inline CTA scrolls out.
+  const visible = isMobile || scrolledPast;
 
   return (
     <div
@@ -45,40 +55,23 @@ export default function StickyCartBar({
         visible ? "translate-y-0" : "translate-y-full"
       }`}
     >
-      {/* Top info strip */}
-      {(productTitle || currentPrice) && (
-        <div className="bg-gray-100 dark:bg-[#0f0f0f] border-t border-gray-200 dark:border-[#262626] px-4 py-1.5 flex items-center justify-between transition-colors duration-300">
-          {productTitle && (
-            <p className="text-[11px] text-gray-600 dark:text-[#B8A99A] font-medium truncate max-w-[60%]">
-              {productTitle}
-            </p>
-          )}
-          {currentPrice && (
-            <p className="text-sm font-bold text-gray-900 dark:text-white font-mono-num">
-              ₹{currentPrice.toFixed(0)}
-            </p>
-          )}
-        </div>
-      )}
-
-      {/* Action bar */}
-      <div className="bg-white/95 dark:bg-[#080808]/95 backdrop-blur-md border-t border-gray-200 dark:border-[#262626] px-4 py-3 flex items-center gap-3 transition-colors duration-300">
+      <div className="bg-white/95 dark:bg-[#080808]/95 backdrop-blur-xl border-t border-gray-100 dark:border-[#1e1e1e] px-3 sm:px-5 py-2.5 flex items-center gap-2">
         {/* Quantity stepper */}
-        <div className="flex items-center rounded-xl border border-gray-200 dark:border-[#262626] bg-gray-50 dark:bg-[#111111] overflow-hidden shrink-0 h-14 shadow-sm">
+        <div className="flex items-center rounded-lg border border-gray-200 dark:border-[#262626] bg-gray-50 dark:bg-[#111111] overflow-hidden shrink-0 h-11">
           <button
             onClick={() => onQuantityChange(Math.max(1, quantity - 1))}
-            className="w-12 h-full flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
+            className="w-9 h-full flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:text-[#7A6E62] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
           >
-            <Minus className="w-4 h-4" />
+            <Minus className="w-3.5 h-3.5" />
           </button>
-          <span className="w-10 text-center text-base font-bold text-gray-900 dark:text-white select-none font-mono-num">
+          <span className="w-7 text-center text-sm font-semibold text-gray-900 dark:text-white select-none">
             {quantity}
           </span>
           <button
             onClick={() => onQuantityChange(quantity + 1)}
-            className="w-12 h-full flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-gray-200 dark:text-[#B8A99A] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
+            className="w-9 h-full flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-100 dark:text-[#7A6E62] dark:hover:text-white dark:hover:bg-[#1a1a1a] transition-colors"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-3.5 h-3.5" />
           </button>
         </div>
 
@@ -86,18 +79,18 @@ export default function StickyCartBar({
         <button
           onClick={onAddToCart}
           disabled={isDisabled}
-          className="flex-1 h-14 rounded-xl bg-gray-100 text-gray-800 hover:bg-gray-200 hover:text-gray-900 shadow-sm dark:bg-[#1a1a1a] dark:text-[#B8A99A] dark:hover:bg-[#262626] dark:hover:text-white text-sm sm:text-base font-bold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed border border-gray-200 dark:border-[#333]"
+          className="flex-1 h-11 rounded-lg border border-gray-300 dark:border-[#333] bg-white dark:bg-transparent text-gray-800 dark:text-[#B8A99A] hover:border-gray-500 dark:hover:border-[#555] text-sm font-semibold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
         >
-          {isAdded ? "Added ✓" : "ADD TO CART"}
+          {isAdded ? "Added ✓" : "Add to Cart"}
         </button>
 
         {/* Buy Now */}
         <button
           onClick={onBuyNow}
           disabled={isDisabled}
-          className="flex-1 h-14 rounded-xl bg-gradient-to-r from-emerald-700 to-emerald-800 text-white hover:from-emerald-800 hover:to-emerald-900 shadow-[0_4px_14px_0_rgba(4,120,87,0.39)] dark:from-[#C9A84C] dark:to-[#B3933C] dark:text-[#080808] dark:hover:from-[#E8C87A] dark:hover:to-[#C9A84C] dark:shadow-[0_4px_14px_0_rgba(201,168,76,0.39)] text-sm sm:text-base font-bold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex-1 h-11 rounded-lg bg-[#1a4731] dark:bg-[#C9A84C] text-white dark:text-[#080808] hover:bg-[#0f3321] dark:hover:bg-[#E8C87A] text-sm font-semibold tracking-wide active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-sm"
         >
-          BUY NOW
+          Buy Now
         </button>
       </div>
     </div>
