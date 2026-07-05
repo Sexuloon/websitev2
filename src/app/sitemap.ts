@@ -4,57 +4,58 @@ import { GET_ALL_PRODUCTS_QUERY } from '@/graphql/products'
 import { GET_COLLECTIONS_QUERY } from '@/graphql/collections'
 import { GetAllProductsQuery, GetCollectionsQuery } from '@/types/shopify-graphql'
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://www.sexuloon.com'
+const BASE = 'https://www.sexuloon.com'
 
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   let products: any[] = []
   try {
-    const productsData = await storeFrontClient.request<GetAllProductsQuery>(
+    const data = await storeFrontClient.request<GetAllProductsQuery>(
       GET_ALL_PRODUCTS_QUERY,
       { first: 100 }
     )
-    products = productsData?.products?.edges || []
+    products = data?.products?.edges || []
   } catch (error) {
-    console.error("Error fetching products for sitemap:", error)
+    console.error('Sitemap: error fetching products', error)
   }
 
   let collections: any[] = []
   try {
-    const collectionsData = await storeFrontClient.request<GetCollectionsQuery>(
-      GET_COLLECTIONS_QUERY
-    )
-    collections = collectionsData?.collections?.edges || []
+    const data = await storeFrontClient.request<GetCollectionsQuery>(GET_COLLECTIONS_QUERY)
+    collections = data?.collections?.edges || []
   } catch (error) {
-    console.error("Error fetching collections for sitemap:", error)
+    console.error('Sitemap: error fetching collections', error)
   }
 
-  const productUrls: MetadataRoute.Sitemap = products.map((edge) => ({
-    url: `${baseUrl}/product/${edge.node.handle}`,
-    lastModified: new Date(),
-    changeFrequency: 'daily',
-    priority: 0.8,
-  }))
-
-  const collectionUrls: MetadataRoute.Sitemap = collections.map((edge) => ({
-    url: `${baseUrl}/collections/${edge.node.handle}`,
-    lastModified: new Date(),
-    changeFrequency: 'daily',
-    priority: 0.7,
-  }))
-
+  // Static pages — use decoded paths (Next.js will encode them correctly)
   const staticPages: MetadataRoute.Sitemap = [
-    '',
-    '/aboutus',
-    '/contactus',
-    '/faq',
-    '/privacy%26policy',
-    '/refundpolicy',
-    '/terms%26conditions'
-  ].map((route) => ({
-    url: `${baseUrl}${route}`,
+    { url: `${BASE}/`,                           priority: 1.0, changeFrequency: 'daily'  },
+    { url: `${BASE}/aboutus`,                    priority: 0.7, changeFrequency: 'monthly' },
+    { url: `${BASE}/contactus`,                  priority: 0.6, changeFrequency: 'monthly' },
+    { url: `${BASE}/faq`,                        priority: 0.7, changeFrequency: 'weekly'  },
+    { url: `${BASE}/consultancy`,                priority: 0.8, changeFrequency: 'weekly'  },
+    { url: `${BASE}/refundpolicy`,               priority: 0.5, changeFrequency: 'monthly' },
+    { url: `${BASE}/ShippingPolicy`,             priority: 0.5, changeFrequency: 'monthly' },
+    // Note: special-char routes use their actual folder names
+    { url: `${BASE}/privacy&policy`,             priority: 0.5, changeFrequency: 'monthly' },
+    { url: `${BASE}/terms&conditions`,           priority: 0.5, changeFrequency: 'monthly' },
+    { url: `${BASE}/Refund&ReplacementPolicy`,   priority: 0.5, changeFrequency: 'monthly' },
+  ].map(page => ({
+    ...page,
+    lastModified: new Date(),
+  }))
+
+  const productUrls: MetadataRoute.Sitemap = products.map(({ node }) => ({
+    url: `${BASE}/product/${node.handle}`,
+    lastModified: new Date(),
+    changeFrequency: 'daily',
+    priority: 0.9,
+  }))
+
+  const collectionUrls: MetadataRoute.Sitemap = collections.map(({ node }) => ({
+    url: `${BASE}/collections/${node.handle}`,
     lastModified: new Date(),
     changeFrequency: 'weekly',
-    priority: route === '' ? 1.0 : 0.6,
+    priority: 0.7,
   }))
 
   return [...staticPages, ...productUrls, ...collectionUrls]

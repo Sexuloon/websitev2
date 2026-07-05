@@ -31,10 +31,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
+    keywords: [product.title, "Sexuloon", "sexual wellness", "men's health", "natural remedy"],
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, "max-image-preview": "large" },
+    },
     openGraph: {
       title,
       description,
-      images: ogImage ? [ogImage] : [],
+      images: ogImage ? [{ url: ogImage, width: 800, height: 800, alt: title }] : [],
       url: `https://www.sexuloon.com/product/${handle}`,
       type: "website",
     },
