@@ -28,7 +28,7 @@ type PairedProduct = {
 function PairedProductCard({ product }: { product: PairedProduct }) {
   const { addItem } = useCartActions();
   const variants = product.variants.edges.map((e) => e.node);
-  const [selectedVariant, setSelectedVariant] = useState<Variant>(variants[0]);
+  const [selectedVariant] = useState<Variant>(variants[0]);
   const [isAdded, setIsAdded] = useState(false);
 
   const price = parseFloat(
@@ -49,11 +49,6 @@ function PairedProductCard({ product }: { product: PairedProduct }) {
     addItem(selectedVariant.id, 1);
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 1500);
-  };
-
-  const packLabel = (title: string, i: number) => {
-    const num = title.match(/^(\d+)/);
-    return num ? num[1] : String(i + 1);
   };
 
   return (
@@ -84,25 +79,6 @@ function PairedProductCard({ product }: { product: PairedProduct }) {
         {product.title}
       </p>
 
-      {/* Pack selector */}
-      {variants.length > 1 && (
-        <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-xs text-gray-500 dark:text-[#7A6E62] mr-1">Pack</span>
-          {variants.map((v, i) => (
-            <button
-              key={v.id}
-              onClick={() => setSelectedVariant(v)}
-              className={`w-7 h-7 rounded-lg text-xs font-bold transition-all border ${
-                selectedVariant?.id === v.id
-                  ? "bg-[#1a4731] text-white border-[#1a4731] dark:bg-[#1a4731] dark:border-[#1a4731]"
-                  : "bg-gray-50 text-gray-500 border-gray-200 hover:border-emerald-400 dark:bg-[#1a1a1a] dark:text-[#B8A99A] dark:border-[#262626] dark:hover:border-[#C9A84C]/40"
-              }`}
-            >
-              {packLabel(v.title, i)}
-            </button>
-          ))}
-        </div>
-      )}
 
       {/* Price */}
       <div>
