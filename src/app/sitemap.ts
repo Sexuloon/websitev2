@@ -35,10 +35,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE}/consultancy`,                priority: 0.8, changeFrequency: 'weekly'  },
     { url: `${BASE}/refundpolicy`,               priority: 0.5, changeFrequency: 'monthly' },
     { url: `${BASE}/ShippingPolicy`,             priority: 0.5, changeFrequency: 'monthly' },
-    // Note: special-char routes use their actual folder names
-    { url: `${BASE}/privacy&policy`,             priority: 0.5, changeFrequency: 'monthly' },
-    { url: `${BASE}/terms&conditions`,           priority: 0.5, changeFrequency: 'monthly' },
-    { url: `${BASE}/Refund&ReplacementPolicy`,   priority: 0.5, changeFrequency: 'monthly' },
+    // & must be percent-encoded in XML; %26 is the correct form
+    { url: `${BASE}/privacy%26policy`,           priority: 0.5, changeFrequency: 'monthly' },
+    { url: `${BASE}/terms%26conditions`,         priority: 0.5, changeFrequency: 'monthly' },
+    { url: `${BASE}/Refund%26ReplacementPolicy`, priority: 0.5, changeFrequency: 'monthly' },
   ].map(page => ({
     ...page,
     lastModified: new Date(),
