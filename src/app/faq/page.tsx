@@ -1,230 +1,112 @@
-"use client";
+import type { Metadata } from "next";
+import FAQClient from "./FAQClient";
 
-import { Instagram, Linkedin } from "lucide-react";
-import { useState } from "react";
+export const metadata: Metadata = {
+  title: "FAQ – Frequently Asked Questions | Sexuloon",
+  description: "Find answers to common questions about Sexuloon's sexual wellness products, doctor consultations, privacy policy, delivery, and more.",
+  alternates: {
+    canonical: "https://www.sexuloon.com/faq",
+  },
+  openGraph: {
+    title: "FAQ – Frequently Asked Questions | Sexuloon",
+    description: "Common questions about Sexuloon's products, doctor consultations, privacy, and delivery.",
+    url: "https://www.sexuloon.com/faq",
+    type: "website",
+  },
+};
+
+// FAQPage schema — Google uses this for FAQ rich results in search
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://www.sexuloon.com/faq#faqpage",
+  url: "https://www.sexuloon.com/faq",
+  name: "Frequently Asked Questions – Sexuloon",
+  isPartOf: { "@id": "https://www.sexuloon.com/#website" },
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is Sexuloon?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Sexuloon is your trusted partner for men's sexual wellness. From Ayurveda & Unani solutions to MBBS doctor consultations, we offer confidential, discreet care for men's health.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Who can use Sexuloon?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Any man aged 18+ who wants to improve his sexual health can use Sexuloon.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Will anyone know I ordered from Sexuloon?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. Every product is delivered in 100% discreet packaging with no mention of sexual health on the outside.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are the medicines safe?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Absolutely. Our natural remedies are made with certified Ayurveda & Unani ingredients. Modern treatments are prescribed only by MBBS-certified doctors.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Do I need a prescription to buy from Sexuloon?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Not always. Ayurveda & Unani remedies are available without a prescription. For modern allopathic medicines, you'll need a doctor's prescription, which you can obtain through our online consultation.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Can I talk to a doctor online on Sexuloon?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes! You can book a private consultation with our MBBS-certified doctors anytime from the comfort of your home. Consultations start at ₹350.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What problems can Sexuloon help with?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Sexuloon helps with premature ejaculation, erectile dysfunction, low testosterone, and overall sexual performance using natural and clinically-backed treatments.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Where does Sexuloon deliver?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Sexuloon delivers across India with safe, discreet, and fast delivery.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How much does a doctor consultation cost on Sexuloon?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Doctor consultations on Sexuloon start at just ₹350.",
+      },
+    },
+  ],
+};
 
 export default function FAQPage() {
-  const [activeTopic, setActiveTopic] = useState("General");
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  // Group questions into topics
-  const topics: Record<string, { q: string; a: string }[]> = {
-    General: [
-      {
-        q: "What is Sexuloon?",
-        a: "Sexuloon is your trusted partner for men's sexual wellness. From Ayurveda & Unani solutions to doctor consultations, we've got you covered—confidentially.",
-      },
-      {
-        q: "Who can use Sexuloon?",
-        a: "Any man aged 18+ who wants to improve his sexual health.",
-      },
-      {
-        q: "Can I use Sexuloon if I'm just curious about my health?",
-        a: "Of course! You don't need to have a 'problem' to care about your sexual health. Prevention and awareness are equally important.",
-      },
-    ],
-    Privacy: [
-      {
-        q: "Will anyone know I ordered?",
-        a: "Nope. We respect your privacy. Every product is delivered in 100% discreet packaging with no mention of sexual health.",
-      },
-      {
-        q: "Will my parents find out?",
-        a: "No chance! Your orders are completely private—only you will know.",
-      },
-      {
-        q: "Is it awkward to consult online?",
-        a: "Not at all. Our doctors are professionals who deal with men's health daily. You'll feel comfortable and heard.",
-      },
-    ],
-    "Doctors & Medicines": [
-      {
-        q: "Are the medicines safe?",
-        a: "Absolutely! Our natural remedies are made with certified ingredients. Modern treatments are prescribed only by MBBS doctors.",
-      },
-      {
-        q: "Do I need a prescription?",
-        a: "Not always. For Ayurveda & Unani remedies, you don't. For modern medicines, you'll need a doctor's prescription—which you can get right here on our platform.",
-      },
-      {
-        q: "Can I talk to a doctor online?",
-        a: "Yes! You can book a private consultation with our MBBS-certified doctors anytime, from the comfort of your home.",
-      },
-      {
-        q: "What problems can Sexuloon help with?",
-        a: "We help with issues like premature ejaculation, erectile dysfunction, low testosterone, and overall sexual performance.",
-      },
-    ],
-    "Delivery & Trust": [
-      {
-        q: "How much does it cost?",
-        a: "Doctor consultations start at just ₹350, while natural remedies vary based on your needs.",
-      },
-      {
-        q: "Where do you deliver?",
-        a: "Across India 🇮🇳 with safe, discreet, and fast delivery.",
-      },
-      {
-        q: "Why should I trust Sexuloon?",
-        a: "Because we're here to remove the shame around men's sexual health. We combine science + natural care, all while keeping your privacy first.",
-      },
-    ],
-  };
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-white">
-      {/* FAQ Section */}
-      <section className="min-h-screen py-12 px-4 sm:px-6">
-        {/* Header Section */}
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="md:w-1/2 text-center md:text-left">
-            <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-gray-900">
-              Frequently Asked Questions
-            </h1>
-            <p className="text-gray-600">
-              Welcome to our FAQ section, where you will find answers to all
-              your burning questions!
-            </p>
-          </div>
-          {/* Right side images */}
-          <div className="md:w-1/2 flex gap-4 md:justify-end overflow-x-auto md:overflow-visible">
-            <img
-              src="/doctor.jpg"
-              alt="faq"
-              className="w-24 h-24 sm:w-28 sm:h-28 rounded-lg object-cover shadow-md flex-shrink-0 border-2 border-blue-200"
-            />
-            <img
-              src="/q.jpg"
-              alt="faq"
-              className="w-24 h-24 sm:w-28 sm:h-28 rounded-lg object-cover shadow-md flex-shrink-0 border-2 border-blue-200"
-            />
-            <img
-              src="/couple.jpg"
-              alt="faq"
-              className="w-24 h-24 sm:w-28 sm:h-28 rounded-lg object-cover shadow-md flex-shrink-0 border-2 border-blue-200"
-            />
-          </div>
-        </div>
-
-        {/* FAQ Section */}
-        <div className="max-w-6xl mx-auto mt-12 flex flex-col md:flex-row gap-8">
-          {/* Left Side: Topics */}
-          <div className="hidden md:block md:w-1/3 border-r border-blue-200 pr-6">
-            {Object.keys(topics).map((topic) => (
-              <div
-                key={topic}
-                className={`cursor-pointer py-3 font-semibold ${
-                  activeTopic === topic
-                    ? "text-blue-600 border-l-4 border-blue-600 pl-2"
-                    : "text-gray-500"
-                }`}
-                onClick={() => {
-                  setActiveTopic(topic);
-                  setOpenIndex(null);
-                }}
-              >
-                {topic}
-              </div>
-            ))}
-          </div>
-
-          {/* Mobile tabs */}
-          <div className="md:hidden flex gap-4 overflow-x-auto pb-2 border-b border-blue-200">
-            {Object.keys(topics).map((topic) => (
-              <button
-                key={topic}
-                className={`whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium ${
-                  activeTopic === topic
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-200 text-gray-600"
-                }`}
-                onClick={() => {
-                  setActiveTopic(topic);
-                  setOpenIndex(null);
-                }}
-              >
-                {topic}
-              </button>
-            ))}
-          </div>
-
-          {/* Right Side: Questions & Answers */}
-          <div className="md:w-2/3 space-y-4">
-            {topics[activeTopic].map((faq, index) => (
-              <div
-                key={index}
-                className={`rounded-xl border p-4 ${
-                  openIndex === index ? "bg-blue-50 shadow-md border-blue-300" : "bg-white border-blue-100"
-                }`}
-              >
-                <button
-                  className="w-full flex justify-between items-center text-left font-semibold text-gray-900"
-                  onClick={() => toggleFAQ(index)}
-                >
-                  {faq.q}
-                  <span className="text-blue-600">{openIndex === index ? "−" : "+"}</span>
-                </button>
-                {openIndex === index && (
-                  <p className="mt-2 text-gray-600">{faq.a}</p>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Bottom Section */}
-      <section className="w-full bg-white text-black px-4 md:px-8 py-12 md:py-20">
-        {/* Highlight Box */}
-        <div className="max-w-4xl mx-auto bg-blue-50 rounded-xl shadow-lg border-2 border-blue-300 p-8 md:p-12 text-center relative">
-          <h2 className="text-3xl md:text-4xl font-bold text-blue-900">
-            Unlock Your Wellness Potential
-          </h2>
-          <p className="mt-4 text-gray-700 text-base md:text-lg">
-            Ready to improve your health and productivity? <br />
-            Sexuloon simplifies the process with trusted wellness solutions.
-          </p>
-          <button className="mt-6 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition">
-            Get Started
-          </button>
-        </div>
-
-        {/* Footer */}
-        <div className="max-w-4xl mx-auto mt-12 text-center">
-          <h3 className="text-lg font-semibold text-gray-900">Sexuloon</h3>
-          <p className="text-gray-600 mt-2">
-            A trusted health & wellness medicine platform that makes wellness
-            simple.
-          </p>
-
-          {/* Social Icons */}
-          <div className="flex justify-center gap-6 mt-6">
-            <a
-              href="#"
-              aria-label="LinkedIn"
-              className="p-2 rounded-full border border-blue-400 hover:border-blue-600 hover:bg-blue-50 transition"
-            >
-              <Linkedin className="w-6 h-6 text-blue-600" />
-            </a>
-            <a
-              href="#"
-              aria-label="Instagram"
-              className="p-2 rounded-full border border-blue-400 hover:border-blue-600 hover:bg-blue-50 transition"
-            >
-              <Instagram className="w-6 h-6 text-blue-600" />
-            </a>
-          </div>
-
-          {/* Copyright */}
-          <p className="mt-8 text-gray-500 text-sm">
-            Copyright © 2025 Sexuloon
-          </p>
-        </div>
-      </section>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <FAQClient />
+    </>
   );
 }

@@ -43,9 +43,11 @@ export default function Home() {
                 <div className="bg-blue-500 relative h-50">
                   <Image
                     src="https://res.cloudinary.com/drw4abclv/image/upload/v1751507104/1_mmc3zw.jpg"
-                    width={600} // âœ… example size
-                    height={400} // âœ… example size
-                    alt="Card image"
+                    width={600}
+                    height={400}
+                    alt="Shop All Sexuloon Products"
+                    loading="lazy"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-fit w-full h-full"
                   />
                 </div>
@@ -59,9 +61,11 @@ export default function Home() {
                 <div className="bg-blue-500 relative h-50">
                   <Image
                     src="https://res.cloudinary.com/drw4abclv/image/upload/v1751507269/2_nkai9e.jpg"
-                    width={600} // âœ… example size
-                    height={400} // âœ… example size
-                    alt="Card image"
+                    width={600}
+                    height={400}
+                    alt="Sexuloon Men's Health Solutions"
+                    loading="lazy"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-fit w-full h-full"
                   />
                 </div>
@@ -75,9 +79,11 @@ export default function Home() {
                 <div className="bg-blue-500 relative h-50">
                   <Image
                     src="https://res.cloudinary.com/drw4abclv/image/upload/v1751507334/3_ncmmjk.jpg"
-                    width={600} // âœ… example size
-                    height={400} // âœ… example size
-                    alt="Card image"
+                    width={600}
+                    height={400}
+                    alt="Natural Unani Wellness Products"
+                    loading="lazy"
+                    sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-fit w-full h-full"
                   />
                 </div>
@@ -153,7 +159,7 @@ export default function Home() {
 
           {/* View All Products Button */}
           <div className="mt-12 text-center">
-            <a href="/collections/all-products" className="border border-[#C9A84C]/40 text-[#C9A84C] hover:bg-[#C9A84C]/10 font-medium px-8 py-3 rounded-full inline-flex items-center gap-2 transition-all duration-200">
+            <a href="/collections/all-products" className="border border-[#C9A84C]/70 text-[#D4B05A] hover:bg-[#C9A84C]/10 font-semibold px-8 py-3 rounded-full inline-flex items-center gap-2 transition-all duration-200">
               View All Products →
             </a>
           </div>
@@ -225,6 +231,8 @@ export default function Home() {
                       alt={item.title}
                       width={400}
                       height={400}
+                      loading="lazy"
+                      sizes="(max-width: 640px) 80px, 96px"
                       className="object-cover w-full h-full"
                     />
                   </div>
@@ -299,7 +307,9 @@ export default function Home() {
                     width={1000}
                     height={1000}
                     src="https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                    alt="Doctor consulting with patient"
+                    alt="Doctor consulting with patient about men's health"
+                    loading="lazy"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent"></div>

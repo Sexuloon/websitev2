@@ -1,13 +1,44 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Us | Sexuloon",
-  description: "Learn about Sexuloon, India's most trusted platform for men's sexual health and wellness.",
+  title: "About Us – Sexuloon | Men's Sexual Wellness Brand India",
+  description: "Learn about Sexuloon (by Figgus78 Innovation Pvt Ltd) – India's most trusted men's sexual wellness platform. Natural Ayurveda & Unani remedies + MBBS doctor consultations.",
+  alternates: {
+    canonical: "https://www.sexuloon.com/aboutus",
+  },
+  openGraph: {
+    title: "About Sexuloon – India's Most Trusted Men's Wellness Brand",
+    description: "Sexuloon is operated by Figgus78 Innovation Private Limited. Natural solutions for men's sexual health in India.",
+    url: "https://www.sexuloon.com/aboutus",
+    type: "website",
+  },
+};
+
+const aboutJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "About Sexuloon",
+  url: "https://www.sexuloon.com/aboutus",
+  isPartOf: { "@id": "https://www.sexuloon.com/#website" },
+  about: { "@id": "https://www.sexuloon.com/#organization" },
+  description: "Sexuloon is a men's health and wellness brand owned by Figgus78 Innovation Private Limited. We help men across India access reliable, discreet, and effective solutions for sexual health concerns using Ayurveda, Unani, and MBBS-certified consultations.",
+  breadcrumb: {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.sexuloon.com" },
+      { "@type": "ListItem", position: 2, name: "About Us", item: "https://www.sexuloon.com/aboutus" },
+    ],
+  },
 };
 
 const AboutUs = () => {
   return (
-    <div className="min-h-screen bg-white px-4 sm:px-6 md:px-12 lg:px-24 xl:px-36 py-12 pt-[80px] text-gray-800">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutJsonLd) }}
+      />
+      <div className="min-h-screen bg-white px-4 sm:px-6 md:px-12 lg:px-24 xl:px-36 py-12 pt-[80px] text-gray-800">
       <div className="max-w-5xl mx-auto space-y-6 sm:space-y-8">
         <h1 className="text-3xl sm:text-4xl font-bold text-indigo-800">About Us</h1>
 
@@ -48,6 +79,7 @@ const AboutUs = () => {
         </p>
       </div>
     </div>
+    </>
   );
 };
 

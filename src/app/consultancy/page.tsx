@@ -1,8 +1,45 @@
 import { ArrowRight, Sparkles, ShieldCheck, Clock, Activity } from "lucide-react";
 import Link from 'next/link';
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Doctor Consultation for Men's Health | Sexuloon",
+  description: "Book a private online consultation with MBBS-certified doctors specializing in men's sexual health. Get personalized treatment for premature ejaculation and erectile dysfunction. Starting ₹350.",
+  alternates: {
+    canonical: "https://www.sexuloon.com/consultancy",
+  },
+  openGraph: {
+    title: "Doctor Consultation for Men's Health | Sexuloon",
+    description: "Private telehealth consultations with board-certified specialists. Discreet, fast, starting ₹350.",
+    url: "https://www.sexuloon.com/consultancy",
+    type: "website",
+  },
+};
+
+const consultancyJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Online Doctor Consultation for Men's Sexual Health",
+  url: "https://www.sexuloon.com/consultancy",
+  provider: { "@id": "https://www.sexuloon.com/#organization" },
+  description: "Private video consultations with MBBS-certified doctors specializing in men's sexual health, including premature ejaculation, erectile dysfunction, and low testosterone.",
+  areaServed: { "@type": "Country", name: "India" },
+  serviceType: "Telehealth / Online Medical Consultation",
+  offers: {
+    "@type": "Offer",
+    priceCurrency: "INR",
+    price: "350",
+    description: "Online doctor consultation starting at ₹350",
+  },
+};
 
 export default function ConsultancyPage() {
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(consultancyJsonLd) }}
+      />
     <div className="bg-[#FAFAFA] min-h-screen flex flex-col relative overflow-hidden">
       {/* Background Gradients & Effects */}
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-gradient-to-br from-blue-200/40 to-transparent rounded-full blur-[120px] mix-blend-multiply pointer-events-none"></div>
@@ -83,5 +120,6 @@ export default function ConsultancyPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
