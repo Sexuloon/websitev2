@@ -10,7 +10,7 @@ import type { TruecallerProfile } from "@/components/view/Auth/TruecallerButton"
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type Mode = "sign-in" | "sign-up";
-type Step = "main" | "tc-email"; // tc-email: Truecaller verified but no email, ask for it
+type Step = "main" | "tc-email" | "forgot-pw";
 
 interface AuthModalProps {
   open: boolean;
@@ -206,6 +206,38 @@ export default function AuthModal({
     setEmail(""); setPassword(""); setFirstName(""); setLastName("");
   };
 
+  // ── Forgot password ─────────────────────────────────────────────────────────
+  const [fpSent, setFpSent] = useState(false);
+
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const errs: Record<string, string> = {};
+    if (!email || !/\S+@\S+\.\S+/.test(email)) errs.email = "Valid email required";
+    setErrors(errs);
+    if (Object.keys(errs).length) return;
+    setFormLoading(true);
+    try {
+      await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.toLowerCase().trim() }),
+      });
+      setFpSent(true);
+    } catch {
+      // Always show success (security)
+      setFpSent(true);
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
+  const openForgotPw = () => {
+    setStep("forgot-pw");
+    setFpSent(false);
+    setErrors({});
+    // Keep whatever email was typed in the sign-in form
+  };
+
   if (!visible) return null;
 
   // ─── Panel animation styles ─────────────────────────────────────────────────
@@ -261,6 +293,66 @@ export default function AuthModal({
               </button>
               <button type="button" onClick={() => setStep("main")} className="am-text-btn">← Back</button>
             </form>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // ─── Forgot password step ────────────────────────────────────────────────────
+  if (step === "forgot-pw") {
+    return (
+      <>
+        <div className="am-backdrop" style={{ opacity: animIn ? 1 : 0 }} onClick={onClose} />
+        <div className={panelClass} style={sheetStyle} role="dialog" aria-modal="true" aria-label="Reset your password">
+          {isMobile && <div className="am-handle" />}
+          <div className="am-header">
+            <div>
+              <h2 className="am-title">{fpSent ? "Check your inbox" : "Reset password"}</h2>
+              <p className="am-sub">
+                {fpSent
+                  ? `We sent a reset link to ${email}. Click it to set a new password.`
+                  : "Enter your email and we'll send you a reset link."}
+              </p>
+            </div>
+            <button onClick={onClose} className="am-close" aria-label="Close"><X size={15} /></button>
+          </div>
+          <div className="am-body">
+            {fpSent ? (
+              <>
+                <div className="am-fp-success">
+                  <span className="am-fp-icon">📬</span>
+                  <p>If an account exists for <strong>{email}</strong>, you'll receive a reset link within a minute. Check your spam folder too.</p>
+                </div>
+                <button type="button" className="am-submit" onClick={() => { setStep("main"); setFpSent(false); }}>
+                  <span>Back to Sign In</span>
+                </button>
+              </>
+            ) : (
+              <form onSubmit={handleForgotPassword} className="am-form" noValidate>
+                <div className="am-field">
+                  <label className="am-label">Email Address</label>
+                  <div className="am-input-wrap">
+                    <Mail size={15} className="am-input-icon" />
+                    <input
+                      ref={emailRef}
+                      type="email"
+                      placeholder="you@example.com"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      className={`am-input ${errors.email ? "am-input--err" : ""}`}
+                      autoComplete="email"
+                      id="fp-email-input"
+                    />
+                  </div>
+                  {errors.email && <p className="am-err">{errors.email}</p>}
+                </div>
+                <button type="submit" disabled={formLoading} className="am-submit" id="fp-submit">
+                  {formLoading ? <span className="am-spinner" /> : <><span>Send Reset Link</span><ArrowRight size={16} /></>}
+                </button>
+                <button type="button" onClick={() => setStep("main")} className="am-text-btn">← Back to Sign In</button>
+              </form>
+            )}
           </div>
         </div>
       </>
@@ -353,6 +445,16 @@ export default function AuthModal({
                 </button>
               </div>
               {errors.password && <p className="am-err">{errors.password}</p>}
+              {mode === "sign-in" && (
+                <button
+                  type="button"
+                  onClick={openForgotPw}
+                  className="am-forgot-btn"
+                  id="forgot-pw-link"
+                >
+                  Forgot password?
+                </button>
+              )}
             </div>
 
             <button type="submit" disabled={formLoading} className="am-submit" id={mode === "sign-in" ? "login-submit" : "register-submit"}>
