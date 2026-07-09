@@ -4,7 +4,7 @@ import Navbar from "@/components/view/Navbar";
 import InfiniteScrollingText from "@/components/view/SlidingText";
 import Providers from "@/providers";
 import type { Metadata } from "next";
-import { ClerkProvider } from "@clerk/nextjs";
+
 import React from "react";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -151,56 +151,54 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
-      <html
-        lang="en"
-        suppressHydrationWarning
-        className={`${playfairDisplay.variable} ${dmSans.variable} ${dmMono.variable}`}
-      >
-        <head>
-          {/* Basic Meta */}
-          <meta charSet="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${playfairDisplay.variable} ${dmSans.variable} ${dmMono.variable}`}
+    >
+      <head>
+        {/* Basic Meta */}
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-          {/* JSON-LD: Organization + WebSite + SearchAction (triggers Google Sitelinks) */}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-          />
+        {/* JSON-LD: Organization + WebSite + SearchAction (triggers Google Sitelinks) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
 
-          {/* Favicon */}
-          <link rel="icon" href="/Web_Icon-removebg-preview.ico" />
-          <link rel="shortcut icon" href="/Web_Icon-removebg-preview.ico" />
-          <link rel="apple-touch-icon" href="/Web_Icon-removebg-preview.ico" />
+        {/* Favicon */}
+        <link rel="icon" href="/Web_Icon-removebg-preview.ico" />
+        <link rel="shortcut icon" href="/Web_Icon-removebg-preview.ico" />
+        <link rel="apple-touch-icon" href="/Web_Icon-removebg-preview.ico" />
 
-          {/* Open Graph Meta (static fallback for crawlers that skip JS) */}
-          <meta property="og:title" content="Sexuloon – India's Most Trusted Sexual Wellness Brand" />
-          <meta property="og:description" content="India's Most Trusted Sexual Wellness Brand" />
-          <meta property="og:image" content="https://www.sexuloon.com/seo-banner.png" />
-          <meta property="og:url" content="https://www.sexuloon.com" />
-          <meta property="og:type" content="website" />
-          <meta property="og:locale" content="en_IN" />
+        {/* Open Graph Meta (static fallback for crawlers that skip JS) */}
+        <meta property="og:title" content="Sexuloon – India's Most Trusted Sexual Wellness Brand" />
+        <meta property="og:description" content="India's Most Trusted Sexual Wellness Brand" />
+        <meta property="og:image" content="https://www.sexuloon.com/seo-banner.png" />
+        <meta property="og:url" content="https://www.sexuloon.com" />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="en_IN" />
 
-          {/* Twitter Cards */}
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="Sexuloon" />
-          <meta name="twitter:description" content="India's Most Trusted Sexual Wellness Brand" />
-          <meta name="twitter:image" content="https://www.sexuloon.com/seo-banner.png" />
-        </head>
-        <body className="antialiased bg-gray-50 text-gray-900 dark:bg-[#080808] dark:text-[#F5F0E8] transition-colors duration-300">
-          <PostHogProvider>
-            <Providers>
-              <InfiniteScrollingText />
-              <Navbar />
-              <Toaster />
-              {children}
-              <Footer />
-            </Providers>
-          </PostHogProvider>
-          {/* Google Analytics */}
-          <GoogleAnalytics gaId="G-NP9WZN9MK4" />
-        </body>
-      </html>
-    </ClerkProvider>
+        {/* Twitter Cards */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Sexuloon" />
+        <meta name="twitter:description" content="India's Most Trusted Sexual Wellness Brand" />
+        <meta name="twitter:image" content="https://www.sexuloon.com/seo-banner.png" />
+      </head>
+      <body className="antialiased bg-gray-50 text-gray-900 dark:bg-[#080808] dark:text-[#F5F0E8] transition-colors duration-300">
+        <PostHogProvider>
+          <Providers>
+            <InfiniteScrollingText />
+            <Navbar />
+            <Toaster />
+            {children}
+            <Footer />
+          </Providers>
+        </PostHogProvider>
+        {/* Google Analytics */}
+        <GoogleAnalytics gaId="G-NP9WZN9MK4" />
+      </body>
+    </html>
   );
 }
