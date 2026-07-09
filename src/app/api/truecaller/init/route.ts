@@ -1,28 +1,22 @@
 import { NextResponse } from "next/server";
 import { randomBytes } from "crypto";
-import { cookies } from "next/headers";
+import { tcSessions, pruneSessions } from "@/lib/truecaller-store";
 
 export async function GET() {
   try {
-    // Generate a cryptographically random nonce (16 bytes = 32 hex chars, well within 8-64 char limit)
+    pruneSessions(); // Clean up expired entries
+
     const nonce = randomBytes(16).toString("hex");
 
-    // Store the nonce in a short-lived HTTP-only cookie (5 minutes)
-    const cookieStore = await cookies();
-    cookieStore.set("tc_nonce", nonce, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 5, // 5 minutes
-      path: "/",
-      sameSite: "lax",
+    // Register as "pending" so poll endpoint knows it's a valid nonce
+    tcSessions.set(nonce, {
+      status: "pending",
+      createdAt: Date.now(),
     });
 
     return NextResponse.json({ nonce });
   } catch (error) {
-    console.error("[Truecaller init] Error generating nonce:", error);
-    return NextResponse.json(
-      { error: "Failed to initialize Truecaller flow" },
-      { status: 500 }
-    );
+    console.error("[Truecaller init]", error);
+    return NextResponse.json({ error: "Failed to init" }, { status: 500 });
   }
 }

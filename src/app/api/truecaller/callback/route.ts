@@ -1,130 +1,57 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
+import { tcSessions } from "@/lib/truecaller-store";
 
-// Truecaller profile API endpoint
 const TC_PROFILE_URL = "https://profile4.truecaller.com/v1/default";
-
-interface TruecallerCallbackPayload {
-  accessToken?: string;
-  requestId?: string;
-  endpoint?: string;
-  status?: string;
-}
 
 interface TruecallerProfile {
   name?: { first?: string; last?: string };
   onlineIdentities?: { email?: string };
-  phones?: Array<{ e164Format?: string; countryCode?: string; dialingCode?: string }>;
-}
-
-async function shopifyRequest(query: string, variables: Record<string, unknown>) {
-  const res = await fetch(process.env.NEXT_PUBLIC_SHOPIFY_STORE_API_URL!, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Shopify-Storefront-Access-Token":
-        process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!,
-    },
-    body: JSON.stringify({ query, variables }),
-  });
-  const json = await res.json();
-  return json.data;
-}
-
-async function findCustomerByEmail(email: string) {
-  const data = await shopifyRequest(
-    `query GetCustomer($email: String!) {
-       customers(first: 1, query: $email) {
-         edges { node { id email firstName lastName } }
-       }
-     }`,
-    { email }
-  );
-  return data?.customers?.edges?.[0]?.node ?? null;
-}
-
-async function createShopifyCustomer(
-  firstName: string,
-  lastName: string,
-  email: string,
-  phone: string
-) {
-  // Generate a strong random password the user never needs to know
-  // (they authenticate via Truecaller, not password)
-  const randomPassword =
-    Math.random().toString(36).slice(-10) +
-    Math.random().toString(36).toUpperCase().slice(-4) +
-    "!1";
-
-  const data = await shopifyRequest(
-    `mutation CreateCustomer($input: CustomerCreateInput!) {
-       customerCreate(input: $input) {
-         customer { id email firstName lastName }
-         customerUserErrors { code message }
-       }
-     }`,
-    {
-      input: {
-        firstName: firstName || "Truecaller",
-        lastName: lastName || "User",
-        email,
-        password: randomPassword,
-        phone,
-        acceptsMarketing: false,
-      },
-    }
-  );
-  return data?.customerCreate;
-}
-
-async function createCustomerToken(email: string, password: string) {
-  // We can't create a token without knowing the password for Truecaller-created accounts.
-  // Instead we use a session cookie approach — set a "tc_verified" cookie with user info
-  // and handle session server-side. Return a synthetic token placeholder.
-  // In production, use Shopify Admin API multipass or a custom token strategy.
-  return null;
+  phones?: Array<{ e164Format?: string }>;
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const cookieStore = await cookies();
-    const storedNonce = cookieStore.get("tc_nonce")?.value;
+    // Truecaller sends application/x-www-form-urlencoded
+    const contentType = request.headers.get("content-type") ?? "";
+    let accessToken = "";
+    let requestId = "";
+    let endpoint = "";
 
-    const body: TruecallerCallbackPayload = await request.json().catch(() => ({}));
-
-    // Also handle form-encoded POST (Truecaller sends application/x-www-form-urlencoded)
-    let accessToken = body.accessToken;
-    let requestId = body.requestId;
-    let endpoint = body.endpoint;
-
-    if (!accessToken) {
-      // Try form-encoded body
-      const text = await request.text().catch(() => "");
+    if (contentType.includes("application/x-www-form-urlencoded")) {
+      const text = await request.text();
       const params = new URLSearchParams(text);
-      accessToken = params.get("accessToken") ?? undefined;
-      requestId = params.get("requestId") ?? undefined;
-      endpoint = params.get("endpoint") ?? undefined;
+      accessToken = params.get("accessToken") ?? "";
+      requestId = params.get("requestId") ?? "";
+      endpoint = params.get("endpoint") ?? "";
+    } else {
+      // Try JSON fallback
+      const body = await request.json().catch(() => ({}));
+      accessToken = body.accessToken ?? "";
+      requestId = body.requestId ?? "";
+      endpoint = body.endpoint ?? "";
     }
 
-    if (!accessToken) {
-      return NextResponse.json({ error: "No access token received" }, { status: 400 });
+    if (!accessToken || !requestId) {
+      console.error("[TC callback] Missing accessToken or requestId");
+      return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
-    // Clear the nonce cookie
-    cookieStore.delete("tc_nonce");
-
-    // Fetch the user's Truecaller profile
+    // Fetch verified profile from Truecaller
     const profileUrl = endpoint || TC_PROFILE_URL;
     const profileRes = await fetch(profileUrl, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
 
     if (!profileRes.ok) {
-      console.error("[Truecaller callback] Profile fetch failed:", profileRes.status);
-      return NextResponse.redirect(new URL("/auth?tc_error=profile_failed", request.url));
+      console.error("[TC callback] Profile fetch failed:", profileRes.status);
+      // Mark as failed
+      if (tcSessions.has(requestId)) {
+        tcSessions.set(requestId, {
+          status: "failed",
+          createdAt: tcSessions.get(requestId)!.createdAt,
+        });
+      }
+      return NextResponse.json({ error: "Profile fetch failed" }, { status: 502 });
     }
 
     const profile: TruecallerProfile = await profileRes.json();
@@ -132,40 +59,25 @@ export async function POST(request: NextRequest) {
     const firstName = profile.name?.first ?? "";
     const lastName = profile.name?.last ?? "";
     const email = profile.onlineIdentities?.email ?? "";
-    const phoneRaw = profile.phones?.[0]?.e164Format ?? "";
-    const phone = phoneRaw.startsWith("+") ? phoneRaw : `+${phoneRaw}`;
+    const rawPhone = profile.phones?.[0]?.e164Format ?? "";
+    const phone = rawPhone.startsWith("+") ? rawPhone : `+${rawPhone}`;
 
-    if (!email && !phone) {
-      return NextResponse.redirect(new URL("/auth?tc_error=no_identity", request.url));
-    }
-
-    // Store verified profile in a secure session cookie so the client can finalize login
-    const sessionPayload = JSON.stringify({
-      firstName,
-      lastName,
-      email,
-      phone,
-      verified: true,
-      ts: Date.now(),
+    // Store verified profile — the client is polling for this
+    tcSessions.set(requestId, {
+      status: "verified",
+      createdAt: Date.now(),
+      profile: { firstName, lastName, email, phone },
     });
 
-    const response = NextResponse.redirect(new URL("/auth?tc_success=1", request.url));
-    response.cookies.set("tc_session", sessionPayload, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 10, // 10 minutes to complete login
-      path: "/",
-      sameSite: "lax",
-    });
-
-    return response;
+    console.log(`[TC callback] Verified: ${firstName} ${lastName} (${phone})`);
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("[Truecaller callback] Unexpected error:", error);
-    return NextResponse.redirect(new URL("/auth?tc_error=server_error", request.url));
+    console.error("[TC callback] Error:", error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
 
-// Handle GET for Truecaller's verification ping
-export async function GET(request: NextRequest) {
-  return NextResponse.json({ status: "ok", service: "truecaller-callback" });
+// Truecaller may also send a GET to verify the endpoint is live
+export async function GET() {
+  return NextResponse.json({ status: "ok" });
 }
