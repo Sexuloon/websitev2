@@ -220,3 +220,238 @@ html {
   background: transparent !important;
   border: none !important;
 }
+
+/* ── Truecaller Sign-In Button ─────────────────────────────────────────────── */
+
+.tc-section {
+  width: 100%;
+}
+
+/* Main button */
+.tc-button {
+  position: relative;
+  width: 100%;
+  height: 52px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 14px;
+  overflow: hidden;
+  padding: 0;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.tc-button:active:not(:disabled) {
+  transform: scale(0.975);
+}
+
+.tc-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* Animated gradient border (pseudo-layer) */
+.tc-button__border {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  padding: 1.5px;
+  background: linear-gradient(
+    135deg,
+    #009DE0 0%,
+    #00c6ff 40%,
+    #009DE0 60%,
+    #005f88 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: tc-border-rotate 3s linear infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes tc-border-rotate {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Inner content */
+.tc-button__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  border-radius: 13px;
+  background: #ffffff;
+  color: #111111;
+  font-family: var(--font-sans, 'DM Sans', sans-serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 0 20px;
+  transition: background 0.2s ease;
+}
+
+/* Dark mode */
+.dark .tc-button__inner {
+  background: #1a1a1a;
+  color: #f5f0e8;
+}
+
+.tc-button:hover:not(:disabled) .tc-button__inner {
+  background: #f0fbff;
+}
+
+.dark .tc-button:hover:not(:disabled) .tc-button__inner {
+  background: #1e2a2e;
+}
+
+.tc-button__logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.tc-button__text {
+  flex: 1;
+  text-align: center;
+}
+
+/* Platform badge (Android / iOS) */
+.tc-button__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #009DE0;
+  background: rgba(0, 157, 224, 0.1);
+  border: 1px solid rgba(0, 157, 224, 0.25);
+  border-radius: 6px;
+  padding: 2px 7px;
+  flex-shrink: 0;
+}
+
+/* Shimmer sweep */
+.tc-button__shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.18) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  background-position: 200% 0;
+  transition: background-position 0s;
+  pointer-events: none;
+  border-radius: 14px;
+}
+
+.tc-button:hover:not(:disabled) .tc-button__shimmer {
+  background-position: -200% 0;
+  transition: background-position 0.55s ease;
+}
+
+/* Loading state */
+.tc-button--loading .tc-button__border {
+  animation: tc-border-rotate 1s linear infinite;
+}
+
+/* Spinner */
+.tc-spinner {
+  animation: tc-spin 0.75s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes tc-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── "Not installed" message ───────────────────────────────────────────────── */
+
+.tc-not-installed {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(0, 157, 224, 0.06);
+  border: 1px solid rgba(0, 157, 224, 0.18);
+  animation: fade-up 0.3s ease both;
+}
+
+.tc-not-installed-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.tc-not-installed p {
+  font-size: 0.83rem;
+  color: #555;
+  margin: 0;
+  line-height: 1.55;
+}
+
+.dark .tc-not-installed p {
+  color: #aaa;
+}
+
+.tc-not-installed a {
+  color: #009DE0;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(0, 157, 224, 0.4);
+  text-underline-offset: 2px;
+}
+
+.tc-not-installed a:hover {
+  text-decoration-color: #009DE0;
+}
+
+/* ── OR Divider ─────────────────────────────────────────────────────────────── */
+
+.tc-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.tc-divider__line {
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.dark .tc-divider__line {
+  background: #262626;
+}
+
+.tc-divider__text {
+  font-family: var(--font-sans, 'DM Sans', sans-serif);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #9ca3af;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.dark .tc-divider__text {
+  color: #4b5563;
+}
