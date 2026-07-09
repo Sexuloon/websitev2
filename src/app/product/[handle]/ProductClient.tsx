@@ -148,11 +148,34 @@ const Product = () => {
     return () => clearTimeout(id);
   };
 
-  const handleBuyNow = () => {
+  const handleBuyNow = async () => {
     if (!selectedVariant) return;
     addItem(selectedVariant.id, quantity);
-    if (cart?.checkoutUrl) {
-      window.location.href = cart.checkoutUrl;
+
+    // Small delay to let the cart atom update with the new item
+    await new Promise((r) => setTimeout(r, 300));
+
+    try {
+      const cartId = cart?.id;
+      if (!cartId) {
+        // Fallback if cart not ready yet
+        if (cart?.checkoutUrl) window.location.href = cart.checkoutUrl;
+        return;
+      }
+      // Associate cart with logged-in customer before redirecting
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cartId }),
+      });
+      const data = await res.json();
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+      } else if (cart?.checkoutUrl) {
+        window.location.href = cart.checkoutUrl;
+      }
+    } catch {
+      if (cart?.checkoutUrl) window.location.href = cart.checkoutUrl;
     }
   };
 

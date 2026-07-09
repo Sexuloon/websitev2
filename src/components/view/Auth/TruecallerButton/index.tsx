@@ -2,17 +2,35 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// ─── Truecaller SVG Logo ──────────────────────────────────────────────────────
+// ─── Truecaller Brand Mark ────────────────────────────────────────────────────
+// Uses Truecaller's actual brand: blue shield+phone icon + "truecaller" wordmark
 
-function TruecallerLogo({ size = 22 }: { size?: number }) {
+function TruecallerLogo() {
   return (
-    <svg width={size} height={size} viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="30" cy="30" r="30" fill="#009DE0" />
-      <path d="M14 18h32M30 18v24" stroke="white" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M22 33l6 6 12-14" stroke="white" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+    <span className="tc-logo-wrap" aria-hidden="true">
+      {/* Shield + phone-tick icon — Truecaller's actual brand shape */}
+      <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="10" fill="#009DE0"/>
+        {/* Phone with checkmark — clean minimal version */}
+        <path
+          d="M14 13h5l2 4.5-2.5 1.5c1 2 2.5 3.5 4.5 4.5l1.5-2.5 4.5 2V28c0 1-1 2-2 1.5C14.5 27 11 19.5 12.5 14c-.5-1 .5-1 1.5-1z"
+          fill="white"
+          fillRule="evenodd"
+        />
+        <path
+          d="M23 16l2 2 4-4"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+      {/* "truecaller" wordmark in brand blue italic */}
+      <span className="tc-logo-wordmark">truecaller</span>
+    </span>
   );
 }
+
 
 function Spinner() {
   return (
@@ -223,32 +241,23 @@ export default function TruecallerButton({
   return (
     <button
       id="truecaller-signin-btn"
-      className={`tc-mobile-only tc-button ${isActive ? "tc-button--loading" : ""} ${className}`}
+      className={`tc-mobile-only am-social tc-button-clean ${isActive ? "tc-button-clean--loading" : ""} ${className}`}
       onClick={handleClick}
       disabled={isActive}
       aria-label="Continue with Truecaller"
       type="button"
     >
-      <span className="tc-button__border" aria-hidden="true" />
-
-      <span className="tc-button__inner">
-        {isActive ? (
-          <>
-            <Spinner />
-            <span className="tc-button__text">
-              {btnState === "waiting" ? "Waiting for Truecaller…" : "Connecting…"}
-            </span>
-          </>
-        ) : (
-          <>
-            <span className="tc-button__logo"><TruecallerLogo size={22} /></span>
-            <span className="tc-button__text">Continue with Truecaller</span>
-            <span className="tc-button__badge">{platform === "ios" ? "iOS" : "Android"}</span>
-          </>
-        )}
-      </span>
-
-      <span className="tc-button__shimmer" aria-hidden="true" />
+      {isActive ? (
+        <>
+          <span className="am-spinner" style={{ borderTopColor: "#009DE0", borderColor: "rgba(0,157,224,0.25)" }} />
+          <span style={{ fontSize: "0.88rem", fontWeight: 600 }}>
+            {btnState === "waiting" ? "Waiting for Truecaller…" : "Connecting…"}
+          </span>
+        </>
+      ) : (
+        <TruecallerLogo />
+      )}
     </button>
   );
 }
+

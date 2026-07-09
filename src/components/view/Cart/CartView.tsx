@@ -490,13 +490,34 @@ function CartView() {
     (item) => item.node.merchandise.product.handle
   );
 
-  const handleCheckout = () => {
-    if (cart?.checkoutUrl) {
-      const url = cart.checkoutUrl.replace(
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+
+  const handleCheckout = async () => {
+    if (!cart?.id) return;
+    setCheckoutLoading(true);
+    try {
+      // Associate cart with logged-in customer so Shopify checkout
+      // pre-fills their details and skips the sign-in prompt
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cartId: cart.id }),
+      });
+      const data = await res.json();
+      const url = (data.checkoutUrl as string)?.replace(
         "sexuloon.com",
         "rj1ghp-kr.myshopify.com"
       );
-      window.open(url, "_blank");
+      if (url) window.open(url, "_blank");
+    } catch (err) {
+      console.error("[checkout]", err);
+      // Fallback: use the URL we already have
+      if (cart?.checkoutUrl) {
+        const url = cart.checkoutUrl.replace("sexuloon.com", "rj1ghp-kr.myshopify.com");
+        window.open(url, "_blank");
+      }
+    } finally {
+      setCheckoutLoading(false);
     }
   };
 
@@ -724,7 +745,7 @@ function CartView() {
                   <motion.button
                     id="cart-checkout-btn"
                     onClick={handleCheckout}
-                    disabled={!cart?.checkoutUrl}
+                    disabled={!cart?.id || checkoutLoading}
                     whileTap={{ scale: 0.975 }}
                     className="relative w-full h-14 rounded-2xl bg-[#1a4731] hover:bg-[#143828] text-white font-bold text-sm tracking-wide transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed overflow-hidden group"
                     style={{
@@ -734,9 +755,18 @@ function CartView() {
                   >
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out pointer-events-none" />
                     <span className="relative flex items-center justify-center gap-2">
-                      CHECKOUT
-                      <span className="opacity-70">·</span>
-                      ₹{subtotal.toFixed(0)}
+                      {checkoutLoading ? (
+                        <>
+                          <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5" strokeOpacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/></svg>
+                          Preparing…
+                        </>
+                      ) : (
+                        <>
+                          CHECKOUT
+                          <span className="opacity-70">·</span>
+                          ₹{subtotal.toFixed(0)}
+                        </>
+                      )}
                     </span>
                   </motion.button>
                 </div>

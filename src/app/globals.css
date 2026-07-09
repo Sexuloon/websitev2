@@ -448,7 +448,36 @@ html {
   font-weight: 600;
   text-decoration: underline;
   text-decoration-color: rgba(0, 157, 224, 0.4);
-  text-underline-offset: 2px;
+}
+
+/* ── Clean Truecaller button (new design) ───────────────────────────────────── */
+
+/* Logo wrapper — icon + wordmark side by side */
+.tc-logo-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* "truecaller" wordmark — matches Truecaller's brand style */
+.tc-logo-wordmark {
+  font-family: var(--font-sans, 'DM Sans', sans-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #009DE0;
+  letter-spacing: -0.01em;
+  font-style: italic;
+  line-height: 1;
+}
+
+/* The button itself inherits am-social styling; just override the hover tint */
+.tc-button-clean:hover:not(:disabled) {
+  background: #f0fbff !important;
+  border-color: #009DE0 !important;
+}
+.dark .tc-button-clean:hover:not(:disabled) {
+  background: rgba(0, 157, 224, 0.06) !important;
+  border-color: rgba(0, 157, 224, 0.4) !important;
 }
 
 .tc-not-installed a:hover {

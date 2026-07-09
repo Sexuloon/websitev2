@@ -9,6 +9,19 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 
+// ─── Suppress React 19 + Radix UI false-positive warning ─────────────────────
+// Radix UI passes `inert=""` (empty string) on focus-trap elements.
+// React 19 treats `inert` as a boolean and warns about the empty string.
+// This is a known upstream Radix issue — suppress until they patch it.
+if (typeof window !== "undefined") {
+  const _origError = console.error.bind(console);
+  console.error = (...args: unknown[]) => {
+    if (typeof args[0] === "string" && args[0].includes("Received an empty string for a boolean attribute `inert`")) return;
+    _origError(...args);
+  };
+}
+
+
 function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {

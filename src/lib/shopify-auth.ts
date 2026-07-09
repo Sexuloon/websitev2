@@ -14,12 +14,13 @@ import { createHmac } from "crypto";
 
 const SHOPIFY_URL = process.env.NEXT_PUBLIC_SHOPIFY_STORE_API_URL!;
 const SHOPIFY_TOKEN = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
-const AUTH_SECRET = process.env.SHOPIFY_AUTH_SECRET!;
+const AUTH_SECRET = process.env.SHOPIFY_AUTH_SECRET;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 /** Deterministic password for OAuth accounts — never shown to user */
 export function derivePassword(email: string): string {
+  if (!AUTH_SECRET) throw new Error("Auth service not configured. Please contact support.");
   return "Sx!" + createHmac("sha256", AUTH_SECRET).update(email.toLowerCase()).digest("base64url").slice(0, 32);
 }
 
