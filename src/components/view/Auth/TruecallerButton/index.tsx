@@ -2,33 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// ─── Types ───────────────────────────────────────────────────────────────────
-
-type TruecallerState =
-  | "idle"          // Detecting platform
-  | "available"     // Mobile + shown
-  | "loading"       // Button clicked, triggering deep link
-  | "waiting"       // Deep link fired, detecting if app opened
-  | "not_installed" // App not found — show fallback msg
-  | "error"         // Nonce/network error
-  | "unavailable";  // Desktop or unsupported
-
-// ─── Mobile detection (Android + iOS) ────────────────────────────────────────
-
-function isMobileDevice(): boolean {
-  if (typeof navigator === "undefined") return false;
-  const ua = navigator.userAgent;
-  return /android|iphone|ipad|ipod|mobile/i.test(ua);
-}
-
-function isAndroid(): boolean {
-  return /android/i.test(navigator?.userAgent ?? "");
-}
-
-function isIOS(): boolean {
-  return /iphone|ipad|ipod/i.test(navigator?.userAgent ?? "");
-}
-
 // ─── Truecaller SVG Logo ──────────────────────────────────────────────────────
 
 function TruecallerLogo({ size = 22 }: { size?: number }) {
@@ -40,9 +13,8 @@ function TruecallerLogo({ size = 22 }: { size?: number }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {/* Blue circle background */}
       <circle cx="30" cy="30" r="30" fill="#009DE0" />
-      {/* White "T" checkmark */}
+      {/* Cross-hair "T" */}
       <path
         d="M14 18h32M30 18v24"
         stroke="white"
@@ -50,6 +22,7 @@ function TruecallerLogo({ size = 22 }: { size?: number }) {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+      {/* Checkmark */}
       <path
         d="M22 33l6 6 12-14"
         stroke="white"
@@ -73,124 +46,65 @@ function Spinner() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeOpacity="0.25"
-      />
-      <path
-        d="M12 2a10 10 0 0 1 10 10"
-        stroke="currentColor"
-        strokeWidth="2.5"
-        strokeLinecap="round"
-      />
+      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5" strokeOpacity="0.25" />
+      <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
     </svg>
   );
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+type ClickState = "idle" | "loading" | "waiting" | "not_installed" | "error";
 
 interface TruecallerButtonProps {
-  /** Called when Truecaller returns a verified session */
   onVerified?: (session: {
     firstName: string;
     lastName: string;
     email: string;
     phone: string;
   }) => void;
-  /** Called when Truecaller is not installed (to show fallback UI) */
   onNotInstalled?: () => void;
   className?: string;
 }
+
+// ─── Main Component ───────────────────────────────────────────────────────────
+// Visibility is controlled by CSS (tc-mobile-only class), NOT by JS detection.
+// This ensures the button always renders on mobile regardless of hydration timing.
 
 export default function TruecallerButton({
   onVerified,
   onNotInstalled,
   className = "",
 }: TruecallerButtonProps) {
-  const [state, setState] = useState<TruecallerState>("idle");
+  const [clickState, setClickState] = useState<ClickState>("idle");
   const [platform, setPlatform] = useState<"android" | "ios" | "other">("other");
-  const focusCheckRef = useRef<NodeJS.Timeout | null>(null);
+  const focusCheckRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // ── Detect platform on mount ──────────────────────────────────────────────
+  // Detect platform for badge label + app store link (JS only needed for this)
   useEffect(() => {
-    if (!isMobileDevice()) {
-      setState("unavailable");
-      return;
-    }
-    if (isAndroid()) setPlatform("android");
-    else if (isIOS()) setPlatform("ios");
+    const ua = navigator.userAgent;
+    if (/android/i.test(ua)) setPlatform("android");
+    else if (/iphone|ipad|ipod/i.test(ua)) setPlatform("ios");
 
-    // Check if we came back from a successful Truecaller callback
+    // If coming back from a successful Truecaller callback redirect
     const params = new URLSearchParams(window.location.search);
     if (params.get("tc_success") === "1") {
-      setState("loading");
+      setClickState("loading");
       fetch("/api/truecaller/session")
         .then((r) => r.json())
         .then(({ session }) => {
           if (session?.verified && onVerified) {
             onVerified(session);
           }
-          setState("available");
+          // Clean up URL
+          const url = new URL(window.location.href);
+          url.searchParams.delete("tc_success");
+          window.history.replaceState({}, "", url.toString());
+          setClickState("idle");
         })
-        .catch(() => setState("available"));
-    } else {
-      setState("available");
+        .catch(() => setClickState("idle"));
     }
   }, []);
-
-  // ── Trigger the Truecaller deep link ──────────────────────────────────────
-  const handleClick = async () => {
-    if (state !== "available") return;
-    setState("loading");
-
-    try {
-      // 1. Get a fresh nonce from the server
-      const res = await fetch("/api/truecaller/init");
-      if (!res.ok) throw new Error("Failed to get nonce");
-      const { nonce } = await res.json();
-
-      const partnerKey =
-        process.env.NEXT_PUBLIC_TRUECALLER_PARTNER_KEY ??
-        "tOM6rd098f1e0f4184a92912c18b70947d51f";
-      const partnerName = encodeURIComponent("Sexuloon");
-      const callbackUrl = encodeURIComponent(
-        `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.sexuloon.com"}/api/truecaller/callback`
-      );
-
-      // 2. Build deep link — same URL scheme works for both Android & iOS
-      const deepLink =
-        `truecallersdk://truesdk/web_verify` +
-        `?requestNonce=${nonce}` +
-        `&partnerKey=${partnerKey}` +
-        `&partnerName=${partnerName}` +
-        `&lang=en` +
-        `&privacyUrl=${encodeURIComponent("https://www.sexuloon.com/privacy%26policy")}` +
-        `&termsUrl=${encodeURIComponent("https://www.sexuloon.com/terms%26conditions")}`;
-
-      // 3. Fire the deep link
-      setState("waiting");
-      window.location.href = deepLink;
-
-      // 4. After 700ms, check if the page still has focus.
-      //    If yes → Truecaller app did NOT open (not installed).
-      //    If no  → App opened, we wait for the callback redirect.
-      focusCheckRef.current = setTimeout(() => {
-        if (document.hasFocus()) {
-          // App not installed
-          setState("not_installed");
-          onNotInstalled?.();
-        }
-        // else: app opened, page will redirect via callback — do nothing
-      }, 700);
-    } catch (err) {
-      console.error("[TruecallerButton] Error:", err);
-      setState("error");
-    }
-  };
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -199,13 +113,55 @@ export default function TruecallerButton({
     };
   }, []);
 
-  // ── Don't render on desktop ──────────────────────────────────────────────
-  if (state === "unavailable" || state === "idle") return null;
+  const handleClick = async () => {
+    if (clickState === "loading" || clickState === "waiting") return;
+    setClickState("loading");
 
-  // ── App not installed — show helpful message ──────────────────────────────
-  if (state === "not_installed") {
+    try {
+      // 1. Get a fresh nonce
+      const res = await fetch("/api/truecaller/init");
+      if (!res.ok) throw new Error("Failed to get nonce");
+      const { nonce } = await res.json();
+
+      const partnerKey =
+        process.env.NEXT_PUBLIC_TRUECALLER_PARTNER_KEY ??
+        "tOM6rd098f1e0f4184a92912c18b70947d51f";
+      const partnerName = encodeURIComponent("Sexuloon");
+
+      // 2. Build deep link — same scheme works for Android & iOS
+      const deepLink =
+        `truecallersdk://truesdk/web_verify` +
+        `?requestNonce=${nonce}` +
+        `&partnerKey=${partnerKey}` +
+        `&partnerName=${partnerName}` +
+        `&lang=en` +
+        `&privacyUrl=${encodeURIComponent("https://www.sexuloon.com/privacy&policy")}` +
+        `&termsUrl=${encodeURIComponent("https://www.sexuloon.com/terms&conditions")}`;
+
+      // 3. Fire the deep link
+      setClickState("waiting");
+      window.location.href = deepLink;
+
+      // 4. If page still has focus after 800ms → app not installed
+      focusCheckRef.current = setTimeout(() => {
+        if (document.hasFocus()) {
+          setClickState("not_installed");
+          onNotInstalled?.();
+        }
+        // else: app opened — wait for Truecaller to POST callback + redirect
+      }, 800);
+    } catch (err) {
+      console.error("[TruecallerButton]", err);
+      setClickState("error");
+    }
+  };
+
+  const isActive = clickState === "loading" || clickState === "waiting";
+
+  // "not_installed" message
+  if (clickState === "not_installed") {
     return (
-      <div className="tc-not-installed">
+      <div className="tc-mobile-only tc-not-installed">
         <span className="tc-not-installed-icon">📱</span>
         <p>
           Truecaller app not found.{" "}
@@ -226,14 +182,17 @@ export default function TruecallerButton({
     );
   }
 
-  // ── Error state ───────────────────────────────────────────────────────────
-  if (state === "error") {
+  // Error state
+  if (clickState === "error") {
     return (
-      <div className="tc-not-installed">
+      <div className="tc-mobile-only tc-not-installed">
         <span className="tc-not-installed-icon">⚠️</span>
         <p>
-          Truecaller verification failed.{" "}
-          <button onClick={() => setState("available")} style={{ textDecoration: "underline", background: "none", border: "none", cursor: "pointer", color: "inherit" }}>
+          Truecaller sign-in failed.{" "}
+          <button
+            onClick={() => setClickState("idle")}
+            style={{ textDecoration: "underline", background: "none", border: "none", cursor: "pointer", color: "inherit" }}
+          >
             Try again
           </button>{" "}
           or use email below.
@@ -242,17 +201,16 @@ export default function TruecallerButton({
     );
   }
 
-  const isActive = state === "loading" || state === "waiting";
-
+  // ── Main button — always in DOM, CSS controls visibility ──────────────────
   return (
     <button
       id="truecaller-signin-btn"
-      className={`tc-button ${isActive ? "tc-button--loading" : ""} ${className}`}
+      className={`tc-mobile-only tc-button ${isActive ? "tc-button--loading" : ""} ${className}`}
       onClick={handleClick}
       disabled={isActive}
       aria-label="Continue with Truecaller"
+      type="button"
     >
-      {/* Animated gradient border */}
       <span className="tc-button__border" aria-hidden="true" />
 
       <span className="tc-button__inner">
@@ -260,7 +218,7 @@ export default function TruecallerButton({
           <>
             <Spinner />
             <span className="tc-button__text">
-              {state === "waiting" ? "Opening Truecaller…" : "Connecting…"}
+              {clickState === "waiting" ? "Opening Truecaller…" : "Connecting…"}
             </span>
           </>
         ) : (
@@ -276,7 +234,6 @@ export default function TruecallerButton({
         )}
       </span>
 
-      {/* Shimmer sweep on hover */}
       <span className="tc-button__shimmer" aria-hidden="true" />
     </button>
   );

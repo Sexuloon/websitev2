@@ -227,6 +227,38 @@ html {
   width: 100%;
 }
 
+/* Core mobile-only toggle: hides on desktop, shows on mobile via pointer+width */
+.tc-mobile-only {
+  display: none !important;
+}
+
+/* Show on touch/mobile devices (phones and tablets) */
+@media (pointer: coarse) {
+  .tc-mobile-only {
+    display: flex !important;
+  }
+}
+/* Also show on small screens regardless of pointer type */
+@media (max-width: 768px) {
+  .tc-mobile-only {
+    display: flex !important;
+  }
+}
+
+/* tc-section and tc-divider also hidden on desktop */
+.tc-section,
+.tc-divider {
+  display: none;
+}
+@media (pointer: coarse), (max-width: 768px) {
+  .tc-section {
+    display: block;
+  }
+  .tc-divider {
+    display: flex;
+  }
+}
+
 /* Main button */
 .tc-button {
   position: relative;
