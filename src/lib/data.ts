@@ -21,7 +21,54 @@ export const satisfaction_Ejacure = [
   },
 ];
 
+export const customHero_Ejacure = {
+  headline: "Ejacure — Last Longer, Love Better",
+  subhead: "Unani-formulated support for premature ejaculation, backed by doctor consultation.",
+  shortDescription: "Ejacure is a doctor-recommended Unani formulation designed to help men build lasting control and confidence in bed. Made with time-tested herbal actives, it works to support nervous system balance and blood flow — helping you last longer, naturally, without harsh chemicals or side effects.",
+  ayushCertified: true,
+};
 
+export const keyBenefits_Ejacure = [
+  { icon: "Clock", text: "Supports longer-lasting performance" },
+  { icon: "Leaf", text: "100% Unani/Ayurvedic formulation, AYUSH certified" },
+  { icon: "Pill", text: "No harsh stimulants or synthetic hormones" },
+  { icon: "Stethoscope", text: "Backed by MBBS doctor consultation, included" },
+  { icon: "Lock", text: "100% discreet packaging & delivery" },
+  { icon: "CheckCircle", text: "Manufactured in GMP-certified facility" }
+];
+
+export const doctorProfile_Ejacure = {
+  name: "Dr. A. Rahman",
+  credentials: "MBBS, MD",
+  regNumber: "Reg No: 45892 (Placeholder)",
+  quote: "Ejacure utilizes precise, time-tested Unani herbal extracts to address premature ejaculation at its root, promoting nervous system balance and improved endurance without the side effects of synthetic alternatives.",
+  image: "/placeholder-doctor.jpg" 
+};
+
+export const ingredients_Ejacure = [
+  { name: "Ashwagandha", amount: "200mg", benefit: "Reduces stress and anxiety, key triggers for PE." },
+  { name: "Safed Musli", amount: "150mg", benefit: "Improves stamina and reproductive health." },
+  { name: "Shilajit", amount: "100mg", benefit: "Boosts energy levels and vitality." },
+  { name: "Kaunch Beej", amount: "50mg", benefit: "Supports healthy nervous system function." }
+];
+
+export const atGlance_Ejacure = [
+  { label: "Type", value: "Unani Capsules" },
+  { label: "Course", value: "12 Weeks (recommended)" },
+  { label: "Dosage", value: "2 Capsules / Day" },
+  { label: "Certification", value: "AYUSH Licensed · GMP Facility" },
+  { label: "Packaging", value: "100% Discreet" },
+];
+
+export const howToUse_Ejacure = {
+  steps: [
+    { step: "1", title: "Take Daily", description: "2 capsules per day with water after meals" },
+    { step: "2", title: "Stay Consistent", description: "Use for 12 weeks for best results" },
+    { step: "3", title: "Get Guidance", description: "Free doctor consultation included with every order" },
+  ],
+};
+
+export const whoItsFor_Ejacure = "Men experiencing early ejaculation or looking to build more control and confidence — without judgment, without pharmacy counter awkwardness.";
 
 export const testimonials_Ejacure = [
   {
@@ -59,26 +106,25 @@ export const testimonials_Ejacure = [
 
 export const faqs_Ejacure = [
   {
-    question: 'How long does Ejacure take to show results?',
-    answer:
-      // 'Dive+ is fully app-enabled—so all its live-control and custom pattern features come to life in MyMuse Sync App. Flick, on the other hand, is designed as a standalone tongue massager and doesn’t require an app to deliver those fluttery, toe-curling sensations. It’s so intuitive that you can simply power it on and start exploring—no app needed!',
-      'Most users begin noticing improvements within 2–3 weeks of consistent use. However, results may vary depending on individual body response and lifestyle habits.',
+    question: 'Is the packaging discreet? Will anyone know what I ordered?',
+    answer: 'Yes, 100% discreet. We ship all orders in plain, unmarked boxes. There is no mention of the product name, branding, or the word "Ejacure" on the outside of the package. Your privacy is fully protected.',
   },
   {
-    question: 'Is Ejacure made with natural ingredients?',
-    answer:
-      'Yes, Ejacure is formulated with 100% natural Unani ingredients, traditionally used to support men’s sexual wellness without harmful side effects.',
+    question: 'Are there any side effects?',
+    answer: 'Ejacure is formulated using 100% natural Unani herbs like Ashwagandha and Safed Musli. Because it is free from synthetic hormones and harsh chemicals, it does not carry the severe side effects often associated with prescription pills. However, if you have pre-existing medical conditions, consult your doctor.',
   },
   {
-    question: 'Can I take Ejacure with other supplements or medications?',
-    answer:
-      'While Ejacure is generally safe, we recommend consulting a qualified healthcare professional if you are already on other medications or supplements.',
+    question: 'How fast does it work? Is it an instant fix?',
+    answer: 'No, Ejacure is not a temporary numbing spray or an instant pill. It is a daily supplement designed to treat the root cause by balancing the nervous system and improving blood flow. Most men start seeing noticeable improvements in timing and control within 2 to 3 weeks of consistent daily use.',
   },
   {
-    question: ' Is Ejacure a one-time fix or do I need to take it regularly?',
-    answer:
-      'Ejacure supports long-term improvement through consistent use. It’s not a temporary or instant solution, but a natural way to restore performance over time.',
+    question: 'Is this a permanent cure or do I take it forever?',
+    answer: 'For best results, we recommend a consistent course of 12 weeks alongside the lifestyle advice provided during your doctor consultation. Once your system is balanced and you have regained control and confidence, many men are able to taper off the supplement.',
   },
+  {
+    question: 'Is this legally certified and safe?',
+    answer: 'Absolutely. Ejacure is an AYUSH-certified proprietary Unani medicine manufactured in a GMP-certified facility, ensuring strict quality and safety standards.',
+  }
 ]
 
 
@@ -357,6 +403,47 @@ export const satisfactionData_Testofix = [
     title: "Men reported visible results within just 15 days",
   },
 ];
+
+export const customHero_Testofix = {
+  headline: "Testofix — Fuel Your Strength, Naturally",
+  subhead: "Ayurvedic testosterone support for energy, stamina & vitality.",
+  ayushCertified: true,
+};
+
+export const keyBenefits_Testofix = [
+  { icon: "CheckCircle", text: "Supports healthy testosterone levels" },
+  { icon: "Clock", text: "Boosts stamina & workout endurance" },
+  { icon: "Leaf", text: "100% Ayurvedic, AYUSH certified" },
+  { icon: "Pill", text: "No steroids or synthetic hormones" },
+  { icon: "Lock", text: "100% discreet packaging & delivery" },
+  { icon: "Stethoscope", text: "Free doctor consultation included" },
+];
+
+export const atGlance_Testofix = [
+  { label: "Type", value: "Ayurvedic Tablets" },
+  { label: "Course", value: "8–12 Weeks (recommended)" },
+  { label: "Dosage", value: "2 Tablets / Day" },
+  { label: "Certification", value: "AYUSH Licensed · GMP Facility" },
+
+  { label: "Packaging", value: "100% Discreet" },
+];
+
+export const ingredients_Testofix = [
+  { name: "Ashwagandha", amount: "250mg", benefit: "Boosts testosterone and reduces cortisol levels." },
+  { name: "Shilajit", amount: "150mg", benefit: "Enhances energy, stamina and vitality." },
+  { name: "Safed Musli", amount: "100mg", benefit: "Supports reproductive health and strength." },
+  { name: "Gokshura", amount: "100mg", benefit: "Improves muscle strength and endurance." },
+];
+
+export const howToUse_Testofix = {
+  steps: [
+    { step: "1", title: "Take Daily", description: "2 tablets per day with water after meals" },
+    { step: "2", title: "Stay Consistent", description: "Use for 8–12 weeks for best results" },
+    { step: "3", title: "Get Guidance", description: "Free doctor consultation included with every order" },
+  ],
+};
+
+export const whoItsFor_Testofix = "Men looking to naturally boost testosterone, improve workout performance, and regain energy and vitality — without steroids or shortcuts.";
 
 export const testimonials_testofix = [
   {
@@ -681,6 +768,47 @@ export const satisfactionData_Staminor = [
   },
 ];
 
+export const customHero_Staminor = {
+  headline: "Staminor — Stamina That Stays",
+  subhead: "Herbal stamina and vitality support for peak male performance.",
+  ayushCertified: true,
+};
+
+export const keyBenefits_Staminor = [
+  { icon: "Clock", text: "Enhances overall stamina & endurance" },
+  { icon: "Leaf", text: "100% herbal Ayurvedic formulation" },
+  { icon: "Pill", text: "No harsh chemicals or stimulants" },
+  { icon: "Stethoscope", text: "Free MBBS doctor consultation included" },
+  { icon: "Lock", text: "100% discreet packaging & delivery" },
+  { icon: "CheckCircle", text: "Manufactured in GMP-certified facility" },
+];
+
+export const atGlance_Staminor = [
+  { label: "Type", value: "Ayurvedic Capsules" },
+  { label: "Course", value: "8–12 Weeks (recommended)" },
+  { label: "Dosage", value: "2 Capsules / Day" },
+  { label: "Certification", value: "AYUSH Licensed · GMP Facility" },
+
+  { label: "Packaging", value: "100% Discreet" },
+];
+
+export const ingredients_Staminor = [
+  { name: "Ashwagandha", amount: "200mg", benefit: "Reduces fatigue and boosts energy reserves." },
+  { name: "Shatavari", amount: "150mg", benefit: "Improves vitality and reproductive wellness." },
+  { name: "Safed Musli", amount: "100mg", benefit: "Supports stamina and physical endurance." },
+  { name: "Kaunch Beej", amount: "100mg", benefit: "Promotes healthy nervous system function." },
+];
+
+export const howToUse_Staminor = {
+  steps: [
+    { step: "1", title: "Take Daily", description: "2 capsules per day with water after meals" },
+    { step: "2", title: "Stay Consistent", description: "Use for 8–12 weeks for best results" },
+    { step: "3", title: "Get Guidance", description: "Free doctor consultation included with every order" },
+  ],
+};
+
+export const whoItsFor_Staminor = "Men who want to improve their stamina, energy, and overall vitality — naturally, safely, and without judgment.";
+
 export const testimonials_Staminor = [
   {
     name: "Rahul, 32",
@@ -1003,6 +1131,47 @@ export const satisfactionData_Electrosure = [
     title: "Men reported visible results within just 15 days",
   },
 ];
+
+export const customHero_Electrosure = {
+  headline: "ErectoSure — Rise to the Occasion",
+  subhead: "Unani-formulated support for stronger, firmer erections — backed by doctor consultation.",
+  ayushCertified: true,
+};
+
+export const keyBenefits_Electrosure = [
+  { icon: "CheckCircle", text: "Supports firmer, stronger erections" },
+  { icon: "Leaf", text: "100% Unani herbal formulation, AYUSH certified" },
+  { icon: "Clock", text: "Improves blood flow & arousal response" },
+  { icon: "Pill", text: "No synthetic PDE5 inhibitors or chemicals" },
+  { icon: "Lock", text: "100% discreet packaging & delivery" },
+  { icon: "Stethoscope", text: "Free MBBS doctor consultation included" },
+];
+
+export const atGlance_Electrosure = [
+  { label: "Type", value: "Unani Capsules" },
+  { label: "Course", value: "12 Weeks (recommended)" },
+  { label: "Dosage", value: "2 Capsules / Day" },
+  { label: "Certification", value: "AYUSH Licensed · GMP Facility" },
+
+  { label: "Packaging", value: "100% Discreet" },
+];
+
+export const ingredients_Electrosure = [
+  { name: "Ashwagandha", amount: "200mg", benefit: "Reduces performance anxiety and boosts vitality." },
+  { name: "Safed Musli", amount: "150mg", benefit: "Supports healthy blood flow and arousal." },
+  { name: "Shilajit", amount: "100mg", benefit: "Enhances energy and endurance levels." },
+  { name: "Akarkara", amount: "75mg", benefit: "Stimulates nerve function and improves response." },
+];
+
+export const howToUse_Electrosure = {
+  steps: [
+    { step: "1", title: "Take Daily", description: "2 capsules per day with water after meals" },
+    { step: "2", title: "Stay Consistent", description: "Use for 12 weeks for best results" },
+    { step: "3", title: "Get Guidance", description: "Free doctor consultation included with every order" },
+  ],
+};
+
+export const whoItsFor_Electrosure = "Men experiencing weak erections or difficulty maintaining firmness — seeking a natural, discreet, doctor-backed solution.";
 
 export const testimonials_Electrosure = [
   {

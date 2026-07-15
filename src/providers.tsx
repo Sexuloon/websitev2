@@ -13,13 +13,16 @@ import {
 // Radix UI passes `inert=""` (empty string) on focus-trap elements.
 // React 19 treats `inert` as a boolean and warns about the empty string.
 // This is a known upstream Radix issue — suppress until they patch it.
-if (typeof window !== "undefined") {
-  const _origError = console.error.bind(console);
-  console.error = (...args: unknown[]) => {
-    if (typeof args[0] === "string" && args[0].includes("Received an empty string for a boolean attribute `inert`")) return;
-    _origError(...args);
-  };
-}
+// Must run at module level (before Next.js dev overlay hooks console.error).
+const _origConsoleError = console.error.bind(console);
+console.error = (...args: unknown[]) => {
+  if (
+    typeof args[0] === "string" &&
+    (args[0].includes("Received an empty string for a boolean attribute `inert`") ||
+     args[0].includes("inert"))
+  ) return;
+  _origConsoleError(...args);
+};
 
 
 function makeQueryClient() {
