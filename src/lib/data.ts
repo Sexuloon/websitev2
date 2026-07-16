@@ -46,10 +46,10 @@ export const doctorProfile_Ejacure = {
 };
 
 export const ingredients_Ejacure = [
-  { name: "Ashwagandha", amount: "200mg", benefit: "Reduces stress and anxiety, key triggers for PE." },
-  { name: "Safed Musli", amount: "150mg", benefit: "Improves stamina and reproductive health." },
-  { name: "Shilajit", amount: "100mg", benefit: "Boosts energy levels and vitality." },
-  { name: "Kaunch Beej", amount: "50mg", benefit: "Supports healthy nervous system function." }
+  { name: "Ashwagandha", amount: "30mg", benefit: "Reduces stress and anxiety, key triggers for PE." },
+  { name: "Safed Musli", amount: "40mg", benefit: "Traditionally used to enhance stamina and support sexual wellness." },
+  { name: "Shilajit", amount: "40mg", benefit: "Boosts energy levels and vitality." },
+  { name: "Shatavari", amount: "40mg", benefit: "Supports healthy nervous system function." }
 ];
 
 export const atGlance_Ejacure = [
@@ -429,10 +429,10 @@ export const atGlance_Testofix = [
 ];
 
 export const ingredients_Testofix = [
-  { name: "Ashwagandha", amount: "250mg", benefit: "Boosts testosterone and reduces cortisol levels." },
-  { name: "Shilajit", amount: "150mg", benefit: "Enhances energy, stamina and vitality." },
-  { name: "Safed Musli", amount: "100mg", benefit: "Supports reproductive health and strength." },
-  { name: "Gokshura", amount: "100mg", benefit: "Improves muscle strength and endurance." },
+  { name: "Ashwagandha", amount: "30mg", benefit: "Boosts testosterone and reduces cortisol levels." },
+  { name: "Shilajit", amount: "40mg", benefit: "Enhances energy, stamina and vitality." },
+  { name: "Safed Musli", amount: "40mg", benefit: "Traditionally used to enhance stamina and support sexual wellness." },
+  { name: "Shatavari", amount: "40mg", benefit: "Improves muscle strength and endurance." },
 ];
 
 export const howToUse_Testofix = {
@@ -793,10 +793,10 @@ export const atGlance_Staminor = [
 ];
 
 export const ingredients_Staminor = [
-  { name: "Ashwagandha", amount: "200mg", benefit: "Reduces fatigue and boosts energy reserves." },
-  { name: "Shatavari", amount: "150mg", benefit: "Improves vitality and reproductive wellness." },
-  { name: "Safed Musli", amount: "100mg", benefit: "Supports stamina and physical endurance." },
-  { name: "Kaunch Beej", amount: "100mg", benefit: "Promotes healthy nervous system function." },
+  { name: "Ashwagandha", amount: "30mg", benefit: "Reduces fatigue and boosts energy reserves." },
+  { name: "Shatavari", amount: "40mg", benefit: "Improves vitality and reproductive wellness." },
+  { name: "Safed Musli", amount: "40mg", benefit: "Traditionally used to enhance stamina and support sexual wellness." },
+  { name: "Shatavari", amount: "40mg", benefit: "Promotes healthy nervous system function." },
 ];
 
 export const howToUse_Staminor = {
@@ -1157,10 +1157,10 @@ export const atGlance_Electrosure = [
 ];
 
 export const ingredients_Electrosure = [
-  { name: "Ashwagandha", amount: "200mg", benefit: "Reduces performance anxiety and boosts vitality." },
-  { name: "Safed Musli", amount: "150mg", benefit: "Supports healthy blood flow and arousal." },
-  { name: "Shilajit", amount: "100mg", benefit: "Enhances energy and endurance levels." },
-  { name: "Akarkara", amount: "75mg", benefit: "Stimulates nerve function and improves response." },
+  { name: "Ashwagandha", amount: "30mg", benefit: "Reduces performance anxiety and boosts vitality." },
+  { name: "Safed Musli", amount: "40mg", benefit: "Traditionally used to enhance stamina and support sexual wellness." },
+  { name: "Shilajit", amount: "40mg", benefit: "Enhances energy and endurance levels." },
+  { name: "Shatavari", amount: "40mg", benefit: "Stimulates nerve function and improves response." },
 ];
 
 export const howToUse_Electrosure = {
